@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -32,6 +32,10 @@ const config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        tertiary: {
+          DEFAULT: "hsl(var(--tertiary))",
+          foreground: "hsl(var(--tertiary-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -52,6 +56,15 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        detail: {
+          DEFAULT: "hsl(var(--detail))",
+          foreground: "hsl(var(--detail-foreground))",
+        },
+        detailSecondary: {
+          DEFAULT: "hsl(var(--detail-secondary))",
+          foreground: "hsl(var(--detail-secondary-foreground))",
+        },
+
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -4,7 +4,9 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-  "/"
+  "/",
+  "/commission",
+  "/company",
 ]
 
 /**
@@ -14,7 +16,9 @@ export const publicRoutes = [
  */
 export const authRoutes = [
   "/login",
-  "/register"
+  "/register/student",
+  "/register/company",
+  "/register-type-selection",
 ]
 
 

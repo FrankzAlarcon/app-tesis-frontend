@@ -20,11 +20,11 @@ export const {
       return baseUrl
     },
     async session({ session, user, token }) {
-      console.log("SESSION", {session, user, token})
+      console.log("SESSION", { session, user, token })
       return session
     },
     async jwt({ token, user, account, profile }) {
-      console.log("JWT", {token, user, account, profile})
+      console.log("JWT", { token, user, account, profile })
       // const encodedToken = await encode({ token, secret: '', salt: '' })
       return token
     }
