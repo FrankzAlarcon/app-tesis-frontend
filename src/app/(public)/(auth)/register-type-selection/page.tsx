@@ -1,10 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import ButtonSelection from '../_components/button-selection'
+import BackArrowButton from '../_components/back-arrow-button'
 
 function RegisterTypeSelection() {
   return (
-    <div className='flex justify-center items-center h-full w-full'>
+    <div className='flex justify-center items-center h-full w-full relative '>
+      <BackArrowButton returnUrl='/' />
       <div className='flex flex-col gap-4'>
         <div>
           <h4 className='font-bold text-center text-3xl'>¡Bienvenido!</h4>

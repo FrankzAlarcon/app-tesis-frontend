@@ -1,6 +1,21 @@
-import NextAuth from "next-auth"
+import NextAuth, { DefaultSession, User} from "next-auth"
 import authConfig from "@/auth.config"
-import { encode } from "next-auth/jwt"
+
+
+export type ExtendedUser = DefaultSession['user'] & {
+  accessToken: string
+}
+
+declare module "next-auth" {
+  interface Session {
+    user: ExtendedUser
+  }
+
+  interface User {
+    accessToken: string
+  }
+}
+
 
 export const {
   handlers: { GET, POST },
@@ -9,24 +24,27 @@ export const {
   signOut
 } = NextAuth({
   ...authConfig,
+  pages: {
+    signIn: '/login'
+  },
   session: { strategy: "jwt" },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log("SIGN IN", { user, account, profile, email, credentials })
-      return true
-    },
-    async redirect({ url, baseUrl }) {
-      console.log("REDIRECT", { url, baseUrl })
-      return baseUrl
+    async jwt({ token, user, account, profile }) {
+      if (user) {
+        return {
+          ...token,
+          accessToken: user.accessToken
+        }
+      }
+      return token
     },
     async session({ session, user, token }) {
-      console.log("SESSION", { session, user, token })
+      if (token) {
+        if (session.user) {
+          session.user.accessToken = token.accessToken as string
+        }
+      }
       return session
     },
-    async jwt({ token, user, account, profile }) {
-      console.log("JWT", { token, user, account, profile })
-      // const encodedToken = await encode({ token, secret: '', salt: '' })
-      return token
-    }
   },
 })

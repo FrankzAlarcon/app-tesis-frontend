@@ -18,7 +18,7 @@ function NavLinkResponsive() {
           <Link
             key={link.href}
             href={link.href}
-            className={`hidden md:flex flex-col justify-center items-center text-black hover:text-primary ${pathname === link.href ? 'text-primary' : ''}`}
+            className={`hidden md:flex flex-col justify-center items-center text-black duration-300 hover:text-primary ${pathname === link.href ? 'text-primary' : ''}`}
           >
             <Icon className=" w-5 h-5 lg:w-6 lg:h-6" /> {/* Ajustar tamaño de los iconos */}
             <span className="text-sm lg:text-base">{link.name}</span> {/* Ajustar tamaño del texto */}

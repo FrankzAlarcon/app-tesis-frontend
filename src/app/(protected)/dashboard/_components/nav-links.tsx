@@ -20,7 +20,7 @@ interface NavLinksProps {
 }
 
 function NavLinks({ isOpen }: NavLinksProps) {
-  const phatname = usePathname();
+  const pathname = usePathname();
   return (
     <nav className='flex flex-col gap-4'>
       {links.map((link) => {
@@ -29,9 +29,9 @@ function NavLinks({ isOpen }: NavLinksProps) {
           <Link
             key={link.href}
             href={link.href}
-            className={`flex flex-row gap-3 border-l-2 border-white ml-4 p-4 items-center text-black hover:text-primary hover:border-l-2 hover:border-l-primary ${phatname === link.href ? 'text-primary border-l-2 border-l-primary' : ''}`}
+            className={`flex flex-row gap-3 border-l-2 border-white ml-4 p-4 items-center text-black hover:text-primary hover:border-l-2 hover:border-l-primary ${pathname === link.href ? 'text-primary border-l-2 border-l-primary' : ''}`}
           >
-            <Icon className={`${phatname === link.href ? 'text-primary' : 'text-gray-400'}`} size={24} />
+            <Icon className={`${pathname === link.href ? 'text-primary' : 'text-gray-400'}`} size={24} />
             {isOpen && link.name}
           </Link>
         );

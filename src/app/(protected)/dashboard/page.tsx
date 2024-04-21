@@ -9,16 +9,6 @@ const DashboardPage = async () => {
     <div>
       Pagina protegida del dashboard <br />
       <code>{JSON.stringify(session)}</code>
-
-      <form action={async () => {
-        "use server"
-
-        await signOut()
-      }}>
-        <button type='submit'>
-          Cerrar sesion
-        </button>
-      </form>
     </div>
   )
 }

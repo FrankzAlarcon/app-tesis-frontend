@@ -8,37 +8,18 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import email from "next-auth/providers/email"
-
-
-const formSchema = z.object({
-  name: z.string().regex(/^[^\s]+\s[^\s]+(?:\s[^\s]+)*$/, {
-    message: "Por favor, ingrese su nombre y apellido.",
-  }),
-  email: z.string().email({
-    message: "Por favor, ingrese un correo electrónico válido.",
-  }),
-  password: z.string().min(6, {
-    message: "Su contraseña debe tener al menos 6 caracteres.",
-  }),
-  passwordConfirmation: z.string().min(6, {
-    message: "Su contraseña debe tener al menos 6 caracteres.",
-  }),
-
-})
+import { registerSchema } from "@/schemas/auth.schema"
 
 function RegisterForm() {
-
   // Form definition
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -50,9 +31,7 @@ function RegisterForm() {
 
 
   // submit handler
-  function onSubmit(values: z.infer<typeof formSchema>, e: any) {
-    e.preventDefault()
-
+  function onSubmit(values: z.infer<typeof registerSchema>) {
     form.reset({
       name: "",
       email: "",
@@ -120,7 +99,8 @@ function RegisterForm() {
         <Button
           type="submit"
           className="hover:bg-blue-600"
-        >Registrarse
+        >
+          Registrarse
         </Button>
       </form>
     </Form>

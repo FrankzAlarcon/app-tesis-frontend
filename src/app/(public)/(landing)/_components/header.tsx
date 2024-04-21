@@ -6,6 +6,7 @@ import NavLinksLanding from "./navLinksLanding";
 import MenuPanel from "./menu-panel";
 
 import { Menu } from 'lucide-react'
+import Link from "next/link";
 
 function Header() {
 
@@ -22,7 +23,7 @@ function Header() {
   return (
     <header className="flex items-center justify-between px-3 py-1">
       <MenuPanel isOpen={menuOpen} onClose={closeMenu} />
-      <div className="flex items-center md:w-1/3 ">
+      <div className="flex items-center py-2 md:w-1/3 ">
         <a href="/" rel="noreferrer">
           <Image
             src="/EPN_logo_big.png"
@@ -35,21 +36,21 @@ function Header() {
       </div>
       <div className="flex flex-row gap-8">
         <NavLinksLanding />
-        <div className=" hidden md:flex gap-2 lg:gap-6 py-[8px] border-l-detail border-l-[5px] px-[15px] lg:px-[30px] font-semibold text-base lg:text-xl">
-          <a
+        <div className=" hidden md:flex gap-2 lg:gap-6 py-[8px] border-l-detail border-l-[5px] px-[15px] lg:px-[30px] font-semibold text-base">
+          <Link
             key='/register-type-selection'
             href='/register-type-selection'
-            className=' flex flex-col justify-center items-center text-black hover:text-primary'
+            className=' flex flex-col justify-center items-center text-black duration-300 transition-colors hover:text-primary'
           >
             Registrarse
-          </a>
-          <a
+          </Link>
+          <Link
             key='/login'
             href='/login'
-            className='flex flex-col border-y-[5px] border-y-detail justify-center items-center  text-black hover:text-primary'
+            className='flex flex-col border-y-[5px] border-y-detail justify-center items-center  text-black duration-300 transition-colors hover:text-primary'
           >
             Iniciar Sesión
-          </a>
+          </Link>
         </div>
       </div>
       <div className="flex items-center md:hidden text-primary">

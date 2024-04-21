@@ -5,7 +5,13 @@ import { ArrowLeft } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
-function BackArrowBotton() {
+interface BackArrowButtonProps {
+  returnUrl: string
+}
+
+function BackArrowButton({
+  returnUrl
+}: BackArrowButtonProps) {
 
   const currentPath = usePathname();
   const backToHome = '/';
@@ -14,7 +20,7 @@ function BackArrowBotton() {
   return (
     <div className='absolute top-0 p-4 left-0 '>
       <Link
-        href={currentPath === backToRegisterType ? backToHome : backToRegisterType}
+        href={returnUrl}
         className=''>
         <ArrowLeft size={38} className='text-primary hover:scale-110 transition-transform duration-300 ease-in-out' />
       </Link>
@@ -22,4 +28,4 @@ function BackArrowBotton() {
   )
 }
 
-export default BackArrowBotton
+export default BackArrowButton

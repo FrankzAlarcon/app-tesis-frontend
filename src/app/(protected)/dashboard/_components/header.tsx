@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 function Header() {
   return (
     <header className='h-14 shadow-md bg-white py-2 px-6 flex flex-row justify-between relative'>
-      <div className=''>
+      <div className='py-4'>
         <Image
           src="/logo-FIS.png"
           alt="Logo de la facultad de sistemas FIS"
