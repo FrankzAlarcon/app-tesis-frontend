@@ -4,7 +4,6 @@ import Image from 'next/image';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-screen w-screen overflow-hidden">
-      {/* <AuthHeader /> */}
       <div className='lg:flex h-full'>
         <aside className="hidden lg:block lg:w-1/2 ">
           <Image

@@ -12,7 +12,7 @@ import {
 const links = [
   { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
   { name: 'Empresas', href: '/dashboard/companies', icon: Building },
-  { name: 'Proyectos', href: '/dashboard/students', icon: FileBarChart2 }
+  { name: 'Formularios', href: '/dashboard/students', icon: FileBarChart2 }
 ]
 
 interface NavLinksProps {
