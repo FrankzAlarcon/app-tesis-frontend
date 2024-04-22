@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <aside className="h-full border-r-2" >
           <SideNav />
         </aside>
-        <div className="h-full py-8 px-10">
+        <div className="dashboard-screen flex justify-center items-center">
           {children}
         </div>
       </div>

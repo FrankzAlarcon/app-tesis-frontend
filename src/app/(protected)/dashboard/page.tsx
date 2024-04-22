@@ -7,8 +7,8 @@ const DashboardPage = async () => {
 
   return (
     <div>
-      Pagina protegida del dashboard <br />
-      <code>{JSON.stringify(session)}</code>
+      {/* Pagina protegida del dashboard <br />
+      <code>{JSON.stringify(session)}</code> */}
     </div>
   )
 }
