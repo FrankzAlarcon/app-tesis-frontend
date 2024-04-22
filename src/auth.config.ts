@@ -28,9 +28,11 @@ export default {
             return null
           }
           const user = await res.json()
+          console.log('authorize',{user})
           return {
             ...user.user,
-            accessToken: user.accessToken
+            accessToken: user.accessToken,
+            role: user.user.role.name
           }
         } catch (error) {
           console.log('[error]', error)
@@ -39,4 +41,26 @@ export default {
       }
     })
   ],
+  session: { strategy: "jwt" },
+  callbacks: {
+    async jwt({ token, user}) {
+      if (user) {
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          role: user.role
+        }
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (token) {
+        if (session.user) {
+          session.user.accessToken = token.accessToken as string
+          session.user.role = token.role as string
+        }
+      }
+      return session
+    },
+  },
 } satisfies NextAuthConfig

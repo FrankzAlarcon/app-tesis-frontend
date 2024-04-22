@@ -2,7 +2,9 @@ import authConfig from "@/auth.config"
 import NextAuth from "next-auth"
 
 import {
-  DEFAULT_LOGIN_REDIRECT,
+  DEFAULT_LOGIN_ADMIN_REDIRECT,
+  DEFAULT_LOGIN_BUSINESS_REDIRECT,
+  DEFAULT_LOGIN_STUDENT_REDIRECT,
   apiAuthPrefix,
   authRoutes,
   publicRoutes
@@ -10,10 +12,10 @@ import {
 
 const { auth } = NextAuth(authConfig)
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req
   const isLoggedIn = !!req.auth
-
+  console.log('[MIDDLEWARE]', req.auth)
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
@@ -24,11 +26,23 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)) as any
+      if ((req.auth as any)?.user.role) {
+        switch ((req.auth as any)?.user.role) {
+          case "admin":
+            return Response.redirect(new URL(DEFAULT_LOGIN_ADMIN_REDIRECT, nextUrl)) as any;
+          case "student":
+            return Response.redirect(new URL(DEFAULT_LOGIN_STUDENT_REDIRECT, nextUrl)) as any;
+          case "business":
+            return Response.redirect(new URL(DEFAULT_LOGIN_BUSINESS_REDIRECT, nextUrl)) as any;
+          default:
+            return null
+        }
+      }
+      return null
+      // return Response.redirect(new URL(DEFAULT_LOGIN_ADMIN_REDIRECT, nextUrl)) as any;
     }
     return null
   }
-
   if (!isLoggedIn && !isPublicRoute) {
     return Response.redirect(new URL("/login", nextUrl)) as any
   }
