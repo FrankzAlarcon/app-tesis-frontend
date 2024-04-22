@@ -82,7 +82,13 @@ function LoginForm() {
           )}
         />
         <FormError message={error} />
-        <Button type="submit" className="hover:bg-blue-600" disabled={isPending}>Iniciar sesión</Button>
+        <Button type="submit" className={`hover:bg-blue-600 ${isPending ? 'bg-blue-700/80 hover:bg-blue-700/80 cursor-not-allowed' : ''}`} disabled={isPending}>
+          {isPending ?
+            <div>
+              <div className="loader"></div>
+            </div>
+            : 'Iniciar sesión'}
+        </Button>
         <div className="flex flex-col gap-2 items-center">
           <p className="text-sm hover:underline">
             <Link href="/auth/password-recovery">¿Olvidaste tu contraseña?</Link>

@@ -65,6 +65,7 @@
   }
 }
 
+/* ======================== Estilos para animacion de carrusel infito ============================= */
 .carousel {
   overflow: hidden;
   background: white;
@@ -107,5 +108,22 @@
 
   to {
     transform: translateX(-100%);
+  }
+}
+
+/* ============================= Estilo de carga ======================================== */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 25px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 5px solid #f3f3f390;
+  border-right-color: #ffffff;
+  animation: l2 1s infinite linear;
+}
+
+@keyframes l2 {
+  to {
+    transform: rotate(1turn)
   }
 }
