@@ -29,7 +29,7 @@ export const {
   },
   session: { strategy: "jwt" },
   callbacks: {
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user}) {
       if (user) {
         return {
           ...token,
@@ -38,7 +38,7 @@ export const {
       }
       return token
     },
-    async session({ session, user, token }) {
+    async session({ session, token }) {
       if (token) {
         if (session.user) {
           session.user.accessToken = token.accessToken as string
