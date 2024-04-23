@@ -1,6 +1,6 @@
 import React from 'react'
-import StudentsTable from './_components/forms/students-table'
 import FilterSearch from '../_components/filter-search'
+import StudentsTable from './_components/forms/students-table'
 
 
 function StudentsPage() {

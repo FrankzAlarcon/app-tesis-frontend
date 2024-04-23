@@ -16,15 +16,15 @@ export const columns: ColumnDef<StudentForm>[] = [
     header: "Estudiante",
   },
   {
-    accessorKey: "Formulario",
-    header: "Form ID",
+    accessorKey: "formId",
+    header: "Formulario",
   },
   {
-    accessorKey: "Estado",
-    header: "Status",
+    accessorKey: "status",
+    header: "Estado",
   },
   {
-    accessorKey: "Acciones",
-    header: "Actions",
+    accessorKey: "actions",
+    header: "Acciones",
   },
 ]
