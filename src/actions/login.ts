@@ -2,7 +2,6 @@
 
 import * as z from 'zod'
 import { signIn } from '@/auth';
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from 'next-auth';
 import { loginSchema } from '@/schemas/auth.schema';
 
@@ -19,7 +18,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
       email,
       password,
       //callbackUrl se puede usar para redireccionar segun el role
-      redirectTo: DEFAULT_LOGIN_REDIRECT
+      // redirectTo: DEFAULT_LOGIN_REDIRECT
     })
   } catch (error) {
     console.log('[user server] login', error)

@@ -10,9 +10,9 @@ import {
 } from 'lucide-react'
 
 const links = [
-  { name: 'Dashboard', href: '/dashboard', icon: BarChart4 },
-  { name: 'Empresas', href: '/dashboard/companies', icon: Building },
-  { name: 'Formularios', href: '/dashboard/students', icon: FileBarChart2 }
+  { name: 'Dashboard', href: '/a/dashboard', icon: BarChart4 },
+  { name: 'Empresas', href: '/a/companies', icon: Building },
+  { name: 'Formularios', href: '/a/student-forms', icon: FileBarChart2 }
 ]
 
 interface NavLinksProps {

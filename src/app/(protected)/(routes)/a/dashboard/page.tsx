@@ -6,9 +6,9 @@ const DashboardPage = async () => {
   const session = await auth()
 
   return (
-    <div>
-      {/* Pagina protegida del dashboard <br />
-      <code>{JSON.stringify(session)}</code> */}
+    <div className='w-full'>
+      Pagina protegida del dashboard <br />
+      <div className='w-4/5'>{JSON.stringify(session).replaceAll(",", ",\n")}</div>
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { StudentForm, columns } from "./columns"
-import { DataTable } from '../../../_components/data-table'
+import { DataTable } from '../../_components/data-table'
+
 
 
 const data: StudentForm[] = [

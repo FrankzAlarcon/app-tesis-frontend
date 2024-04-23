@@ -31,7 +31,21 @@ export const apiAuthPrefix = "/api/auth"
 
 
 /**
- * The default redirect path after logging in
+ * The default redirect path for admin after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/dashboard"
+export const DEFAULT_LOGIN_ADMIN_REDIRECT = "/a/dashboard"
+
+
+/**
+ * The default redirect path for students after logging in
+ * @type {string}
+ */
+export const DEFAULT_LOGIN_STUDENT_REDIRECT = "/e" // TODO: Change this to the student start page
+
+
+/**
+ * The default redirect path for business after logging in
+ * @type {string}
+ */
+export const DEFAULT_LOGIN_BUSINESS_REDIRECT = "/b" // TODO: Change this to the business start page
