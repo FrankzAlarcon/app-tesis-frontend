@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+
 import {
   ColumnDef,
   flexRender,
@@ -17,17 +18,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { get } from "http"
-import { use, useEffect } from "react"
+
+import { useEffect } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  section?: string
+  pageSize?: number
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  pageSize,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -37,10 +41,9 @@ export function DataTable<TData, TValue>({
   })
 
   useEffect(() => {
-    table.setPageSize(5)
+    table.setPageSize(pageSize || 10)
   }
     , [table])
-
 
   return (
     <>
@@ -54,7 +57,7 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      className="text-white hover:bg-primary"
+                      className="text-white hover:bg-primary h-10"
                       key={header.id}>
                       {header.isPlaceholder
                         ? null
@@ -77,7 +80,7 @@ export function DataTable<TData, TValue>({
                   className="hover:bg-muted transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="p-2">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -86,17 +89,16 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  No hay datos
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 mt-2 ">
         <div className="flex-1 text-sm text-muted-foreground">
-          Mostrando { }  de {table.getRowCount()}
-
+          Mostrando {table.getRowModel().rows.length}  de {table.getRowCount()}
         </div>
         <Button
           variant="outline"
