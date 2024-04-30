@@ -1,14 +1,13 @@
-import { auth, signOut } from '@/auth'
+// import { auth, signOut } from '@/auth'
 import React from 'react'
+import DocumentsPieChart from './_components/documents-pie-chart'
+
 
 const DashboardPage = async () => {
   // auth().then(res => console.log("SC - DASHBOARD PAGE", res))
-  const session = await auth()
-
   return (
     <div>
-      <h1>Dashboard</h1>
-
+      {/* <DocumentsPieChart /> */}
     </div>
   )
 }
