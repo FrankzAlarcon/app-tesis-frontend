@@ -7,22 +7,22 @@ import { Button } from '@/components/ui/button'
 
 interface FilterSearchProps {
   showBackButton?: boolean
-  onBack?: () => void
+  backUrl?: string
 }
 
 
-function FilterSearch({ showBackButton = false, onBack }: FilterSearchProps) {
+function FilterSearch({ showBackButton = false, backUrl }: FilterSearchProps) {
   return (
     <div className='h-12 bg-[#E5E7EB] flex items-center p-2 rounded-md'>
       <div className='w-1/4 h-5/6 '>
         {showBackButton && (
-          <Button
+          <Link
+            href={backUrl ?? '/a/dashboard'}
             className='flex flex-row justify-center hover:bg-white border text-primary border-primary items-center gap-1 bg-white h-full w-1/2 rounded-lg '
-            onClick={onBack}
           >
             <ChevronLeft size={20} />
             <p className='text-sm'>Regresar</p>
-          </Button>
+          </Link>
         )}
       </div>
       <div className='flex items-center justify-end gap-4 w-3/4 h-full'>

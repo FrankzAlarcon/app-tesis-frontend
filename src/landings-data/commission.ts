@@ -1,5 +1,3 @@
-import email from "next-auth/providers/email"
-
 export const heroInfo = {
   title: 'Eleva Tu Experiencia: Descubre las Ventajas Exclusivas de nuestra Plataforma',
   description: 'Con nuestra plataforma, gestionar tus prácticas es más fácil y eficiente que nunca. Descubre un enfoque mejorado para llevar los procesos y registros.',

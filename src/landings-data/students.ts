@@ -1,5 +1,3 @@
-import { title } from "process"
-
 export const heroInfo = {
   title: '¿Eres estudiante de la FIS en busca de prácticas preprofesionales?',
   description: 'Tu futuro comienza aquí. Descubre prácticas que potenciarán tu desarrollo académico y te prepararán para el éxito en el mundo profesional.',

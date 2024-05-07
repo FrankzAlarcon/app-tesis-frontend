@@ -1,24 +1,22 @@
 "use server"
 
-import { getUserByEmail, users } from "@/fake-data/db";
-
 export interface RegisterValues {
   email: string;
   password: string;
 }
 
 export const register = async (values: RegisterValues) => {
-  const existingUser = await getUserByEmail(values.email);
+  // const existingUser = await getUserByEmail(values.email);
 
-  if (existingUser) {
-    return {
-      error: "User already exists"
-    }
-  }
+  // if (existingUser) {
+  //   return {
+  //     error: "User already exists"
+  //   }
+  // }
 
-  users.push(values);
+  // users.push(values);
 
-  // TODO: Send verification token email
+  // // TODO: Send verification token email
 
   return {
     success: "User created"

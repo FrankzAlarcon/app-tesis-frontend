@@ -1,30 +1,14 @@
-'use client'
+import { getAllBusiness } from "@/actions/business/get-all";
+import CompaniesView from "./_components/companies-view";
 
-import React from 'react'
-import CompaniesView from './_components/companies-view'
-import AddCompany from './_components/add-company-view';
 
-function CompaniesPage() {
-
-  const [showCompanies, setShowCompanies] = React.useState(false);
-
-  const handleShowForm = () => {
-    setShowCompanies(true);
-  }
-  const handleBack = () => {
-    setShowCompanies(false);
-  }
+async function CompaniesPage() {
+  const business = await getAllBusiness()
+  console.log(business)
   return (
-    <>
-      {!showCompanies
-        ?
-        <div className='w-11/12 h-5/6 dashboard-container-shadow p-4'>
-          <CompaniesView onShowForm={handleShowForm} />
-        </div>
-        :
-        <AddCompany onBack={handleBack} />
-      }
-    </>
+    <div className='w-11/12 h-5/6 dashboard-container-shadow p-4'>
+      <CompaniesView business={business}  />
+    </div>
   )
 }
 

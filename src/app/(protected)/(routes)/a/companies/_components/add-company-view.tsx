@@ -4,9 +4,9 @@ import FilterSearch from '../../_components/filter-search'
 import CompanyCard from './company-card'
 import { Button } from '@/components/ui/button'
 
-interface AddCompanyProps {
-  onBack: () => void
-}
+// interface AddCompanyProps {
+//   onBack: () => void
+// }
 
 const companies = [
   {
@@ -74,7 +74,9 @@ const companies = [
   }
 ]
 
-function AddCompany({ onBack }: AddCompanyProps) {
+function AddCompany(
+  // { onBack }: AddCompanyProps
+) {
   const [showAlertDialog, setShowAlertDialog] = React.useState(false);
   const [selectedCompany, setSelectedCompany] = React.useState<number | null>(null);
 
@@ -120,7 +122,7 @@ function AddCompany({ onBack }: AddCompanyProps) {
       )}
 
       <div className='h-full flex flex-col gap-4'>
-        <FilterSearch showBackButton onBack={onBack} />
+        <FilterSearch showBackButton backUrl='/a/companies'/>
         <div className='grid grid-cols-2 overflow-y-auto p-3 gap-y-4'>
           {companies.map(company => (
             <CompanyCard
