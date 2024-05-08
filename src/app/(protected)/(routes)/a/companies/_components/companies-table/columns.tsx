@@ -6,8 +6,8 @@ export type Company = {
   name: string;
   code: string;
   agreement: string;
-  onRemove: (index: number) => void;
-  onAdd: (index: number) => void;
+  onRemove: (index: string) => void;
+  onAdd: (index: string) => void;
 };
 
 
@@ -33,14 +33,14 @@ export const columns: ColumnDef<Company>[] = [
       return (
         agreement !== "Sin convenio" ?
           <button
-            onClick={() => row.original.onRemove(parseInt(company))}
+            onClick={() => row.original.onRemove(company)}
             className="text-red-500"
           >
             Quitar convenio
           </button>
           :
           <button
-            onClick={() => row.original.onAdd(parseInt(company))}
+            onClick={() => row.original.onAdd(company)}
             className="text-green-500"
           >
             Agregar convenio

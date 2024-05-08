@@ -9,11 +9,12 @@ interface CompanyCardProps {
   description: string
   location: string
   logo: string
+  hasConvenant: boolean
   onAdd: (index: number) => void
   onVisit: (index: number) => void
 }
 
-function CompanyCard({ id, name, description, location, logo, onAdd, onVisit }: CompanyCardProps) {
+function CompanyCard({ id, name, description, location, logo, hasConvenant, onAdd, onVisit }: CompanyCardProps) {
 
   return (
     <div className='w-[400px] h-[130px] dashboard-container-shadow p-3 '>
@@ -31,6 +32,7 @@ function CompanyCard({ id, name, description, location, logo, onAdd, onVisit }: 
             <Button size='xs'
               className='hover:bg-blue-700/90 rounded-lg'
               onClick={() => onAdd(id)}
+              disabled={hasConvenant}
             >
               Agregar convenio
             </Button>

@@ -4,81 +4,56 @@ import FilterSearch from '../../_components/filter-search'
 import CompanyCard from './company-card'
 import { Button } from '@/components/ui/button'
 
-// interface AddCompanyProps {
-//   onBack: () => void
-// }
+import { useRouter } from 'next/router'
+import { AddCovenant } from '@/actions/business/add-covenant'
+import { useCurrentUser } from '@/hooks/use-current-user'
 
-const companies = [
-  {
-    id: 1,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 2,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 3,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 4,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 5,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 6,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 7,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 8,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  },
-  {
-    id: 9,
-    name: 'Kushki',
-    description: 'Servicios financieros',
-    location: 'Quito',
-    logo: '/agrements-companies/kushki_logo.jpg'
-  }
-]
 
-function AddCompany(
-  // { onBack }: AddCompanyProps
+interface AddCompanyProps {
+  companies: any[]
+}
+
+
+function AddCompany({ companies: data }: AddCompanyProps
 ) {
   const [showAlertDialog, setShowAlertDialog] = React.useState(false);
   const [selectedCompany, setSelectedCompany] = React.useState<number | null>(null);
+  const [companies, setCompanies] = React.useState(data);
+  const user = useCurrentUser()
+
+
+  const handleAddCovenant = () => {
+    const today = new Date();
+    // calculate the date of the next month
+    const nextMonth = new Date(today.setMonth(today.getMonth() + 1));
+    const data = {
+      businessId: selectedCompany,
+      covenantType: 'laboral',
+      startDate: today,
+      endDate: nextMonth
+    }
+    AddCovenant(data, user?.accessToken!)
+      .then(() => {
+        console.log('Company added');
+        setCompanies(companies.map(company => {
+          if (company.id === selectedCompany) {
+            return {
+              ...company,
+              hasConvenant: true
+            }
+          }
+          return company;
+        })
+        );
+        setShowAlertDialog(false);
+        // navigate.push('/a/companies');
+
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
 
   const handleAddCompany = (id: number) => {
     setSelectedCompany(id);
@@ -103,7 +78,7 @@ function AddCompany(
                 <Button
                   size='sm'
                   className='bg-primary rounded-xl px-8 hover:bg-blue-700/90'
-                  onClick={() => console.log('Adding company')}
+                  onClick={handleAddCovenant}
                 >
                   Agregar
                 </Button>
@@ -122,7 +97,7 @@ function AddCompany(
       )}
 
       <div className='h-full flex flex-col gap-4'>
-        <FilterSearch showBackButton backUrl='/a/companies'/>
+        <FilterSearch showBackButton backUrl='/a/companies' />
         <div className='grid grid-cols-2 overflow-y-auto p-3 gap-y-4'>
           {companies.map(company => (
             <CompanyCard
@@ -134,6 +109,7 @@ function AddCompany(
               id={company.id}
               onAdd={handleAddCompany}
               onVisit={() => console.log('Visiting company')}
+              hasConvenant={company.hasConvenant}
             />
           ))}
         </div>

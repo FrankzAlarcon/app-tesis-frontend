@@ -4,10 +4,10 @@ import CompaniesView from "./_components/companies-view";
 
 async function CompaniesPage() {
   const business = await getAllBusiness()
-  console.log(business)
+  const businessArray = business?.data
   return (
     <div className='w-11/12 h-5/6 dashboard-container-shadow p-4'>
-      <CompaniesView business={business}  />
+      <CompaniesView business={businessArray} />
     </div>
   )
 }
