@@ -1,39 +1,16 @@
-'use client'
-import React from 'react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import {
-  BarChart4,
-  Building,
-  FileBarChart2,
-
-} from 'lucide-react'
-
-const links = [
-  { name: 'Dashboard', href: '/a/dashboard', icon: BarChart4 },
-  { name: 'Empresas', href: '/a/companies', icon: Building },
-  { name: 'Formularios', href: '/a/students-forms', icon: FileBarChart2 }
-]
+import { adminRoutes } from '@/routes/admin-routes'
+import NavLink from '@/components/nav-link'
 
 interface NavLinksProps {
   isOpen: boolean
 }
 
 function NavLinks({ isOpen }: NavLinksProps) {
-  const pathname = usePathname();
   return (
     <nav className='flex flex-col gap-4'>
-      {links.map((link) => {
-        const Icon = link.icon;
+      {adminRoutes.map((link) => {
         return (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`flex flex-row gap-3 border-l-2 border-white ml-4 p-4 items-center text-black hover:text-primary hover:border-l-2 hover:border-l-primary ${pathname === link.href ? 'text-primary border-l-2 border-l-primary' : ''}`}
-          >
-            <Icon className={`${pathname === link.href ? 'text-primary' : 'text-gray-400'}`} size={24} />
-            {isOpen && link.name}
-          </Link>
+          <NavLink key={link.href} route={link} isOpen={isOpen} />
         );
       })}
     </nav>
