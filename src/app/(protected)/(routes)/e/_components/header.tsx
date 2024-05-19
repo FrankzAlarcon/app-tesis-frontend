@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 const Header = () => {
   return (
-    <div className='w-full flex flex-col md:flex-row md:justify-between gap-2 shadow-xl p-2'>
+    <div className='w-full bg-white fixed flex flex-col md:flex-row md:justify-between gap-2 shadow-md z-30 p-2'>
       <div className='flex flex-col md:flex-row gap-4'>
         <div className='flex gap-4 items-center justify-between'>
           <Image src="/EPN_logo_big.png" alt='Logo EPN' width={100} height={60} className='md:min-w-24' />

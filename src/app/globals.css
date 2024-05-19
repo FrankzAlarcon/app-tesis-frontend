@@ -139,3 +139,9 @@
   border-radius: 8px;
 
 }
+
+/* Students home */
+.students-home {
+  height: calc(100vh - 74.5px);
+  width: 100%;
+}

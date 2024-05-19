@@ -69,12 +69,12 @@ const EditProfileForm = ({
                   <FormItem>
                     <FormLabel>Descripción</FormLabel>
                     <FormControl>
-                      <Textarea placeholder='Soy un estudiante...' {...field}/>
+                      <Textarea placeholder='Soy un estudiante...' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              />        
+              />
               <FormField
                 control={form.control}
                 name='faculty'
@@ -100,7 +100,7 @@ const EditProfileForm = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />                                   
+              />
               <DialogFooter className='pt-2'>
                 <DialogClose asChild>
                   <Button variant='outline'>Cancelar</Button>
