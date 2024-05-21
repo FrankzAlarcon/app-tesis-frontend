@@ -2,17 +2,17 @@
 
 import { BACKEND_API_URL } from "@/config/config"
 import { currentUser } from "@/lib/auth"
-import { Profile } from "@/types/student"
+import { ProjectSkill } from "@/types/student"
 import axios from "axios"
 
-export const getProfile = async (): Promise<Profile | null> => {
+export const getSkills = async (): Promise<ProjectSkill[] | null> => {
   const user = await currentUser()
 
   if (!user?.accessToken) {
     return null
   }
 
-  return axios.get(`${BACKEND_API_URL}/students/profile`, {
+  return axios.get(`${BACKEND_API_URL}/skills`, {
     headers: {
       Authorization: `Bearer ${user.accessToken}`
     }
