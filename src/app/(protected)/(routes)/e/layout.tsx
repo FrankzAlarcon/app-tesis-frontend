@@ -7,9 +7,9 @@ const StudentsLayout = async ({
   children: ReactNode
 }) => {
   return (
-    <div className='min-h-screen '>
+    <div className='min-h-screen'>
       <Header />
-      <main className='bg-gray-50'>
+      <main className='bg-[#f2f2f2] pt-[207px] md:pt-[74.5px]'>
         {children}
       </main>
     </div>

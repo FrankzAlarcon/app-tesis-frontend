@@ -12,12 +12,12 @@ import EditProfileForm from './_components/edit-profile-form'
 const ProfilePage = async () => {
   const profile = await getProfile()
   if (!profile) return (<div>Loading...</div>)
-  const { id, email, name, projects,...rest } = profile
+  const { id, email, name, projects, ...rest } = profile
   return (
     <div className=''>
       <div className='relative w-full h-full'>
         <div className='w-full h-48 absolute top-0 left-0'>
-          <Image src='/profile-background.png' className='w-full h-full' alt='Profile background' width={400} height={200}/>
+          <Image src='/profile-background.png' className='w-full h-full' alt='Profile background' width={400} height={200} />
         </div>
         <div className='w-full px-4 relative top-32 lg:px-8 max-h-96 lg:max-h-72'>
           <div className='w-full bg-white rounded-lg shadow-md px-2 pb-2 lg:px-4 lg:pb-4 flex flex-col gap-2'>
@@ -33,11 +33,11 @@ const ProfilePage = async () => {
                 </div>
               </div>
               <div className='flex gap-4 items-center'>
-                <div className='pt-2 md:pt-4'>
-                  <p className='font-bold pb-1'>Conéctate conmigo</p>
-                  <p className='text-sm text-gray-700 flex gap-2 items-center'><Mail className='h-4 w-4' /><span>{profile?.email}</span></p>
+                <div className=' flex flex-row gap-2 pt-2 md:pt-4'>
+                  <p className='font-bold pb-1'>Conéctate conmigo: </p>
+                  <p className='text-sm text-gray-700 flex gap-1 items-center'><Mail className='h-4 w-4' /><span>{profile?.email}</span></p>
                 </div>
-                <div>
+                <div className='pt-2'>
                   <EditProfileForm completeProfile={rest} />
                 </div>
               </div>
