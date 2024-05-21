@@ -1,10 +1,12 @@
 "use client"
 
+import { updateProfile } from '@/actions/students/update-profile'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { NEXT_PUBLIC_BACKEND_API_URL } from '@/config/config'
 import { completeProfileSchema } from '@/schemas/profile.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Pencil } from 'lucide-react'
@@ -34,8 +36,9 @@ const EditProfileForm = ({
     }
   })
 
-  const onSubmit = (values: z.infer<typeof completeProfileSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof completeProfileSchema>) => {
+    console.log(NEXT_PUBLIC_BACKEND_API_URL)
+    await updateProfile(values, 'token')
   }
   return (
     <Dialog>

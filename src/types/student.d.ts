@@ -23,3 +23,10 @@ export interface Profile {
   faculty: string | null
   projects: Project[]
 }
+
+export interface CompleteProfile {
+  shortPresentation: string
+  description: string
+  faculty: string
+  ira: string
+}

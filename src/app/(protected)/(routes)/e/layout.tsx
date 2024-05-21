@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Header from './_components/header'
 
-const StudentsLayout = ({
+const StudentsLayout = async ({
   children
 }: {
   children: ReactNode
