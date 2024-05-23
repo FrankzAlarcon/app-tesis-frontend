@@ -8,6 +8,7 @@ import EditProfileForm from './_components/edit-profile-form'
 import ProfileContextProvider from '@/contexts/profile-context-provider'
 import NewProject from './_components/new-project'
 import { getSkills } from '@/actions/students/get-skills'
+import CertificationGroup from './_components/certifications-group'
 
 
 // TODO: Endpoint for user profile
@@ -71,6 +72,7 @@ const ProfilePage = async () => {
             </div>
           </div>
         </div>
+        <CertificationGroup certifications={profile?.certifications} />
       </div>
     </ProfileContextProvider>
   )
