@@ -9,6 +9,7 @@ import ProfileContextProvider from '@/contexts/profile-context-provider'
 import NewProject from './_components/new-project'
 import { getSkills } from '@/actions/students/get-skills'
 import CertificationGroup from './_components/certifications-group'
+import ProjectsGroup from './_components/projects-group'
 
 
 // TODO: Endpoint for user profile
@@ -60,17 +61,7 @@ const ProfilePage = async () => {
         </div>
         <div className='mt-60 bg-white rounded-lg shadow-md mx-4 p-2 lg:mt-48 lg:py-4 lg:px-8 lg:mx-8'>
           <p className=' text-xl font-bold'>Información relevante</p>
-          <div>
-            <p className='font-bold py-2'>Mis proyectos destacados:</p>
-            <div className='grid gap-4 md:grid-cols-2'>
-              {
-                profile?.projects.map(project => (
-                  <ProjectCard key={project.id} project={project} />
-                ))
-              }
-              <NewProject skills={skills} />
-            </div>
-          </div>
+          <ProjectsGroup projects={profile?.projects} skills={skills} />
         </div>
         <CertificationGroup certifications={profile?.certifications} />
       </div>

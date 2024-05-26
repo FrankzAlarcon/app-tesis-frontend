@@ -15,9 +15,20 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { registerSchema } from "@/schemas/auth.schema"
+import Loader from "@/components/loader"
+import { useState, useTransition } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import { registerStudent } from "@/actions/students/register"
+import { useToast } from "@/components/ui/use-toast"
+import { FormError } from "../form-error"
 
 function RegisterForm() {
   // Form definition
+  const [error, setError] = useState('')
+  const pathname = usePathname()
+  const router = useRouter()
+  const { toast } = useToast()
+  const [isPending, startTransition] = useTransition()
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -28,18 +39,34 @@ function RegisterForm() {
     },
   })
 
-
-
-  // submit handler
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    form.reset({
-      name: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
+  const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    setError('')
+    if (values.password !== values.passwordConfirmation) {
+      setError('Las contraseñas no coinciden')
+      return
+    }
+    startTransition(() => {
+      console.log(values)
+      console.log(pathname)
+      registerStudent(values)
+        .then((res) => {
+          if (res.error) {
+            setError(res.error)
+            return
+          }
+          toast({
+            title: 'Registro exitoso',
+            description: 'Usuario registrado correctamente',
+            duration: 4000,
+            variant: 'default'
+          })
+          router.push('/login')
+          form.reset()
+        })
+        .catch((err) => {
+          console.log("Error: ", err)
+        })
     })
-
-    console.log(values)
   }
   return (
     <Form {...form}>
@@ -47,6 +74,7 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="name"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Nombre</FormLabel>
@@ -60,6 +88,7 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="email"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Email</FormLabel>
@@ -73,6 +102,7 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="password"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Contraseña</FormLabel>
@@ -86,6 +116,7 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="passwordConfirmation"
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Confirmación de contraseña</FormLabel>
@@ -96,11 +127,11 @@ function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="hover:bg-blue-600"
-        >
-          Registrarse
+        <FormError message={error} />
+        <Button className='sm:min-w-24 mt-4' type='submit'>
+          {form.formState.isSubmitting ? (
+            <Loader className='text-white h-5 w-5' />
+          ) : 'Registrarse'}
         </Button>
       </form>
     </Form>

@@ -12,6 +12,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { XCircle } from "lucide-react"
 
 const Form = FormProvider
 
@@ -155,9 +156,10 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
+      className={cn("text-xs font-medium text-destructive flex gap-1 items-center border border-rose-500 bg-rose-500/10 rounded-md p-1.5", className)}
       {...props}
     >
+      {error && <XCircle size={16} />}
       {body}
     </p>
   )
