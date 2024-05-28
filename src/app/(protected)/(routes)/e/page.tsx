@@ -1,8 +1,8 @@
 import React from 'react'
 import StudentCard from './_components/student-card'
 import InfoCard from './_components/info-card'
-import Post from './_components/post'
 import { getFeed } from '@/actions/students/get-feed'
+import Post from './_components/post'
 
 
 
@@ -19,8 +19,8 @@ const StudentPage = async () => {
           <article className='w-full md:w-[30%] h-full flex jusify-center '>
             <StudentCard />
           </article>
-          <article className='w-full h-full md:w-[70%] md:px-3 '>
-            <div className=' h-full flex flex-col gap-6 md:overflow-y-auto'>
+          <article className='w-full h-full md:w-[70%] '>
+            <div className=' h-full flex flex-col gap-6 px-2 pt-4 md:overflow-y-auto'>
               {/* TODO:Hacer componente para publicaicones */}
               {
                 posts.map((post) => (
@@ -32,7 +32,6 @@ const StudentPage = async () => {
         </section>
         <section className='h-full flex flex-col items-center gap-4 md:pl-4 w-full md:w-2/12'>
           {/* TODO: Hacer componentes catas inforamcion y enventos */}
-          <InfoCard />
           <InfoCard />
         </section>
       </div>
