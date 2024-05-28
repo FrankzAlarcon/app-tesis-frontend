@@ -1,7 +1,8 @@
 "use client"
 
 import { updateProfile } from '@/actions/students/update-profile'
-import Loader from '@/components/loader'
+import FormError from '@/components/form-utilities/form-error'
+import FormSubmit from '@/components/form-utilities/form-submit'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -15,13 +16,12 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { useCurrentUser } from '@/hooks/use-current-user'
-import { useProfile } from '@/hooks/use-profile'
+import { useToast } from '@/components/ui/use-toast'
+import { useAction } from '@/hooks/use-action'
 import { completeProfileSchema } from '@/schemas/profile.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Pencil } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -37,9 +37,8 @@ interface EditProfileFormProps {
 const EditProfileForm = ({
   completeProfile
 }: EditProfileFormProps) => {
-  const router = useRouter()
+  const { toast } = useToast()
   const [openModal, setOpenModal] = useState(false)
-  const user = useCurrentUser()
   const form = useForm<z.infer<typeof completeProfileSchema>>({
     resolver: zodResolver(completeProfileSchema),
     defaultValues: {
@@ -48,6 +47,18 @@ const EditProfileForm = ({
       faculty: completeProfile.faculty ?? "",
       ira: completeProfile.ira ?? ""
     },
+  })
+  const {error, execute, resetValues} = useAction(updateProfile, {
+    onSuccess: () => {
+      setOpenModal(false)
+      resetValues()
+      form.reset()
+      toast({
+        title: 'Certificación creada',
+        duration: 4000,
+        description: 'La certificación ha sido creada exitosamente',
+      })
+    }
   })
 
   const onSubmit = async (values: z.infer<typeof completeProfileSchema>) => {
@@ -60,10 +71,7 @@ const EditProfileForm = ({
       setOpenModal(false)
       return 
     }
-    if (!user?.accessToken) return
-    await updateProfile(values, user.accessToken)
-    router.refresh()
-    setOpenModal(false)
+    await execute(values)
   }
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
@@ -133,15 +141,12 @@ const EditProfileForm = ({
                   </FormItem>
                 )}
               />
+              {error && <FormError error={error} />}
               <DialogFooter className='pt-2 gap-2'>
                 <DialogClose asChild>
                   <Button className='sm:min-w-24' variant='outline'>Cancelar</Button>
                 </DialogClose>
-                <Button className='sm:min-w-24' type='submit'>
-                  {form.formState.isSubmitting ? (
-                    <Loader className='text-white h-5 w-5' />
-                  ) : 'Guardar'}
-                </Button>
+                <FormSubmit isSubmitting={form.formState.isSubmitting} />
               </DialogFooter>
             </form>
           </Form>

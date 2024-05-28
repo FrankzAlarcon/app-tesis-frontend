@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Project } from "@/types/student"
 import { Disc } from "lucide-react"
 
@@ -10,20 +11,24 @@ const ProjectCard = ({
   project
 }: ProjectCardProps) => {
   return (
-    <div className="">
-      <p className="flex gap-1 items-center font-bold"><Disc className="h-3 w-3" />{project.name}</p>
-      <p className="text-sm">{project.description}</p>
-      <div className="flex flex-wrap gap-2 pt-2">
-        {
-          project.projectSkills.map(skill => (
-            <Badge
-              key={skill.id}
-              className="border border-black px-4 rounded-full bg-blue-100 text-black"
-            >{skill.name}</Badge>
-          ))
-        }
-      </div>
-    </div>
+    <Card className="">
+      <CardHeader className="px-6 py-2">
+        <CardTitle className="flex gap-1 items-center text-lg"><Disc className="h-3 w-3" />{project.name}</CardTitle>
+        {project.description && (<CardDescription className="text-muted-foreground">{project.description}</CardDescription>)}
+      </CardHeader>
+      <CardContent className="pb-2">
+        <div className="flex flex-wrap gap-2 pt-2">
+          {
+            project.projectSkills.map(skill => (
+              <Badge
+                key={skill.id}
+                className="border border-black px-4 rounded-full bg-blue-100 text-black"
+              >{skill.name}</Badge>
+            ))
+          }
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

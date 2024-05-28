@@ -16,3 +16,10 @@ export const createProjectSchema = z.object({
     name: z.string()
   }))
 })
+
+export const createCertificationSchema = z.object({
+  name: z.string().min(1, 'El nombre el obligatorio'),
+  emissionDate: z.date(),
+  url: z.string().url('La URL no es válida').min(1, 'La URL el obligatoria'),
+  issuingBusiness: z.string().min(1, 'El nombre de la empresa el obligatorio')
+})

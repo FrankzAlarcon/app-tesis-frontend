@@ -10,7 +10,15 @@ export interface Project {
   url: string | null
   studentId: string
   projectSkills: ProjectSkill[]
-  certifications: any[]
+}
+
+export interface Certification {
+  id: string
+  name: string
+  description: string | null
+  emissionDate: string
+  url: string
+  issuingBusiness: string
 }
 
 export interface Profile {
@@ -22,6 +30,7 @@ export interface Profile {
   ira: string | null
   faculty: string | null
   projects: Project[]
+  certifications: Certification[]
 }
 
 export interface CompleteProfile {

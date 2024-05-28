@@ -15,6 +15,7 @@ import {
 import Link from "next/link"
 import { signOut } from "@/actions/signout"
 import { Button } from "./ui/button"
+import { useState } from "react"
 
 interface ProfileButtonProps {
   withLogout?: boolean
@@ -25,13 +26,14 @@ const ProfileButton = ({
   withLogout = true
 }: ProfileButtonProps) => {
   const user = useCurrentUser()
+  const [open, setOpen] = useState(false)
 
   const onLogout = async () => {
     await signOut()
   }
 
   return (
-    <DropdownMenu className='text-black'>
+    <DropdownMenu open={open} onOpenChange={setOpen} className='text-black'>
       <DropdownMenuTrigger>
         <div className='flex gap-2 items-center'>
           <Avatar>
@@ -46,13 +48,13 @@ const ProfileButton = ({
         <DropdownMenuLabel >Mi Cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className='hover:bg-muted'>
+          <DropdownMenuItem onClick={() => setOpen(false)} className='hover:bg-muted'>
             <Link href='/e/profile' className='w-full h-full flex items-center gap-2'>
               <User className="w-5 h-5" />
               <span>Perfil</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className='hover:bg-muted'>
+          <DropdownMenuItem onClick={() => setOpen(false)} className='hover:bg-muted'>
             <Link href='/e/settings' className='w-full h-full flex items-center gap-2'>
               <Settings className="w-5 h-5" />
               <span>Configuración</span>
