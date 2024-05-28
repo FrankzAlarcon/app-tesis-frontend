@@ -33,7 +33,7 @@ const ProfileButton = ({
   }
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen} className='text-black'>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
         <div className='flex gap-2 items-center'>
           <Avatar>
