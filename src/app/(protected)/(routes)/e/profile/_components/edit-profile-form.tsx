@@ -21,7 +21,7 @@ import { useAction } from '@/hooks/use-action'
 import { completeProfileSchema } from '@/schemas/profile.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Pencil } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -37,6 +37,7 @@ interface EditProfileFormProps {
 const EditProfileForm = ({
   completeProfile
 }: EditProfileFormProps) => {
+  console.log(completeProfile)
   const { toast } = useToast()
   const [openModal, setOpenModal] = useState(false)
   const form = useForm<z.infer<typeof completeProfileSchema>>({
@@ -47,16 +48,28 @@ const EditProfileForm = ({
       faculty: completeProfile.faculty ?? "",
       ira: completeProfile.ira ?? ""
     },
+
   })
-  const {error, execute, resetValues} = useAction(updateProfile, {
+
+  useEffect(() => {
+    form.reset({
+      shortPresentation: completeProfile.shortPresentation ?? "",
+      description: completeProfile.description ?? "",
+      faculty: completeProfile.faculty ?? "",
+      ira: completeProfile.ira ?? ""
+    })
+  }, [form, form.reset, completeProfile])
+
+  const { error, execute, resetValues } = useAction(updateProfile, {
     onSuccess: () => {
       setOpenModal(false)
       resetValues()
       form.reset()
+      
       toast({
-        title: 'Certificación creada',
+        title: 'Perfil actualizado',
         duration: 4000,
-        description: 'La certificación ha sido creada exitosamente',
+        description: 'Tu perfil ha sido actualizado exitosamente',
       })
     }
   })
@@ -67,14 +80,25 @@ const EditProfileForm = ({
     const descriptionHasChanged = values.description !== completeProfile.description
     const facultyHasChanged = values.faculty !== completeProfile.faculty
     const iraHasChanged = values.ira !== completeProfile.ira
+    console.log(values)
     if (!shortPresentationHasChanged && !descriptionHasChanged && !facultyHasChanged && !iraHasChanged) {
       setOpenModal(false)
       return 
     }
     await execute(values)
   }
+
+  const handleOnOpenChange = (isOpen: boolean) => {
+    setOpenModal(isOpen)
+    form.reset({
+      shortPresentation: completeProfile.shortPresentation ?? "",
+      description: completeProfile.description ?? "",
+      faculty: completeProfile.faculty ?? "",
+      ira: completeProfile.ira ?? ""
+    })
+  }
   return (
-    <Dialog open={openModal} onOpenChange={setOpenModal}>
+    <Dialog open={openModal} onOpenChange={handleOnOpenChange}>
       <DialogTrigger asChild>
         <Button variant='outline'><Pencil className='w-4 h-4 mr-2' /><span>Editar perfil</span></Button>
       </DialogTrigger>

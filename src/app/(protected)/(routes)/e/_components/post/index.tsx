@@ -46,7 +46,7 @@ const Posts = ({
         </div>
         
       </div>
-      <PostFooter id={post.id} />
+      <PostFooter id={post.id} isBookmarked={post.bookmarked} />
     </article>
   )
 }
