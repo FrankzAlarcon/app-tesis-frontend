@@ -11,3 +11,8 @@ export interface Business  {
   createdAt: string
   updatedAt: string
 }
+
+export interface ShortBusinessInformation {
+  id: string
+  name: string
+}
