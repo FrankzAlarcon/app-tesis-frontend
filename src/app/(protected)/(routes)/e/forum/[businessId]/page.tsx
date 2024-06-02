@@ -35,7 +35,7 @@ const ForumEntryPage = async ({
           ))}
         </div>
       </div >
-      <div className='bg-white w-full h-full p-2 md:px-4 rounded-md'>
+      <div className='bg-white w-full h-auto max-h-full p-2 md:px-4 rounded-md'>
         <div className='flex justify-between items-center pb-2 md:pb-4'>
           <span className='text-2xl font-bold'>Opiniones</span>
           <Link href={`/e/forum/new/${params.businessId}`}
@@ -44,7 +44,7 @@ const ForumEntryPage = async ({
             Publicar opinión
           </Link>
         </div>
-        <div className='space-y-2 h-full overflow-y-auto'>
+        <div className='space-y-2 h-auto max-h-full overflow-y-auto'>
           {
             forumEntries.data.map((forumEntry) => (
               <ForumEntry key={forumEntry.id} forumEntry={forumEntry} />

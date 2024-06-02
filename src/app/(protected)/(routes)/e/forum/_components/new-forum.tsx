@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 interface NewForumProps {
-  businessId: string
+  businessId?: string
 }
 
 const NewForum = ({
@@ -41,7 +41,7 @@ const NewForum = ({
       setError('Faltan campos por llenar')
       return
     }
-    await execute({ title, description: content, grade, businessId })
+    await execute({ title, description: content, grade, businessId: businessId! })
   }
 
   return (
