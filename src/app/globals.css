@@ -146,13 +146,18 @@
   width: 100%;
 }
 
+.h-forum {
+  height: calc(100vh - 74.5px);
+}
+
 /* Basic editor styles */
-  .tiptap {
-    min-height: 200px;
-  }
-  .tiptap > * + * {
-    margin-top: 0.75em;
-  }
+.tiptap {
+  min-height: 200px;
+}
+
+.tiptap>*+* {
+  margin-top: 0.75em;
+}
 
   .tiptap ul,
   .tiptap ol,

@@ -9,6 +9,7 @@ export interface Post {
   url: string | null
   remuneration: string
   businessId: string
+  image: string | null
   business: {
     id: string
     name: string
@@ -16,4 +17,17 @@ export interface Post {
   bookmarked: boolean
   createdAt: string
   updatedAt: string
+}
+
+
+export interface ShortPostInformation {
+  id: string
+  createdAt: string
+  modality: string
+  location: string
+  tittle: string
+  business: {
+    id: string
+    name: string
+  }
 }

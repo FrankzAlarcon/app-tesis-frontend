@@ -95,6 +95,13 @@ const NewForum = ({
           </Button>
         </ConfirmDialog>
       </div>
+      <div className='w-full flex justify-center'>
+        <Button
+          onClick={() => console.log('Enviar')}
+        >
+          Enviar opinión
+        </Button>
+      </div>
     </div>
   )
 }
