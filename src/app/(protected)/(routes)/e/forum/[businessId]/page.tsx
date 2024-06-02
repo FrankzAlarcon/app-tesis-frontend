@@ -31,7 +31,7 @@ const ForumEntryPage = async ({
             Publicar opinión
           </Link>
         </div>
-        <div className='space-x-2'>
+        <div className='space-y-2'>
           {
             forumEntries.data.map((forumEntry) => (
               <ForumEntry key={forumEntry.id} forumEntry={forumEntry} />

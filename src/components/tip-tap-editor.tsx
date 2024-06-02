@@ -10,12 +10,18 @@ import { Button } from './ui/button'
 import { Bold, Code, Italic, List, ListOrdered, Redo, TextQuote, Undo } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const MenuBar = () => {
+const MenuBar = ({setContent}: {
+  setContent?: (content: string) => void
+}) => {
   const { editor } = useCurrentEditor()
 
   if (!editor) {
     return null
   }
+
+  editor.on('update', () => {
+    setContent && setContent(editor.getHTML())
+  })
 
   return (
     <div className='border-b'>
@@ -163,14 +169,16 @@ const extensions = [
 
 interface TipTapEditorProps {
   content?: string
+  setContent?: (content: string) => void
 }
 
 const TipTapEditor = ({
-  content
+  content,
+  setContent
 }: TipTapEditorProps) => {
   return (
-    <div className='shadow-md border'>
-      <EditorProvider   slotBefore={<MenuBar />} extensions={extensions} content={content}></EditorProvider>
+    <div className='shadow-md border p-2'>
+      <EditorProvider slotBefore={<MenuBar setContent={setContent} />} onUpdate={() => {}} extensions={extensions} content={content}  ></EditorProvider>
     </div>
   )
 }

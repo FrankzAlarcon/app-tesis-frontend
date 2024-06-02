@@ -155,7 +155,9 @@
   }
 
   .tiptap ul,
-  .tiptap ol {
+  .tiptap ol,
+  .entry ul,
+  .entry ol {
     padding: 0 1rem;
   }
 
@@ -164,65 +166,78 @@
   .tiptap h3,
   .tiptap h4,
   .tiptap h5,
-  .tiptap h6 {
+  .tiptap h6,
+  .entry h1,
+  .entry h2,
+  .entry h3 {
     line-height: 1.1;
   }
 
   
-  .tiptap h1 {
+  .tiptap h1,
+  .entry h1 {
     font-size: 2.25rem;
   }
 
-  .tiptap h2 {
+  .tiptap h2,
+  .entry h2 {
     font-size: 1.875rem;
   }
 
-  .tiptap h3 {
+  .tiptap h3,
+  .entry h3 {
     font-size: 1.5rem;
   }
 
-.tiptap code {
+.tiptap code,
+.entry code {
     background-color: rgba(#616161, 0.1);
     color: #616161;
   }
 
-.tiptap pre {
+.tiptap pre,
+.entry pre {
     background: #0D0D0D;
     color: #FFF;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
   }
 
-.tiptap img {
+.tiptap pre code,
+.entry pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+
+.tiptap img,
+.entry img {
     max-width: 100%;
     height: auto;
   }
 
-.tiptap blockquote {
+.tiptap blockquote,
+.entry blockquote {
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
   }
 
-.tiptap hr {
+.tiptap hr,
+.entry hr {
     border: none;
     border-top: 2px solid rgba(#0D0D0D, 0.1);
     margin: 2rem 0;
   }
 
-  .tiptap ul li {
+  .tiptap ul li,
+  .entry ul li {
     list-style: disc;
     margin-left: 10px;
   }
 
-  .tiptap ol li {
+  .tiptap ol li,
+  .entry ol li {
     list-style: decimal;
     margin-left: 10px;
   }

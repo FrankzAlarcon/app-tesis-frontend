@@ -18,7 +18,7 @@ const CreateForumEntryPage = async ({
   console.log('shortBusinessInformation', shortBusinessInformation)
   return (
     <div className='min-h-[92vh] w-full flex items-start justify-center p-2 md:p-4 lg:px-8'>
-      <div className='w-full p-2 bg-white rounded-md shadow-md'>
+      <div className='w-4/5 p-2 md:px-6 md:py-4 bg-white rounded-md shadow-md'>
         <div>
           <h1 className='text-primary text-2xl font-bold'>Publica una opinión</h1>
           <p className='text-xs text-gray-800'>Los estudiantes de la EPN podrán ver tu opinión acerca de tu experiencia trabajando con alguna empresa.</p>
@@ -31,8 +31,8 @@ const CreateForumEntryPage = async ({
             <p className='font-bold'>{shortBusinessInformation?.name}</p>
           </div>
         </div>
-        <div className='py-4'>
-          <NewForum />
+        <div className='py-4 p'>
+          <NewForum businessId={params.businessId} />
         </div>
       </div>
     </div>
