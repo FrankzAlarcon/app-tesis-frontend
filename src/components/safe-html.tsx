@@ -1,6 +1,6 @@
+import "../app/globals.css";
 import { Children } from "react";
 import SanitizeHTML from "sanitize-html";
-import "../app/globals.css";
 import { cn } from "@/lib/utils";
 
 interface SafeHTMLProps {

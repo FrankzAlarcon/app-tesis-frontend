@@ -12,20 +12,13 @@ import React, { useState } from 'react'
 
 
 const calculateGrade = (avgGrade: number) => {
-  switch (avgGrade) {
-    case 1:
-      return 'Experiencia no recomendada'
-    case 2:
-      return 'Mala experiencia'
-    case 3:
-      return 'Experiencia regular'
-    case 4:
-      return 'Muy buena experiencia'
-    case 5:
-      return 'Excelente experiencia'
-    default:
-      return 'Sin calificar'
-  }
+  // replace this to manage the grades in a better way, for example 4.5 should be 'Muy buena experiencia'
+  if (avgGrade >= 4 && avgGrade <= 5) return 'Exelente experiencia'
+  if (avgGrade >= 3 && avgGrade < 4) return 'Buena experiencia'
+  if (avgGrade >= 2 && avgGrade < 3) return 'Experiencia regular'
+  if (avgGrade >= 1 && avgGrade < 2) return 'Mala experiencia'
+  if (avgGrade >= 0 && avgGrade < 1) return 'Muy mala experiencia'
+  return 'Sin calificar'
 }
 
 interface ForumTableProps {
