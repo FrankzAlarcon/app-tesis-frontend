@@ -44,7 +44,9 @@ const Posts = ({
           <p className='font-bold'>Remuneración:</p>
           <p>{formatMoney(post.remuneration)}</p>
         </div>
-        
+        {post.image && (
+          <img src={post.image} alt='Imagen de la publicación' className='w-full h-40 object-cover' />
+        )}
       </div>
       <PostFooter id={post.id} />
     </article>
