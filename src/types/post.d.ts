@@ -18,3 +18,16 @@ export interface Post {
   createdAt: string
   updatedAt: string
 }
+
+
+export interface ShortPostInformation {
+  id: string
+  createdAt: string
+  modality: string
+  location: string
+  tittle: string
+  business: {
+    id: string
+    name: string
+  }
+}

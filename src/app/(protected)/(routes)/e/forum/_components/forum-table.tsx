@@ -10,6 +10,24 @@ import { ArrowUpDown, Star } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
+
+const calculateGrade = (avgGrade: number) => {
+  switch (avgGrade) {
+    case 1:
+      return 'Experiencia no recomendada'
+    case 2:
+      return 'Mala experiencia'
+    case 3:
+      return 'Experiencia regular'
+    case 4:
+      return 'Muy buena experiencia'
+    case 5:
+      return 'Excelente experiencia'
+    default:
+      return 'Sin calificar'
+  }
+}
+
 interface ForumTableProps {
   forum: ForumEntry[]
 }
@@ -25,7 +43,7 @@ const columns: ColumnDef<ForumEntry>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row,  }) => {
+    cell: ({ row, }) => {
       return (
         <div className='flex items-center gap-1'>
           <AvatarComponent src="https://github.com/shadcn.png" />
@@ -49,12 +67,15 @@ const columns: ColumnDef<ForumEntry>[] = [
     accessorKey: 'avgGrade',
     header: () => <div className="font-bold">Calificación</div>,
     cell: ({ row }) => (
-      <div className="flex gap-1 items-center">
-        <span className='font-bold'>{row.getValue('avgGrade')}/5</span>
-        <Star className='w-4 h-4 text-black fill-amber-400' />
+      <div className='flex flex-col gap-1'>
+        <div className="flex gap-1 items-center">
+          <span className='font-bold'>{row.getValue('avgGrade')}/5</span>
+          <Star className='w-4 h-4 text-black fill-amber-400' />
+        </div>
+        <span className='text-xs text-gray-500'>{calculateGrade(row.getValue('avgGrade'))}</span>
       </div>
     )
-  
+
   }
 ]
 
