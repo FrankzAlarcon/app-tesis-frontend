@@ -30,7 +30,7 @@ function CompaniesPageComponent({
           {/* <CompaniesView onShowForm={handleShowForm} /> */}
         </div>
         :
-        <AddCompany />
+        <AddCompany companies={data} />
       }
     </>
   )

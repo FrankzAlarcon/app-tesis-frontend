@@ -48,7 +48,7 @@ const Posts = ({
           <img src={post.image} alt='Imagen de la publicación' className='w-full h-40 object-cover' />
         )}
       </div>
-      <PostFooter id={post.id} />
+      <PostFooter id={post.id} isBookmarked={post.bookmarked} />
     </article>
   )
 }

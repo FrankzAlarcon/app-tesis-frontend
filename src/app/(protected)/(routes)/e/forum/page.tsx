@@ -1,23 +1,19 @@
-import React from 'react';
+import { getForumByGroup } from "@/actions/students/get-forum-by-group"
+import ForumTable from "./_components/forum-table"
 
 const ForumPage = async () => {
-
+  const forum = await getForumByGroup()
+  if (!forum) {
+    return <div>Error</div>
+  }
   return (
-    <div className='h-screen bg-[#f2f2f2] px-3 md:px-5'>
-      <div className='h-full w-full flex flex-col gap-4 md:gap-0 md:flex-row mt-[280px] md:mt-0 md:pt-8'>
-        <section className='h-full w-full md:w-1/5 flex flex-col items-center'>
-          {/* <CompaniesCandidates /> */}
-          <div>
-            sdsd
-          </div>
-        </section>
-        <section className='h-full w-full md:w-4/5 flex flex-col p-4 gap-4 '>
-
-          {/* <CompaniesOpinions /> */}
-        </section>
+    <div className='min-h-[92vh] w-full flex items-center justify-start p-2 md:p-4 lg:px-8'>
+      <div className="bg-white w-full rounded-lg shadow-md p-4 self-start">
+        <h1 className="text-2xl font-bold">Foro de la comunidad</h1>
+        <ForumTable forum={forum.data} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ForumPage;
+export default ForumPage

@@ -14,6 +14,7 @@ export interface Post {
     id: string
     name: string
   }
+  bookmarked: boolean
   createdAt: string
   updatedAt: string
 }

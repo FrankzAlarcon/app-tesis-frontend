@@ -14,8 +14,7 @@ interface AddCompanyProps {
 }
 
 
-function AddCompany({ companies: data }: AddCompanyProps
-) {
+function AddCompany({ companies: data }: AddCompanyProps) {
   const [showAlertDialog, setShowAlertDialog] = React.useState(false);
   const [selectedCompany, setSelectedCompany] = React.useState<number | null>(null);
   const [companies, setCompanies] = React.useState(data);
