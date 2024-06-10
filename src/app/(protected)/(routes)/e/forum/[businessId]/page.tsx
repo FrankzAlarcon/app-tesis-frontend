@@ -6,6 +6,7 @@ import BusinessProfileCard from '../../../b/_components/business-profile-card'
 import { buttonVariants } from '@/components/ui/button'
 import { getPublications } from '@/actions/students/getPublications'
 import ForumPublication from '../_components/forum-publication'
+import ItemCard from '@/components/item-card'
 
 interface ForumEntryPageProps {
   params: {
@@ -17,7 +18,7 @@ const ForumEntryPage = async ({
   params
 }: ForumEntryPageProps) => {
   const forumEntries = await getForumEntry(params.businessId)
-  const publications = await getPublications(params.businessId)
+  const publications = await getPublications()
   console.log(publications);
   if (!forumEntries) {
     return <div>Error</div>
@@ -31,7 +32,7 @@ const ForumEntryPage = async ({
         <span className='text-sm font-bold'>Ultimas ofertas publicadas:</span>
         <div className='flex flex-col gap-2 mt-2'>
           {publications?.map((publication) => (
-            <ForumPublication key={publication.id} shortPublication={publication} />
+            <ItemCard key={publication.id} shortPublication={publication} />
           ))}
         </div>
       </div >

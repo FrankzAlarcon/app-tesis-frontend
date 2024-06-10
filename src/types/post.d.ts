@@ -1,5 +1,6 @@
 export interface Post {
   id: string
+  title: string
   description: string
   modality: string
   entryTime: string
@@ -20,14 +21,14 @@ export interface Post {
 }
 
 
-export interface ShortPostInformation {
+export interface ShortInformationCard {
   id: string
-  createdAt: string
+  title: string
   modality: string
-  location: string
-  tittle: string
+  createdAt: string
   business: {
     id: string
     name: string
+    province: string | null
   }
 }

@@ -37,7 +37,7 @@ const PostFooter = ({
     <div className='flex justify-between items-center border-t-2 border-b-2 border-primary'>
       <div className='w-full'>
         <Link
-          href={`/e/postulation/${id}`}
+          href={`/e/postulations/${id}`}
           className=' p-2 border-none text-primary hover:bg-blue-500/20 hover:text-primary w-full rounded-none flex items-center gap-1 justify-center transition-colors'
         >
           <Rocket className='w-5 h-5' />

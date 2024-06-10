@@ -49,7 +49,7 @@ async function StudentCard() {
   if (!profile) return (<div>Loading...</div>)
   const { name, faculty, ira } = profile
   return (
-    <article className='w-full h-[23rem] bg-white rounded-xl'>
+    <div className='w-full md:h-[30rem] lg:h-[23rem] bg-white rounded-xl'>
       <div className='h-1/6 w-full bg-[#A0B4B7] rounded-t-xl '></div>
       <div className='relative px-6'>
         <div className='flex w-full justify-center'>
@@ -104,7 +104,7 @@ async function StudentCard() {
           </CompleteFormMenu>
         </div>
       </div>
-    </article>
+    </div>
   )
 }
 

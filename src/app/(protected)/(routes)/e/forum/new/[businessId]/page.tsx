@@ -1,9 +1,6 @@
 import { getShortBusinessInformation } from '@/actions/students/get-short-business-information'
-import AvatarComponent from '@/components/avatar'
-import TipTapEditor from '@/components/tip-tap-editor'
-import React from 'react'
 import NewForum from '../../_components/new-forum'
-import { getForumByGroup } from '@/actions/students/get-forum-by-group'
+import { getBusinessShortInfo } from '@/actions/business/get-business-short-info'
 
 interface CreateNewEntryProps {
   params: {
@@ -15,13 +12,12 @@ const CreateForumEntryPage = async ({ params }: CreateNewEntryProps) => {
   console.log('CreateForumEntryPage', params)
 
   let shortBusinessInformation = null
-  let allBusinesses = null
+  let allBusiness = null
 
   if (params.businessId) {
     shortBusinessInformation = await getShortBusinessInformation(params.businessId)
   } else {
-    const forum = await getForumByGroup()
-    allBusinesses = forum?.data || []
+    allBusiness = await getBusinessShortInfo()
   }
 
   return (
@@ -32,16 +28,7 @@ const CreateForumEntryPage = async ({ params }: CreateNewEntryProps) => {
           <p className='text-xs text-gray-800'>Los estudiantes de la EPN podrán ver tu opinión acerca de tu experiencia trabajando con alguna empresa.</p>
           <p className='text-xs text-gray-800'>Recuerda ser respetuoso, tu opinión es valiosa para tus compañeros de la EPN</p>
         </div>
-        <div>
-          <p className='font-bold py-2'>Tu opinión será sobre:</p>
-          <div className='flex items-center gap-2'>
-            <AvatarComponent src="https://github.com/shadcn.png" />
-            <p className='font-bold'>{shortBusinessInformation?.name}</p>
-          </div>
-        </div>
-        <div className='py-4 p'>
-          <NewForum businessId={params.businessId} />
-        </div>
+        <NewForum businessId={params.businessId} allBusiness={allBusiness} businessSelected={shortBusinessInformation} />
       </div>
     </div>
   )

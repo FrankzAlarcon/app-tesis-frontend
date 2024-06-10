@@ -4,12 +4,12 @@ import React from 'react'
 import Link from 'next/link';
 import { ShortInformationCard } from '@/types/post';
 
-interface ForumPublicationProps {
+interface ItemCardProps {
   shortPublication: ShortInformationCard
 }
 
 
-const ForumPublication = ({ shortPublication }: ForumPublicationProps) => {
+const ItemCard = ({ shortPublication }: ItemCardProps) => {
   return (
     <div className=" w-full border-2 p-2 rounded-lg">
       <div className='flex flex-row gap-2 w-full '>
@@ -45,4 +45,4 @@ const ForumPublication = ({ shortPublication }: ForumPublicationProps) => {
   )
 }
 
-export default ForumPublication
+export default ItemCard
