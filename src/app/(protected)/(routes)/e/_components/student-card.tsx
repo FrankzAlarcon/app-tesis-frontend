@@ -29,7 +29,7 @@ const CompleteFormMenu = ({
       <DropdownMenuContent>
         <DropdownMenuItem className='p-0'>
           <Link
-            href='/e/registration-preprofesional-practices'
+            href='/e/forms/registration-preprofesional-practices'
             className='w-full h-full p-2 hover:bg-black/5 transition-colors'
           >Registro de prácticas preprofesionales</Link>
         </DropdownMenuItem>

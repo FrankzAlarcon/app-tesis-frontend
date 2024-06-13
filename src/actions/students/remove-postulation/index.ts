@@ -18,18 +18,12 @@ const action = async (data: InputType): Promise<ReturnType> => {
   }
 
   try {
-    const rata = await axios.delete(`${BACKEND_API_URL}/postulations/${data.postulationId}`, {
+    await axios.delete(`${BACKEND_API_URL}/postulations/${data.postulationId}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${user.accessToken}`
       }
     })
-
-    if (rata.status !== 200) {
-      console.log('Error', rata)
-    }
-
-    console.log('RATA', rata.data)
   } catch (error) {
     return {
       error: 'Error al eliminar certificación'
