@@ -8,6 +8,8 @@ interface FormInputProps {
   name: string
   type: string
   placeholder: string
+  value?: string
+  setValue?: (value: string) => void
   className?: string
 }
 
@@ -16,6 +18,8 @@ const FormInput = ({
   name,
   type,
   placeholder,
+  value,
+  setValue,
   className
 }: FormInputProps) => {
   return (
@@ -34,6 +38,8 @@ const FormInput = ({
         name={name}
         type={type}
         placeholder={placeholder}
+        value={value || ''}
+        onChange={(e) => setValue && setValue(e.target.value)}
         className='placeholder:text-xs'
       />
     </div>

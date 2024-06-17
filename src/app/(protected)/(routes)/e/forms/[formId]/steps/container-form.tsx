@@ -1,15 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import BusinessDataForm from "./business-data-form"
+import FirstStepForm from "./first-step"
+import SecondStepForm from "./second-step"
 
-type Step = 1 | 2 | 3 | 4 | 5 
+export type Step = 1 | 2 | 3 | 4 | 5 
 
 const ContainerForm = () => {
-  const [steps, setSteps] = useState<Step>(1)
+  const [step, setStep] = useState<Step>(1)
   return (
     <div>
-      {steps === 1 && <BusinessDataForm />}
+      {step === 1 && <FirstStepForm setStep={setStep} />}
+      {step === 2 && <SecondStepForm setStep={setStep} />}
     </div>
   )
 }
