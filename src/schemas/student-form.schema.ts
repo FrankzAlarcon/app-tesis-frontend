@@ -35,7 +35,7 @@ export const businessDataSchema = z.object({
 })
 
 export const step2Schema = z.object({
-  subjects: z.array(z.string()).nonempty('Debe seleccionar al menos una asignatura'),
-  carrer: z.string(),
+  subjects: z.array(z.string().optional()).min(0),
+  careerId: z.string(),
   additionalSubjects: z.string(),
 })

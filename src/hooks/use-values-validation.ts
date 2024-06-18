@@ -16,7 +16,6 @@ export const useValuesValidation = <TValues>(
   const savedValues = localStorageKey ? localStorage.getItem(localStorageKey) : null;
   const [values, setValues] = useState<TValues>(savedValues ? JSON.parse(savedValues) : initialState);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors<TValues> | undefined>(undefined);
-
   const validate = useCallback(() => {
     const validationResult = validationSchema.safeParse(values);
     if (!validationResult.success) {
@@ -38,7 +37,8 @@ export const useValuesValidation = <TValues>(
   const resetValues = useCallback(() => {
     setValues(initialState);
     setFieldErrors(undefined);
-  }, [initialState]);
+    if (localStorageKey) localStorage.removeItem(localStorageKey);
+  }, [initialState, localStorageKey]);
 
   return {
     values,

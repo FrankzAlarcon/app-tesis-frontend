@@ -1,8 +1,12 @@
 import Image from "next/image"
 import ContainerForm from "./steps/container-form"
+import { getCareers } from "@/actions/students/get-careers"
 
-const SelectedFormPage = () => {
-  
+const SelectedFormPage = async () => {
+  const careers = await getCareers()
+  if (!careers) {
+    return null
+  }
   return (
     <div className="p-4 lg:py-8 lg:px-12">
       <div className="bg-white w-full rounded-sm shadow-sm p-2">
@@ -19,7 +23,7 @@ const SelectedFormPage = () => {
           </div>
         </div>
         <div className="pt-4 md:px-4 md:py-8 lg:p-8">
-          <ContainerForm />
+          <ContainerForm careers={careers} />
         </div>
       </div>
     </div>
