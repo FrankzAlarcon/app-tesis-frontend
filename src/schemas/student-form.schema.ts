@@ -42,6 +42,45 @@ export const step2Schema = z.object({
 
 export const step3Schema = z.object({
   incluirDiasNoTrabajados: z.boolean(),
+  horarioSemanal: z.object({
+    total: z.string().regex(/^[0-9]+$/, 'Total debe ser un número').refine(value => !isNaN(Number(value)), {
+      message: 'Total debe ser un número'
+    }),
+    inicio: z.date(),
+    fin: z.date(),
+    horaAlmuerzo: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    lunes: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    martes: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    miercoles: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    jueves: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    viernes: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    sabado: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    }),
+    domingo: z.object({
+      inicio: z.date(),
+      fin: z.date()
+    })
+  }),
   fechasDiasNoTrabajados: z.array(z.object({
     id: z.string(),
     date: z.date()
@@ -59,4 +98,11 @@ export const step3Schema = z.object({
   actividadesDesarrolladas: z.string().optional(),
   habilidadesAdquiridas: z.string().optional(),
   observacionesGenerales: z.string().optional(),
+  seguimientoTutorAcademico: z.string(),
+  evaluacionCualitativa: z.object({
+    asistencia: z.string(),
+    desempeno: z.string(),
+    motivacion: z.string(),
+    conocimientos: z.string(),
+  })
 })

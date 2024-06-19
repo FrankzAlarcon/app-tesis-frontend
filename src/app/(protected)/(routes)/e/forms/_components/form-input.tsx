@@ -31,7 +31,7 @@ const FormInput = ({
     )}>
       <Label
         htmlFor={id}
-        className='absolute z-30 -top-2.5 left-3 text-sm font-bold bg-white px-1'
+        className='absolute z-10 -top-2.5 left-3 text-sm font-bold bg-white px-1'
       >
         {name}
       </Label>
