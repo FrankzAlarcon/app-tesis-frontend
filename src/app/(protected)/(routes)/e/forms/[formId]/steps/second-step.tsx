@@ -52,6 +52,11 @@ const SecondStepForm = ({
     execute({ careerId: value })
   }
   const handleSelectSubject = (value: string) => {
+    if (values.subjects.includes(value)) {
+      const subjects = values.subjects.filter(subject => subject !== value)
+      handleChange('subjects', subjects)
+      return
+    }
     const subjects = [...values.subjects, value]
     handleChange('subjects', subjects)
   }

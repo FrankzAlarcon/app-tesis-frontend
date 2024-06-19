@@ -39,3 +39,24 @@ export const step2Schema = z.object({
   careerId: z.string(),
   additionalSubjects: z.string(),
 })
+
+export const step3Schema = z.object({
+  incluirDiasNoTrabajados: z.boolean(),
+  fechasDiasNoTrabajados: z.array(z.object({
+    id: z.string(),
+    date: z.date()
+  })).min(0),
+  observacionesAdicionales: z.string().optional(),
+  horasTotales: z.string()
+    .regex(/^[0-9]+$/, 'Horas Totales debe ser un número')
+    .refine(value => !isNaN(Number(value)), {
+      message: 'Horas Totales debe ser un número'
+    }),
+  pasantiasPagadas: z.object({
+    value: z.boolean(),
+    amount: z.string().optional()
+  }),
+  actividadesDesarrolladas: z.string().optional(),
+  habilidadesAdquiridas: z.string().optional(),
+  observacionesGenerales: z.string().optional(),
+})

@@ -1,12 +1,12 @@
-import { Input } from '@/components/ui/input'
+"use client"
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import React from 'react'
 
-interface FormInputProps {
+interface FormTextareaProps {
   id: string
   name: string
-  type: string
   placeholder?: string
   value?: string
   setValue?: (value: string) => void
@@ -14,16 +14,15 @@ interface FormInputProps {
   disabled?: boolean
 }
 
-const FormInput = ({
+const FormTextarea = ({
   id,
   name,
-  type,
   placeholder,
   value,
   setValue,
   className,
   disabled = false
-}: FormInputProps) => {
+}: FormTextareaProps) => {
   return (
     <div className={cn(
       'relative',
@@ -35,10 +34,9 @@ const FormInput = ({
       >
         {name}
       </Label>
-      <Input
+      <Textarea
         id={id}
         name={name}
-        type={type}
         placeholder={placeholder}
         value={value || ''}
         onChange={(e) => setValue && setValue(e.target.value)}
@@ -49,4 +47,4 @@ const FormInput = ({
   )
 }
 
-export default FormInput
+export default FormTextarea
