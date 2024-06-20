@@ -19,11 +19,13 @@ import { useState } from "react"
 
 interface ProfileButtonProps {
   withLogout?: boolean
+  role: string
 }
 
 // TODO: add skeleton loader for name
 const ProfileButton = ({
-  withLogout = true
+  withLogout = true,
+  role
 }: ProfileButtonProps) => {
   const user = useCurrentUser()
   const [open, setOpen] = useState(false)
@@ -31,6 +33,9 @@ const ProfileButton = ({
   const onLogout = async () => {
     await signOut()
   }
+
+  const profileLink = role === 'student' ? '/e/profile' : '/b/profile'
+  const settingsLink = role === 'student' ? '/e/settings' : '/b/settings'
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -49,13 +54,13 @@ const ProfileButton = ({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => setOpen(false)} className='hover:bg-muted'>
-            <Link href='/e/profile' className='w-full h-full flex items-center gap-2'>
+            <Link href={profileLink} className='w-full h-full flex items-center gap-2'>
               <User className="w-5 h-5" />
               <span>Perfil</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(false)} className='hover:bg-muted'>
-            <Link href='/e/settings' className='w-full h-full flex items-center gap-2'>
+            <Link href={settingsLink} className='w-full h-full flex items-center gap-2'>
               <Settings className="w-5 h-5" />
               <span>Configuración</span>
             </Link>
