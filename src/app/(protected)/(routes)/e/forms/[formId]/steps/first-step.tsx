@@ -245,6 +245,7 @@ const FirstStepForm = ({
                 value={values.campoEspecifico}
                 className='w-full border border-gray-200 text-xs'
                 setValue={(value) => handleChange('campoEspecifico', value)}
+                emptyLabel='Selecciona un campo amplio primero'
                 classNamePopover='w-96'
               />
             </div>

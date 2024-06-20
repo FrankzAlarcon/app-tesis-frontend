@@ -21,18 +21,20 @@ const PostulationEntryPage = async ({
     return null
   }
   return (
-    <div className="flex flex-col gap-2 p-4">
-      <div className="bg-white rounded-xl shadow-sm py-2 px-4">
-        <p className="font-bold pb-2">Postulaste en:</p>
-        <div className="flex flex-col gap-2">
-          {
-            lastPostulations?.map((postulation) => (
-              <ItemCard key={postulation.id} shortPublication={postulation} />
-            ))
-          }
+    <div className="flex flex-col gap-2 p-4 md:flex-row md:gap-6">
+      <div className="md:w-1/4">
+        <div className="bg-white rounded-xl shadow-sm pt-2 pb-4 px-4">
+          <p className="font-bold pb-2">Postulaste en:</p>
+          <div className="flex flex-col gap-2">
+            {
+              lastPostulations?.map((postulation) => (
+                <ItemCard key={postulation.id} shortPublication={postulation} />
+              ))
+            }
+          </div>
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow-sm">
+      <div className="bg-white rounded-xl shadow-sm md:w-3/4">
         <Postulation publication={entry.publication} wasAlreadyPostulated={entry.wasAlreadyPostulated} />
       </div>
     </div>

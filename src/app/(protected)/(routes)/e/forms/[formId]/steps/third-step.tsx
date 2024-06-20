@@ -13,188 +13,8 @@ import PopoverCalendar from '@/components/popover-calendar'
 import { generateId } from '@/lib/generate-id'
 import { Input } from '@/components/ui/input'
 import FormTextarea from '../../_components/form-textarea'
-
-interface CualitativeEvaluationProps {
-  values: any
-  handleChange: (key: any, value: any) => void
-}
-
-const CualitativeEvaluation = ({
-  values,
-  handleChange
-}: CualitativeEvaluationProps) => {
-  return (
-    <table className='border border-collapse w-full'>
-      <thead className='border border-collapse'>
-        <tr className='font-bold text-sm'>
-          <td className='border border-collapse md:p-2 text-center'>Evaluación cualitativa</td>
-          <td className='border border-collapse md:p-2 text-center'>Excelente</td>
-          <td className='border border-collapse md:p-2 text-center'>Muy buena</td>
-          <td className='border border-collapse md:p-2 text-center'>Satisfactoria</td>
-          <td className='border border-collapse md:p-2 text-center'>Deficiente</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr className='text-sm '>
-          <td className='border border-collapse'>Asistencia y Puntualidad</td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='asistencia'
-              value='excelente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='asistencia'
-              value='muy-buena'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='asistencia'
-              value='satisfactoria'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='asistencia'
-              value='deficiente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
-            />
-          </td>
-        </tr>
-        <tr className='text-sm '>
-          <td className='border border-collapse'>Desempeño</td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='desempeno'
-              value='excelente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='desempeno'
-              value='muy-buena'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='desempeno'
-              value='satisfactoria'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='desempeno'
-              value='deficiente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
-            />
-          </td>
-        </tr>
-        <tr className='text-sm '>
-          <td className='border border-collapse'>Motivación</td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='motivacion'
-              value='excelente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='motivacion'
-              value='muy-buena'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='motivacion'
-              value='satisfactoria'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='motivacion'
-              value='deficiente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
-            />
-          </td>
-        </tr>
-        <tr className='text-sm '>
-          <td className='border border-collapse'>Conocimientos, destrezas y valores</td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='conocimientos'
-              value='excelente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='conocimientos'
-              value='muy-buena'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='conocimientos'
-              value='satisfactoria'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
-            />
-          </td>
-          <td className='border border-collapse'>
-            <Input
-              type='radio'
-              name='conocimientos'
-              value='deficiente'
-              className='w-4 mx-auto block cursor-pointer'
-              onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  )
-}
+import Schedule from '../../_components/schedule'
+import CualitativeEvaluation from '../../_components/cualitative-evaluation'
 
 interface ThirdStepFormProps {
   setStep: (step: Step) => void
@@ -207,38 +27,39 @@ const initialState = {
     inicio: new Date(),
     fin: new Date(),
     horaAlmuerzo: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     lunes: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     martes: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     miercoles: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     jueves: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     viernes: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     sabado: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     },
     domingo: {
-      inicio: new Date(),
-      fin: new Date()
+      inicio: '',
+      fin: ''
     }
   },
+  incluirHorasAlmuerzo: false,
   fechasDiasNoTrabajados: [{
     id: generateId(),
     date: new Date()
@@ -305,23 +126,68 @@ const ThirdStepForm = ({
         <div>
           <div className='space-y-4'>
             <Label className='font-bold text-xs md:text-sm'>Horario semanal</Label>
-            <div>
-              {/* TODO: Aqui va el cuadro del horario */}
-              <div>
+            <div className='space-y-4'>
+              <div className='flex flex-col gap-2 md:flex-row w-full md:items-center'>
                 <div><p className='font-bold text-sm'>Inicio</p></div>
-                <div>
+                <div className='w-full'>
                   <PopoverCalendar
                     value={values.horarioSemanal?.inicio}
                     onChange={(date) => handleChange('horarioSemanal', { ...values.horarioSemanal, inicio: date })}
                   />
                 </div>
                 <div><p className='font-bold text-sm'>Terminación</p></div>
-                <div>
+                <div className='w-full'>
                   <PopoverCalendar
                     value={values.horarioSemanal?.fin}
                     onChange={(date) => handleChange('horarioSemanal', { ...values.horarioSemanal, fin: date })}
                   />
                 </div>
+              </div>
+              <div className='overflow-y-hidden'>
+                <Schedule values={values} handleChange={handleChange} />
+              </div>
+              <div className='space-y-2'>
+              
+                <div className='flex items-center gap-2'>
+                  <Checkbox
+                    id='incluir-hora-almuerzo'
+                    checked={values.incluirHorasAlmuerzo}
+                    onCheckedChange={(e) => handleChange('incluirHorasAlmuerzo', e)}
+                  />
+                  <Label
+                    htmlFor='dias-no-trabajados' className='text-xs'
+                  >
+                    Incluir hora de almuerzo
+                  </Label>
+                </div>
+              {
+                values.incluirHorasAlmuerzo && (
+                    <div className='flex gap-2'>
+                      <div className='flex gap-2 items-center w-full'>
+                        <div><p className='font-bold text-sm'>Inicio</p></div>
+                        <div className='w-full'>
+                          <Input
+                            id='hora-almuerzo-inicio'
+                            type='time'
+                            className='block text-center'
+                            value={values.horarioSemanal?.horaAlmuerzo?.inicio}
+                            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, horaAlmuerzo: { ...values.horarioSemanal.horaAlmuerzo, inicio: e.target.value } })}
+                          />
+                        </div>
+                        <div><p className='font-bold text-sm'>Fin</p></div>
+                        <div className='w-full'>
+                          <Input
+                            id='hora-almuerzo-fin'
+                            type='time'
+                            className='block text-center'
+                            value={values.horarioSemanal?.horaAlmuerzo?.fin}
+                            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, horaAlmuerzo: { ...values.horarioSemanal.horaAlmuerzo, fin: e.target.value } })}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                )
+              }
               </div>
             </div>
             <div className='flex flex-col gap-2'>

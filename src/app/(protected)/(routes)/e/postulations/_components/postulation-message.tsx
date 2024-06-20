@@ -1,7 +1,7 @@
 "use client"
 
 import { createPostulation } from "@/actions/students/create-postulation"
-import FormSubmit from "@/components/form-utilities/form-submit"
+import FormActionSubmit from "@/components/form-utilities/form-action-submit"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils"
 import { postulationSchema } from "@/schemas/postulation.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { XCircle } from "lucide-react"
-import { useState } from "react"
 import { useFormState } from "react-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -39,6 +38,7 @@ const PostulationMessage = ({
     ...initialState,
     publicationId
   })
+
   return (
     <div className="p-2">
       <p className="font-bold">Postula ahora!</p>
@@ -79,7 +79,9 @@ const PostulationMessage = ({
                   </p>
                 )
               }
-              <FormSubmit />
+              <div className="flex justify-end w-full">
+                <FormActionSubmit />
+              </div>
             </form>
           </Form>
         ) : (

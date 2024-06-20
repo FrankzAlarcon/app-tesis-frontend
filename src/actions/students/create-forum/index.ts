@@ -6,6 +6,8 @@ import { InputType, ReturnType } from "./types";
 import { BACKEND_API_URL } from "@/config/config";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { createForumSchema } from "./schema";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const action = async (data: InputType): Promise<ReturnType> => {
   const user = await currentUser()
@@ -23,13 +25,14 @@ const action = async (data: InputType): Promise<ReturnType> => {
         Authorization: `Bearer ${user.accessToken}`
       }
     })
+
   } catch (error) {
     console.log('Error', (error as any).response.data)
     return {
       error: 'Ha ocurrido un error al publicar tu opinión, por favor intenta nuevamente.'
     }
   }
-
+  revalidatePath(`/e/forum/${data.businessId}`)
   return {
     data: {
       created: true

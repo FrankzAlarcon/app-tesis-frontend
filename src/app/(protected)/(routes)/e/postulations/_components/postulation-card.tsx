@@ -1,6 +1,7 @@
 "use client"
 
 import { removePostulation } from '@/actions/students/remove-postulation'
+import ConfirmDialog from '@/components/confirm-dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
@@ -44,14 +45,20 @@ const PostulationCard = ({
             <Link href={`/e/postulations/${postulation.id}`} className='inline hover:underline'>
               <CardTitle className='inline'>{postulation.title}</CardTitle>
             </Link>
-            <Button
-              className='flex items-center justify-center'
-              variant='ghost'
-              size='xs'
-              onClick={handleDelete}
+            <ConfirmDialog
+              onConfirm={handleDelete}
+              alertTitle='¿Deseas eliminar esta postulación?'
+              alertDescription={`Estas a punto de eliminar tu postulacion en "${postulation.title}". Esta acción no se puede deshacer. ¿Deseas continuar?`}
+              asChild
             >
-              <X className='w-4 h-4' />
-            </Button>
+              <Button
+                className='flex items-center justify-center'
+                variant='ghost'
+                size='xs'
+              >
+                <X className='w-4 h-4' />
+              </Button>
+            </ConfirmDialog>
           </div>
           <CardDescription>{postulation.business.name}</CardDescription>
           <p className='text-sm text-muted-foreground'>{postulation.business.province}</p>

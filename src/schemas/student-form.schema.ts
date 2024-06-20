@@ -42,6 +42,7 @@ export const step2Schema = z.object({
 
 export const step3Schema = z.object({
   incluirDiasNoTrabajados: z.boolean(),
+  incluirHorasAlmuerzo: z.boolean(),
   horarioSemanal: z.object({
     total: z.string().regex(/^[0-9]+$/, 'Total debe ser un número').refine(value => !isNaN(Number(value)), {
       message: 'Total debe ser un número'
@@ -49,36 +50,36 @@ export const step3Schema = z.object({
     inicio: z.date(),
     fin: z.date(),
     horaAlmuerzo: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     lunes: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     martes: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     miercoles: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     jueves: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     viernes: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     sabado: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     }),
     domingo: z.object({
-      inicio: z.date(),
-      fin: z.date()
+      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
     })
   }),
   fechasDiasNoTrabajados: z.array(z.object({

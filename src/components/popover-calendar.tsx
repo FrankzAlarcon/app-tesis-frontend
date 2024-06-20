@@ -50,7 +50,7 @@ const PopoverCalendar = ({
           selected={value}
           onSelect={handleOnSelect}
           disabled={(date) =>
-            date > new Date("2030-01  -01") || date < new Date("2020-01-01")
+            date > new Date("2030-01-01") || date < new Date("2020-01-01")
           }
           initialFocus
         />
