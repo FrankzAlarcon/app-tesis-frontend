@@ -17,6 +17,8 @@ import Schedule from '../../_components/schedule'
 import CualitativeEvaluation from '../../_components/cualitative-evaluation'
 import FormError from '@/components/form-utilities/form-error'
 import { useEffect } from 'react'
+import { calculateHoursWithDays } from '@/lib/date-fns/calculate-days'
+import { calculateSemanalWorkHours } from '@/lib/date-fns/calculate-hours'
 
 interface ThirdStepFormProps {
   setStep: (step: Step) => void
@@ -88,7 +90,7 @@ const initialState = {
 const ThirdStepForm = ({
   setStep
 }: ThirdStepFormProps) => {
-  const { values, handleChange, validate, fieldErrors } = useValuesValidation(initialState, step3Schema, LocalStorageKeys.STEP_3)
+  const { values, handleChange, validate, fieldErrors, handleSetValues } = useValuesValidation(initialState, step3Schema, LocalStorageKeys.STEP_3)
 
   useEffect(() => {
     console.log(fieldErrors)
@@ -111,6 +113,21 @@ const ThirdStepForm = ({
       date: new Date()
     }
     handleChange('fechasDiasNoTrabajados', [...values.fechasDiasNoTrabajados, newDate])
+  }
+
+  const handleCalculateSemanalWorkHours = (newValue: any) => {
+    // calculate hours
+    const totalHoursPerWeek = calculateSemanalWorkHours(newValue)
+    const totalHour = calculateHoursWithDays(newValue.inicio, newValue.fin, newValue)
+    const updatedValues = {
+      ...values,
+      horarioSemanal: {
+        ...newValue,
+        total: String(totalHoursPerWeek)
+      },
+      horasTotales: String(totalHour)
+    }
+    handleSetValues && handleSetValues(updatedValues)
   }
 
   const handleNextStep = () => {
@@ -152,22 +169,21 @@ const ThirdStepForm = ({
                 <div className='w-full'>
                   <PopoverCalendar
                     value={new Date(values.horarioSemanal?.inicio as string)}
-                    onChange={(date) => handleChange('horarioSemanal', { ...values.horarioSemanal, inicio: date })}
+                    onChange={(date) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, inicio: date })}
                   />
                 </div>
                 <div><p className='font-bold text-sm'>Terminación</p></div>
                 <div className='w-full'>
                   <PopoverCalendar
                     value={new Date(values.horarioSemanal?.fin as string)}
-                    onChange={(date) => handleChange('horarioSemanal', { ...values.horarioSemanal, fin: date })}
+                    onChange={(date) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, fin: date })}
                   />
                 </div>
               </div>
               <div className='overflow-y-hidden'>
-                <Schedule values={values} handleChange={handleChange} />
+                <Schedule values={values} handleChange={handleChange} handleSetValues={handleSetValues}/>
               </div>
               <div className='space-y-2'>
-              
                 <div className='flex items-center gap-2'>
                   <Checkbox
                     id='incluir-hora-almuerzo'
@@ -191,7 +207,7 @@ const ThirdStepForm = ({
                             type='time'
                             className='block text-center'
                             value={values.horarioSemanal?.horaAlmuerzo?.inicio}
-                            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, horaAlmuerzo: { ...values.horarioSemanal.horaAlmuerzo, inicio: e.target.value } })}
+                            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, horaAlmuerzo: { ...values.horarioSemanal.horaAlmuerzo, inicio: e.target.value } })}
                           />
                         </div>
                         <div><p className='font-bold text-sm'>Fin</p></div>
@@ -201,13 +217,22 @@ const ThirdStepForm = ({
                             type='time'
                             className='block text-center'
                             value={values.horarioSemanal?.horaAlmuerzo?.fin}
-                            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, horaAlmuerzo: { ...values.horarioSemanal.horaAlmuerzo, fin: e.target.value } })}
+                            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, horaAlmuerzo: { ...values.horarioSemanal.horaAlmuerzo, fin: e.target.value } })}
                           />
                         </div>
                       </div>
                     </div>
                 )
               }
+                <div className='pt-4'>
+                  <FormInput
+                    id='horas-semanales'
+                    name='Horas semanales'
+                    type='text'
+                    value={values.horarioSemanal.total}
+                    disabled
+                  />
+                </div>
               </div>
             </div>
             <div className='flex flex-col gap-2'>

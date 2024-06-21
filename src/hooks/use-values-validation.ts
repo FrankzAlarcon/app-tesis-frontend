@@ -34,6 +34,11 @@ export const useValuesValidation = <TValues>(
     if (localStorageKey) saveLocalStorage(localStorageKey, newValues);
   }, [values, localStorageKey])
 
+  const handleSetValues = useCallback((newValues: TValues) => {
+    setValues(newValues);
+    if (localStorageKey) saveLocalStorage(localStorageKey, newValues);
+  }, [localStorageKey])
+
   const resetValues = useCallback(() => {
     setValues(initialState);
     setFieldErrors(undefined);
@@ -44,6 +49,7 @@ export const useValuesValidation = <TValues>(
     values,
     fieldErrors,
     handleChange,
+    handleSetValues,
     validate,
     resetValues,
   }
