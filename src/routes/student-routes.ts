@@ -12,3 +12,11 @@ export const studentRoutes: Route[] = [
     href: '/e/postulations'
   }
 ]
+
+export const companyRoutes: Route[] = [
+  {
+    name: 'Home',
+    href: '/b'
+  },
+
+]
