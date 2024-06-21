@@ -29,6 +29,7 @@ const CualitativeEvaluation = ({
               name='asistencia'
               value='excelente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.asistencia === 'excelente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
             />
           </td>
@@ -38,6 +39,7 @@ const CualitativeEvaluation = ({
               name='asistencia'
               value='muy-buena'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.asistencia === 'muy-buena'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
             />
           </td>
@@ -47,6 +49,7 @@ const CualitativeEvaluation = ({
               name='asistencia'
               value='satisfactoria'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.asistencia === 'satisfactoria'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
             />
           </td>
@@ -56,6 +59,7 @@ const CualitativeEvaluation = ({
               name='asistencia'
               value='deficiente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.asistencia === 'deficiente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, asistencia: e.target.value })}
             />
           </td>
@@ -68,6 +72,7 @@ const CualitativeEvaluation = ({
               name='desempeno'
               value='excelente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.desempeno === 'excelente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
             />
           </td>
@@ -77,6 +82,7 @@ const CualitativeEvaluation = ({
               name='desempeno'
               value='muy-buena'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.desempeno === 'muy-buena'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
             />
           </td>
@@ -86,6 +92,7 @@ const CualitativeEvaluation = ({
               name='desempeno'
               value='satisfactoria'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.desempeno === 'satisfactoria'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
             />
           </td>
@@ -95,6 +102,7 @@ const CualitativeEvaluation = ({
               name='desempeno'
               value='deficiente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.desempeno === 'deficiente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, desempeno: e.target.value })}
             />
           </td>
@@ -107,6 +115,7 @@ const CualitativeEvaluation = ({
               name='motivacion'
               value='excelente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.motivacion === 'excelente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
             />
           </td>
@@ -116,6 +125,7 @@ const CualitativeEvaluation = ({
               name='motivacion'
               value='muy-buena'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.motivacion === 'muy-buena'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
             />
           </td>
@@ -125,6 +135,7 @@ const CualitativeEvaluation = ({
               name='motivacion'
               value='satisfactoria'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.motivacion === 'satisfactoria'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
             />
           </td>
@@ -134,6 +145,7 @@ const CualitativeEvaluation = ({
               name='motivacion'
               value='deficiente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.motivacion === 'deficiente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, motivacion: e.target.value })}
             />
           </td>
@@ -146,6 +158,7 @@ const CualitativeEvaluation = ({
               name='conocimientos'
               value='excelente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.conocimientos === 'excelente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
             />
           </td>
@@ -155,6 +168,7 @@ const CualitativeEvaluation = ({
               name='conocimientos'
               value='muy-buena'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.conocimientos === 'muy-buena'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
             />
           </td>
@@ -164,6 +178,7 @@ const CualitativeEvaluation = ({
               name='conocimientos'
               value='satisfactoria'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.conocimientos === 'satisfactoria'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
             />
           </td>
@@ -173,6 +188,7 @@ const CualitativeEvaluation = ({
               name='conocimientos'
               value='deficiente'
               className='w-4 mx-auto block cursor-pointer'
+              defaultChecked={values.evaluacionCualitativa.conocimientos === 'deficiente'}
               onChange={(e) => handleChange('evaluacionCualitativa', { ...values.evaluacionCualitativa, conocimientos: e.target.value })}
             />
           </td>

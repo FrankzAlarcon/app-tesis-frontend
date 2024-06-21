@@ -8,24 +8,27 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useValuesValidation } from '@/hooks/use-values-validation'
 import { LocalStorageKeys } from '@/enums/local-storage-keys'
 import { step3Schema } from '@/schemas/student-form.schema'
-import FormInput from '../../_components/form-input'
-import PopoverCalendar from '@/components/popover-calendar'
 import { generateId } from '@/lib/generate-id'
 import { Input } from '@/components/ui/input'
+import FormInput from '../../_components/form-input'
+import PopoverCalendar from '@/components/popover-calendar'
 import FormTextarea from '../../_components/form-textarea'
 import Schedule from '../../_components/schedule'
 import CualitativeEvaluation from '../../_components/cualitative-evaluation'
+import FormError from '@/components/form-utilities/form-error'
+import { useEffect } from 'react'
 
 interface ThirdStepFormProps {
   setStep: (step: Step) => void
 }
 
 const initialState = {
+  areaAsignada: '',
   incluirDiasNoTrabajados: false,
   horarioSemanal: {
-    total: '',
-    inicio: new Date(),
-    fin: new Date(),
+    total: '0',
+    inicio: new Date().toISOString(),
+    fin: new Date().toISOString(),
     horaAlmuerzo: {
       inicio: '',
       fin: ''
@@ -65,7 +68,7 @@ const initialState = {
     date: new Date()
   }],
   observacionesAdicionales: '',
-  horasTotales: '',
+  horasTotales: '0',
   pasantiasPagadas: {
     value: false,
     amount: ''
@@ -73,7 +76,7 @@ const initialState = {
   actividadesDesarrolladas: '',
   habilidadesAdquiridas: '',
   observacionesGenerales: '',
-  seguimientoTutorAcademico: '',
+  seguimientoTutorAcademico: 'no',
   evaluacionCualitativa: {
     asistencia: '',
     desempeno: '',
@@ -85,7 +88,11 @@ const initialState = {
 const ThirdStepForm = ({
   setStep
 }: ThirdStepFormProps) => {
-  const { values, handleChange } = useValuesValidation(initialState, step3Schema, LocalStorageKeys.STEP_3)
+  const { values, handleChange, validate, fieldErrors } = useValuesValidation(initialState, step3Schema, LocalStorageKeys.STEP_3)
+
+  useEffect(() => {
+    console.log(fieldErrors)
+  }, [fieldErrors])
 
   const handleSelectDate = (id: string, date: Date | undefined) => {
     if (!date) return
@@ -106,6 +113,16 @@ const ThirdStepForm = ({
     handleChange('fechasDiasNoTrabajados', [...values.fechasDiasNoTrabajados, newDate])
   }
 
+  const handleNextStep = () => {
+    const isValid = validate()
+    if (!isValid) return
+    setStep(4)
+  }
+
+  const handleBackStep = () => {
+    setStep(2)
+  }
+
   return (
     <div className='space-y-4'>
       <div className='border'>
@@ -115,13 +132,16 @@ const ThirdStepForm = ({
         </div>
       </div>
       <div className='flex flex-col gap-4'>
-        <div>
+        <div className='space-y-2'>
           <FormInput
             id='area-asignada'
             placeholder='Área asignada al estudiante'
             name='Área asignada'
             type='text'
+            value={values.areaAsignada}
+            setValue={(value) => handleChange('areaAsignada', value)}
           />
+          {fieldErrors?.areaAsignada && <FormError error={fieldErrors.areaAsignada[0]} />}
         </div>
         <div>
           <div className='space-y-4'>
@@ -131,14 +151,14 @@ const ThirdStepForm = ({
                 <div><p className='font-bold text-sm'>Inicio</p></div>
                 <div className='w-full'>
                   <PopoverCalendar
-                    value={values.horarioSemanal?.inicio}
+                    value={new Date(values.horarioSemanal?.inicio as string)}
                     onChange={(date) => handleChange('horarioSemanal', { ...values.horarioSemanal, inicio: date })}
                   />
                 </div>
                 <div><p className='font-bold text-sm'>Terminación</p></div>
                 <div className='w-full'>
                   <PopoverCalendar
-                    value={values.horarioSemanal?.fin}
+                    value={new Date(values.horarioSemanal?.fin as string)}
                     onChange={(date) => handleChange('horarioSemanal', { ...values.horarioSemanal, fin: date })}
                   />
                 </div>
@@ -162,7 +182,7 @@ const ThirdStepForm = ({
                 </div>
               {
                 values.incluirHorasAlmuerzo && (
-                    <div className='flex gap-2'>
+                    <div className='flex gap-2 md:w-3/4 lg:w-1/2'>
                       <div className='flex gap-2 items-center w-full'>
                         <div><p className='font-bold text-sm'>Inicio</p></div>
                         <div className='w-full'>
@@ -272,6 +292,7 @@ const ThirdStepForm = ({
                         name='pasantias-pagadas'
                         value='si'
                         id='si'
+                        defaultChecked={values.pasantiasPagadas.value === true}
                         className='w-4 mx-auto block cursor-pointer'
                         onChange={() => handleChange('pasantiasPagadas', { ...values.pasantiasPagadas, value: true })}
                       />
@@ -282,6 +303,7 @@ const ThirdStepForm = ({
                         name='pasantias-pagadas'
                         value='no'
                         id='no'
+                        defaultChecked={values.pasantiasPagadas.value === false}
                         className='w-4 mx-auto block cursor-pointer'
                         onChange={() => handleChange('pasantiasPagadas', { ...values.pasantiasPagadas, value: false })}
                       />
@@ -333,6 +355,7 @@ const ThirdStepForm = ({
                           value='si'
                           id='si'
                           className='w-4 mx-auto block cursor-pointer'
+                          defaultChecked={values.seguimientoTutorAcademico === 'si'}
                           onChange={(e) => handleChange('seguimientoTutorAcademico', e.target.value)}
                         />
                       </td>
@@ -346,6 +369,7 @@ const ThirdStepForm = ({
                           value='no'
                           id='no'
                           className='w-4 mx-auto block cursor-pointer'
+                          defaultChecked={values.seguimientoTutorAcademico === 'no'}
                           onChange={(e) => handleChange('seguimientoTutorAcademico', e.target.value)}
                         />
                       </td>
@@ -368,14 +392,14 @@ const ThirdStepForm = ({
       </div>
       <div className='pt-2 flex justify-between gap-6'>
         <Button
-          onClick={() => setStep(2)}
+          onClick={handleBackStep}
           className='flex gap-1 items-center w-full sm:w-auto'
         >
           <ChevronsLeft className='w-4 h-4' />
           <span>Anterior</span>
         </Button>
         <Button
-          onClick={() => setStep(4)}
+          onClick={handleNextStep}
           className='flex gap-1 items-center w-full sm:w-auto'
         >
           <span>Siguiente</span>

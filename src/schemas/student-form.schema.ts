@@ -9,29 +9,33 @@ const relacionConSchema = z.object({
 })
 
 export const businessDataSchema = z.object({
-  razonSocial: z.string().min(1, 'Razon Social es requerido'),
-  ciudad: z.string().min(1, 'Ciudad es requerido'),
-  direccion: z.string().min(1, 'Direccion es requerido'),
+  razonSocial: z.string().min(1, 'Razon Social es requerida'),
+  ciudad: z.string().min(1, 'Ciudad es requerida'),
+  direccion: z.string().min(1, 'Direccion es requerida'),
   telefono: z.string().min(1, 'Telefono es requerido'),
   celular: z.string().regex(/^[0-9]+$/, 'Celular debe ser un número').min(1, 'Celular es requerido'),
   tipoInstitucion: z.enum(tipoInstitucionReceptora.map(tipo => tipo.id) as any, {
-    required_error: 'Tipo de Institución es requerido'
+    errorMap: (_issue, _ctx) => ({
+      message: 'Seleccione un tipo de institución válido'
+    })
   }),
   responsable: z.string().min(1, 'Responsable es requerido'),
   cedula: z.string().min(1, 'Cedula es requerido'),
-  nombres: z.string().min(1, 'Nombres es requerido'),
+  nombres: z.string().min(1, 'Nombre requerido'),
   creditos: z.string().regex(/^[0-9]+$/, 'Créditos debe ser un número').refine(value => !isNaN(Number(value)) && Number(value) <= 120, {
     message: 'Créditos debe ser un número y menor o igual a 120'
   }),
   tipoPractica: z.enum(tipoPractica.map(tipo => tipo.id) as any, {
-    required_error: 'Tipo de Práctica es requerido'
+    errorMap: (_issue, _ctx) => ({
+      message: 'Seleccione un tipo de práctica válido'
+    })
   }),
   campoAmplio: z.string().min(1, 'Campo Amplio es requerido'),
   campoEspecifico: z.string().min(1, 'Campo Específico es requerido'),
   tutorEpn: z.string().min(1, 'Tutor EPN es requerido'),
-  relacionConConvenio: relacionConSchema,
-  relacionConInvestigacion: relacionConSchema,
-  relacionConVinculacion: relacionConSchema,
+  relacionConConvenio: relacionConSchema.required(),
+  relacionConInvestigacion: relacionConSchema.required(),
+  relacionConVinculacion: relacionConSchema.required(),
 })
 
 export const step2Schema = z.object({
@@ -41,45 +45,98 @@ export const step2Schema = z.object({
 })
 
 export const step3Schema = z.object({
+  areaAsignada: z.string().min(1, 'Área Asignada es requerida'),
   incluirDiasNoTrabajados: z.boolean(),
   incluirHorasAlmuerzo: z.boolean(),
   horarioSemanal: z.object({
     total: z.string().regex(/^[0-9]+$/, 'Total debe ser un número').refine(value => !isNaN(Number(value)), {
       message: 'Total debe ser un número'
     }),
-    inicio: z.date(),
-    fin: z.date(),
+    inicio: z.string().datetime({
+      message: 'Fecha de inicio no válida'
+    }),
+    fin: z.string().datetime({
+      message: 'Fecha de fin no válida'
+    }),
     horaAlmuerzo: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     lunes: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     martes: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     miercoles: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     jueves: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     viernes: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     sabado: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     }),
     domingo: z.object({
-      inicio: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
-      fin: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/),
+      inicio: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
+      fin: z.string().refine((value) => {
+        if (value === '') return true
+        return /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)
+      }),
     })
   }),
   fechasDiasNoTrabajados: z.array(z.object({
@@ -105,5 +162,24 @@ export const step3Schema = z.object({
     desempeno: z.string(),
     motivacion: z.string(),
     conocimientos: z.string(),
+  })
+})
+
+export const step4Schema = z.object({
+  tutor: z.object({
+    name: z.string().min(1, 'Nombre es requerido'),
+    ci: z.string().min(1, 'Cedula es requerida'),
+  }),
+  entidadReceptora: z.object({
+    name: z.string().min(1, 'Nombre es requerido'),
+    ci: z.string().min(1, 'Cedula es requerida'),
+  }),
+  comisionPracticas: z.object({
+    name: z.string().min(1, 'Nombre es requerido'),
+    ci: z.string().min(1, 'Cedula es requerida'),
+  }),
+  decano: z.object({
+    name: z.string().min(1, 'Nombre es requerido'),
+    ci: z.string().min(1, 'Cedula es requerida'),
   })
 })

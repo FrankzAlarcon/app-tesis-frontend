@@ -13,6 +13,8 @@ import { campoAmplio } from '@/constants/campo-amplio'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ChevronsRight } from 'lucide-react'
+import { useEffect } from 'react'
+import FormError from '@/components/form-utilities/form-error'
 
 interface FirstStepFormProps {
   setStep: (step: Step) => void
@@ -53,7 +55,13 @@ const initialState = {
 const FirstStepForm = ({
   setStep
 }: FirstStepFormProps) => {
-  const { values, handleChange } = useValuesValidation(initialState, businessDataSchema, LocalStorageKeys.STEP_1)
+  const { values, handleChange, validate, fieldErrors } = useValuesValidation(initialState, businessDataSchema, LocalStorageKeys.STEP_1)
+  const handleNextStep = () => {
+    const isValid = validate()
+    if (!isValid) return
+    setStep(2)
+  }
+
   return (
     <div className='space-y-4'>
       <div className='border'>
@@ -61,81 +69,102 @@ const FirstStepForm = ({
           <p className='font-bold text-sm'>1. Datos de la Empresa o Institución</p>
         </div>
         <div className='px-2 py-4 space-y-4 md:space-y-6 md:px-4'>
-          <FormInput
-            id='razon-social'
-            name='Razon Social'
-            type='text'
-            value={values.razonSocial}
-            setValue={(value) => handleChange('razonSocial', value)}
-            placeholder='Nombre de la empresa o institución'
-            
-          />
-          <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
+          <div className='space-y-2'>
             <FormInput
-              id='ciudad'
-              name='Ciudad'
+              id='razon-social'
+              name='Razon Social'
               type='text'
-              className='w-full'
-              value={values.ciudad}
-              setValue={(value) => handleChange('ciudad', value)}
-              placeholder='Ciudad de la empresa o institución'
+              value={values.razonSocial}
+              setValue={(value) => handleChange('razonSocial', value)}
+              placeholder='Nombre de la empresa o institución'
+              
             />
-            <FormInput
-              id='direccion'
-              name='Dirección'
-              type='text'
-              className='w-full'
-              value={values.direccion}
-              setValue={(value) => handleChange('direccion', value)}
-              placeholder='Dirección de la empresa o institución'
-            />
+            {fieldErrors?.razonSocial && <FormError error={fieldErrors.razonSocial[0]} />}
           </div>
           <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
-            <FormInput
-              id='telefono'
-              name='Telefono'
-              type='text'
-              className='w-full'
-              value={values.telefono}
-              setValue={(value) => handleChange('telefono', value)}
-              placeholder='Teléfono de la empresa o institución'
-            />
-            <FormInput
-              id='celular'
-              name='Celular'
-              type='text'
-              className='w-full'
-              value={values.celular}
-              setValue={(value) => handleChange('celular', value)}
-              placeholder='Celular de la empresa o institución'
-            />
-          </div>
-          <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
-            <div className='relative md:w-1/2 lg:w-1/3 w-full'>
-              <Label
-                htmlFor='tipo-institucion'
-                className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
-              >
-                Tipo de Institución Receptora
-              </Label>
-              <SelectPopover
-                label='Selecciona una...'
-                options={tipoInstitucionReceptora}
-                value={values.tipoInstitucion}
-                className='w-full border border-gray-200 text-xs'
-                setValue={(value) => handleChange('tipoInstitucion', value)}
-                emptyLabel='No existe el tipo de institución receptora'
+            <div className='w-full space-y-2'>
+              <FormInput
+                id='ciudad'
+                name='Ciudad'
+                type='text'
+                className='w-full'
+                value={values.ciudad}
+                setValue={(value) => handleChange('ciudad', value)}
+                placeholder='Ciudad de la empresa o institución'
               />
+              {fieldErrors?.ciudad && <FormError error={fieldErrors.ciudad[0]} />}
             </div>
-            <FormInput
-              id='responsable'
-              name='Responsable de la Institución Receptora'
-              type='text'
-              className='w-full md:w-1/2 lg:w-2/3'
-              value={values.responsable}
-              setValue={(value) => handleChange('responsable', value)}
-              placeholder='Responsable de la Institución Receptora'
-            />
+            <div className='w-full space-y-2'>
+              <FormInput
+                id='direccion'
+                name='Dirección'
+                type='text'
+                className='w-full'
+                value={values.direccion}
+                setValue={(value) => handleChange('direccion', value)}
+                placeholder='Dirección de la empresa o institución'
+              />
+              {fieldErrors?.direccion && <FormError error={fieldErrors.direccion[0]} />}
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
+            <div className='space-y-2 w-full'>
+              <FormInput
+                id='telefono'
+                name='Telefono'
+                type='text'
+                className='w-full'
+                value={values.telefono}
+                setValue={(value) => handleChange('telefono', value)}
+                placeholder='Teléfono de la empresa o institución'
+              />
+              {fieldErrors?.telefono && <FormError error={fieldErrors.telefono[0]} />}
+            </div>
+            <div className='space-y-2 w-full'>
+              <FormInput
+                id='celular'
+                name='Celular'
+                type='text'
+                className='w-full'
+                value={values.celular}
+                setValue={(value) => handleChange('celular', value)}
+                placeholder='Celular de la empresa o institución'
+              />
+              {fieldErrors?.celular && <FormError error={fieldErrors.celular[0]} />}
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
+            <div className='md:w-1/2 lg:w-1/3 w-full space-y-2'>
+              <div className='relative w-full'>
+                <Label
+                  htmlFor='tipo-institucion'
+                  className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
+                >
+                  Tipo de Institución Receptora
+                </Label>
+                <SelectPopover
+                  label='Selecciona una...'
+                  options={tipoInstitucionReceptora}
+                  value={values.tipoInstitucion}
+                  className='w-full border border-gray-200 text-xs'
+                  setValue={(value) => handleChange('tipoInstitucion', value)}
+                  emptyLabel='No existe el tipo de institución receptora'
+                />
+              </div>
+              {fieldErrors?.tipoInstitucion && <FormError error={fieldErrors.tipoInstitucion[0]} />}
+            </div>
+            <div className='w-full md:w-1/2 lg:w-2/3 space-y-2'>
+              <FormInput
+                id='responsable'
+                name='Responsable de la Institución Receptora'
+                type='text'
+                className='w-full'
+                value={values.responsable}
+                setValue={(value) => handleChange('responsable', value)}
+                placeholder='Responsable de la Institución Receptora'
+              />
+              {fieldErrors?.responsable && <FormError error={fieldErrors.responsable[0]} />}
+            </div>
           </div>
         </div>
       </div>
@@ -144,33 +173,42 @@ const FirstStepForm = ({
           <p className='font-bold text-sm'>2. Datos del Practicante</p>
         </div>
         <div className='px-2 py-4 flex flex-col gap-6 md:flex-row md:px-4'>
-          <FormInput
-            id='cedula'
-            name='Cedula de Identidad'
-            type='text'
-            placeholder='Ej. 1717171717'
-            value={values.cedula}
-            setValue={(value) => handleChange('cedula', value)}
-            className='w-full md:w-1/2 lg:w-1/4'
-          />
-          <FormInput
-            id='nombres'
-            name='Nombres y Apellidos'
-            type='text'
-            className='w-full md:w-1/2 lg:w-2/4'
-            value={values.nombres}
-            setValue={(value) => handleChange('nombres', value)}
-            placeholder='Ej. Jhon Doe'
-          />
-          <FormInput
-            id='creditos'
-            name='Créditos aprobados'
-            type='text'
-            className='w-full md:w-1/2 lg:w-1/4'
-            value={values.creditos}
-            setValue={(value) => handleChange('creditos', value)}
-            placeholder='Ej. 105'
-          />
+          <div className='w-full md:w-1/2 lg:w-1/4 space-y-2'>
+            <FormInput
+              id='cedula'
+              name='Cedula de Identidad'
+              type='text'
+              placeholder='Ej. 1717171717'
+              value={values.cedula}
+              setValue={(value) => handleChange('cedula', value)}
+              className='w-full'
+            />
+            {fieldErrors?.cedula && <FormError error={fieldErrors.cedula[0]} />}
+          </div>
+          <div className='w-full md:w-1/2 lg:w-2/4 space-y-2'>
+            <FormInput
+              id='nombres'
+              name='Nombres y Apellidos'
+              type='text'
+              className='w-full'
+              value={values.nombres}
+              setValue={(value) => handleChange('nombres', value)}
+              placeholder='Ej. Jhon Doe'
+            />
+            {fieldErrors?.nombres && <FormError error={fieldErrors.nombres[0]} />}
+          </div>
+          <div className='w-full md:w-1/2 lg:w-1/4 space-y-2'>
+            <FormInput
+              id='creditos'
+              name='Créditos aprobados'
+              type='text'
+              className='w-full'
+              value={values.creditos}
+              setValue={(value) => handleChange('creditos', value)}
+              placeholder='Ej. 105'
+            />
+            {fieldErrors?.creditos && <FormError error={fieldErrors.creditos[0]} />}
+          </div>
         </div>
       </div>
       <div className='border'>
@@ -199,65 +237,77 @@ const FirstStepForm = ({
         </div>
         <div className='px-2 py-4 flex flex-col gap-6 md:px-4'>
           <div className='flex flex-col md:flex-row gap-6 w-full'>
-            <div className='relative md:w-1/2  w-full'>
-              <Label
-                htmlFor='tipo-institucion'
-                className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
-              >
-                Tipo de Práctica
-              </Label>
-              <SelectPopover
-                label='Selecciona una...'
-                options={tipoPractica}
-                value={values.tipoPractica}
-                className='w-full border border-gray-200 text-xs'
-                setValue={(value) => handleChange('tipoPractica', value)}
-              />
+            <div className='md:w-1/2 w-full space-y-2'>
+              <div className='relative w-full'>
+                <Label
+                  htmlFor='tipo-institucion'
+                  className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
+                >
+                  Tipo de Práctica
+                </Label>
+                <SelectPopover
+                  label='Selecciona una...'
+                  options={tipoPractica}
+                  value={values.tipoPractica}
+                  className='w-full border border-gray-200 text-xs'
+                  setValue={(value) => handleChange('tipoPractica', value)}
+                />
+              </div>
+              {fieldErrors?.tipoPractica && <FormError error={fieldErrors.tipoPractica[0]} />}
             </div>
-            <div className='relative md:w-1/2  w-full'>
-              <Label
-                htmlFor='tipo-institucion'
-                className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
-              >
-                Campo amplio
-              </Label>
-              <SelectPopover
-                label='Selecciona una...'
-                options={campoAmplio}
-                value={values.campoAmplio}
-                className='w-full border border-gray-200 text-xs'
-                setValue={(value) => handleChange('campoAmplio', value)}
-                classNamePopover='w-96'
-              />
+            <div className='md:w-1/2 w-full space-y-2'>
+              <div className='relative w-full'>
+                <Label
+                  htmlFor='tipo-institucion'
+                  className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
+                >
+                  Campo amplio
+                </Label>
+                <SelectPopover
+                  label='Selecciona una...'
+                  options={campoAmplio}
+                  value={values.campoAmplio}
+                  className='w-full border border-gray-200 text-xs'
+                  setValue={(value) => handleChange('campoAmplio', value)}
+                  classNamePopover='w-96'
+                />
+              </div>
+              {fieldErrors?.campoAmplio && <FormError error={fieldErrors.campoAmplio[0]} />}
             </div>
           </div>
           <div className='flex flex-col md:flex-row gap-6 w-full'>
-            <div className='relative md:w-1/2 w-full'>
-              <Label
-                htmlFor='tipo-institucion'
-                className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
-              >
-                Campo específico
-              </Label>
-              <SelectPopover
-                label='Selecciona una...'
-                options={campoAmplio.find(campo => campo.id === values.campoAmplio)?.campoEspecifico || []}
-                value={values.campoEspecifico}
-                className='w-full border border-gray-200 text-xs'
-                setValue={(value) => handleChange('campoEspecifico', value)}
-                emptyLabel='Selecciona un campo amplio primero'
-                classNamePopover='w-96'
-              />
+            <div className='space-y-2 md:w-1/2 w-full'>
+              <div className='relative w-full'>
+                <Label
+                  htmlFor='tipo-institucion'
+                  className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
+                >
+                  Campo específico
+                </Label>
+                <SelectPopover
+                  label='Selecciona una...'
+                  options={campoAmplio.find(campo => campo.id === values.campoAmplio)?.campoEspecifico || []}
+                  value={values.campoEspecifico}
+                  className='w-full border border-gray-200 text-xs'
+                  setValue={(value) => handleChange('campoEspecifico', value)}
+                  emptyLabel='Selecciona un campo amplio primero'
+                  classNamePopover='w-96'
+                />
+              </div>
+              {fieldErrors?.campoEspecifico && <FormError error={fieldErrors.campoEspecifico[0]} />}
             </div>
-            <FormInput
-              id='tutorEpn'
-              name='Tutor Académico de la Práctica (EPN)'
-              type='text'
-              className='w-full md:w-1/2'
-              value={values.tutorEpn}
-              setValue={(value) => handleChange('tutorEpn', value)}
-              placeholder='Ej. Jhon Doe'
-            />
+            <div className='w-full md:w-1/2 space-y-2'>
+              <FormInput
+                id='tutorEpn'
+                name='Tutor Académico de la Práctica (EPN)'
+                type='text'
+                className='w-full'
+                value={values.tutorEpn}
+                setValue={(value) => handleChange('tutorEpn', value)}
+                placeholder='Ej. Jhon Doe'
+              />
+              {fieldErrors?.tutorEpn && <FormError error={fieldErrors.tutorEpn[0]} />}
+            </div>
           </div>
           <div>
             <table className='w-full border border-collapse'>
@@ -273,12 +323,15 @@ const FirstStepForm = ({
                 <tr>
                   <td className='w-4/12 border-collapse border pl-2'>Convenio</td>
                   <td className='w-1/12 border-collapse border'>
-                    <Input type='radio' value='si' id='si' name='convenio' className='w-4 mx-auto block'
+                    <Input type='radio' value='si' id='si' name='convenio'
+                      className='w-4 mx-auto block cursor-pointer'
+                      defaultChecked={values.relacionConConvenio.value === true}
                       onChange={(evt) => handleChange('relacionConConvenio', { ...values.relacionConConvenio, value: evt.target.value === 'si' })}
                     />
                   </td>
                   <td className='w-1/12 border-collapse border'>
-                    <Input type='radio' value='no' id='no' name='convenio' className='w-4 mx-auto block'
+                    <Input type='radio' value='no' id='no' name='convenio' className='w-4 mx-auto block cursor-pointer'
+                      defaultChecked={values.relacionConConvenio.value === false}
                       onChange={(evt) => handleChange('relacionConConvenio', { ...values.relacionConConvenio, value: evt.target.value === 'si' })}
                     />
                   </td>
@@ -310,12 +363,14 @@ const FirstStepForm = ({
                 <tr>
                   <td className='w-4/12 border-collapse border pl-2'>Proyecto de Investigación</td>
                   <td className='w-1/12 border-collapse border'>
-                    <Input type='radio' value='si' id='si' name='investigacion' className='w-4 mx-auto block'
+                    <Input type='radio' value='si' id='si' name='investigacion' className='w-4 mx-auto block cursor-pointer'
+                      defaultChecked={values.relacionConInvestigacion.value === true}
                       onChange={(evt) => handleChange('relacionConInvestigacion', { ...values.relacionConInvestigacion, value: evt.target.value === 'si' })}
                     />
                   </td>
                   <td className='w-1/12 border-collapse border'>
-                    <Input type='radio' value='no' id='no' name='investigacion' className='w-4 mx-auto block'
+                    <Input type='radio' value='no' id='no' name='investigacion' className='w-4 mx-auto block cursor-pointer'
+                      defaultChecked={values.relacionConInvestigacion.value === false}
                       onChange={(evt) => handleChange('relacionConInvestigacion', { ...values.relacionConInvestigacion, value: evt.target.value === 'si' })}
                     />
                   </td>
@@ -347,12 +402,14 @@ const FirstStepForm = ({
                 <tr>
                   <td className='w-4/12 border-collapse border pl-2'>Proyecto de Vinculacion</td>
                   <td className='w-1/12 border-collapse border'>
-                    <Input type='radio' value='si' id='si' name='vinculacion' className='w-4 mx-auto block'
+                    <Input type='radio' value='si' id='si' name='vinculacion' className='w-4 mx-auto block cursor-pointer'
+                      defaultChecked={values.relacionConVinculacion.value === true}
                       onChange={(evt) => handleChange('relacionConVinculacion', { ...values.relacionConVinculacion, value: evt.target.value === 'si' })}
                     />
                   </td>
                   <td className='w-1/12 border-collapse border'>
-                    <Input type='radio' value='no' id='no' name='vinculacion' className='w-4 mx-auto block'
+                    <Input type='radio' value='no' id='no' name='vinculacion' className='w-4 mx-auto block cursor-pointer'
+                      defaultChecked={values.relacionConVinculacion.value === false}
                       onChange={(evt) => handleChange('relacionConVinculacion', { ...values.relacionConVinculacion, value: evt.target.value === 'si' })}
                     />
                   </td>
@@ -388,7 +445,7 @@ const FirstStepForm = ({
       </div>
       <div className='pt-2 flex justify-end'>
         <Button
-          onClick={() => setStep(2)}
+          onClick={handleNextStep}
           className='flex gap-1 items-center w-full sm:w-auto'
         >
           <span>Siguiente</span>

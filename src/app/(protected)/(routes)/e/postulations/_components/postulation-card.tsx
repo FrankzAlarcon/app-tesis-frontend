@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
 import { useAction } from '@/hooks/use-action'
+import { formatDistanceEs } from '@/lib/date-fns/format-distance-es'
 import { formatDateComplete } from '@/lib/format-date'
 import { PostulationCard as PostulationCardType } from '@/types/postulations'
 import { X } from 'lucide-react'
@@ -63,7 +64,7 @@ const PostulationCard = ({
           <CardDescription>{postulation.business.name}</CardDescription>
           <p className='text-sm text-muted-foreground'>{postulation.business.province}</p>
           <p className='text-sm text-muted-foreground'>Modalidad: {postulation.modality}</p>
-          <p className='text-xs text-muted-foreground'>{formatDateComplete(postulation.createdAt)}</p>
+          <p className='text-xs text-muted-foreground'>{formatDistanceEs(postulation.createdAt)}</p>
         </CardHeader>
       </div>
     </Card>
