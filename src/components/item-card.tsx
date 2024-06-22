@@ -1,8 +1,7 @@
 import AvatarComponent from '@/components/avatar';
-import { calculateEntryDate } from '@/lib/format-date';
-import React from 'react'
 import Link from 'next/link';
 import { ShortInformationCard } from '@/types/post';
+import { formatDistanceEs } from '@/lib/date-fns/format-distance-es';
 
 interface ItemCardProps {
   shortPublication: ShortInformationCard
@@ -17,7 +16,7 @@ const ItemCard = ({ shortPublication }: ItemCardProps) => {
           <AvatarComponent src="https://github.com/shadcn.png"
             className='w-14 h-14 rounded-full shadow-md mt-4 mb-2'
           />
-          <p className='text-gray-500 text-xs text-center '>{calculateEntryDate(shortPublication.createdAt)}</p>
+          <p className='text-gray-500 text-xs text-center '>{formatDistanceEs(shortPublication.createdAt)}</p>
         </div>
         <div className='w-[60%] flex flex-col justify-between'>
           <div>

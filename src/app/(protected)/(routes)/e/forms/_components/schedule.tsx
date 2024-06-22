@@ -1,14 +1,35 @@
+"use client"
+
 import { Input } from '@/components/ui/input'
+import { calculateHoursWithDays } from '@/lib/date-fns/calculate-days'
+import {calculateSemanalWorkHours } from '@/lib/date-fns/calculate-hours'
+
 
 interface ScheduleProps {
   values: any
   handleChange: (key: any, value: any) => void
+  handleSetValues?: (values: any) => void
 }
 
 const Schedule = ({
   values,
-  handleChange
+  handleSetValues
 }: ScheduleProps) => {
+  const handleCalculateSemanalWorkHours = (newValue: any) => {
+    // calculate hours
+    const totalHoursPerWeek = calculateSemanalWorkHours(newValue)
+    const totalHour = calculateHoursWithDays(newValue.inicio, newValue.fin, newValue)
+    const updatedValues = {
+      ...values,
+      horarioSemanal: {
+        ...newValue,
+        total: String(totalHoursPerWeek)
+      },
+      horasTotales: String(totalHour)
+    }
+    handleSetValues && handleSetValues(updatedValues)
+  }
+
   return (
   <table className='w-full'>
     <thead>
@@ -32,7 +53,7 @@ const Schedule = ({
             id='lunes-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.lunes.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, lunes: { ...values.horarioSemanal.lunes, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, lunes: { ...values.horarioSemanal.lunes, inicio: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -41,7 +62,7 @@ const Schedule = ({
             id='martes-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.martes.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, martes: { ...values.horarioSemanal.martes, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, martes: { ...values.horarioSemanal.martes, inicio: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -50,7 +71,7 @@ const Schedule = ({
             id='miercoles-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.miercoles.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, miercoles: { ...values.horarioSemanal.miercoles, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, miercoles: { ...values.horarioSemanal.miercoles, inicio: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -59,7 +80,7 @@ const Schedule = ({
             id='jueves-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.jueves.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, jueves: { ...values.horarioSemanal.jueves, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, jueves: { ...values.horarioSemanal.jueves, inicio: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -68,7 +89,7 @@ const Schedule = ({
             id='viernes-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.viernes.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, viernes: { ...values.horarioSemanal.viernes, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, viernes: { ...values.horarioSemanal.viernes, inicio: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -77,7 +98,7 @@ const Schedule = ({
             id='sabado-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.sabado.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, sabado: { ...values.horarioSemanal.sabado, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, sabado: { ...values.horarioSemanal.sabado, inicio: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -86,7 +107,7 @@ const Schedule = ({
             id='domingo-inicio'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.domingo.inicio}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, domingo: { ...values.horarioSemanal.domingo, inicio: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, domingo: { ...values.horarioSemanal.domingo, inicio: e.target.value } })}
           />
         </td>
       </tr>
@@ -98,7 +119,7 @@ const Schedule = ({
             id='lunes-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.lunes.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, lunes: { ...values.horarioSemanal.lunes, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, lunes: { ...values.horarioSemanal.lunes, fin: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -107,7 +128,7 @@ const Schedule = ({
             id='martes-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.martes.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, martes: { ...values.horarioSemanal.martes, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, martes: { ...values.horarioSemanal.martes, fin: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -116,7 +137,7 @@ const Schedule = ({
             id='miercoles-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.miercoles.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, miercoles: { ...values.horarioSemanal.miercoles, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, miercoles: { ...values.horarioSemanal.miercoles, fin: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -125,7 +146,7 @@ const Schedule = ({
             id='jueves-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.jueves.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, jueves: { ...values.horarioSemanal.jueves, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, jueves: { ...values.horarioSemanal.jueves, fin: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -134,7 +155,7 @@ const Schedule = ({
             id='viernes-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.viernes.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, viernes: { ...values.horarioSemanal.viernes, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, viernes: { ...values.horarioSemanal.viernes, fin: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -143,7 +164,7 @@ const Schedule = ({
             id='sabado-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.sabado.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, sabado: { ...values.horarioSemanal.sabado, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, sabado: { ...values.horarioSemanal.sabado, fin: e.target.value } })}
           />
         </td>
         <td className='border border-collapse'>
@@ -152,7 +173,7 @@ const Schedule = ({
             id='domingo-fin'
             className='rounded-none border-none w-full block text-center'
             value={values.horarioSemanal.domingo.fin}
-            onChange={(e) => handleChange('horarioSemanal', { ...values.horarioSemanal, domingo: { ...values.horarioSemanal.domingo, fin: e.target.value } })}
+            onChange={(e) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, domingo: { ...values.horarioSemanal.domingo, fin: e.target.value } })}
           />
         </td>
       </tr>

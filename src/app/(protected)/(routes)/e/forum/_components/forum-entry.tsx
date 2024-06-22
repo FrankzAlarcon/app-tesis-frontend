@@ -1,5 +1,6 @@
 import AvatarComponent from "@/components/avatar"
 import SafeHTML from "@/components/safe-html"
+import { formatDistanceEs } from "@/lib/date-fns/format-distance-es"
 import { formatDateComplete } from "@/lib/format-date"
 import { Forum } from "@/types/forum"
 import { Star } from "lucide-react"
@@ -23,7 +24,7 @@ forumEntry
           <AvatarComponent src="https://github.com/shadcn.png" />
           <div className="text-sm">
             <p>Publicado por: <span className="text-primary">{forumEntry.student.user.name}</span></p>
-            <p>{formatDateComplete(forumEntry.createdAt)}</p>
+            <p>{formatDistanceEs(forumEntry.createdAt)}</p>
           </div>
         </div>
         <div className="flex gap-0.5 items-center">

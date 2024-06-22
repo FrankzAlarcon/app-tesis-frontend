@@ -31,7 +31,7 @@ const SecondStepForm = ({
   setStep,
   careers
 }: SecondStepFormProps) => {
-  const { values, handleChange, resetValues } = useValuesValidation(initialValues, step2Schema, LocalStorageKeys.STEP_2)
+  const { values, handleChange, validate, fieldErrors } = useValuesValidation(initialValues, step2Schema, LocalStorageKeys.STEP_2)
   const { data, isLoading, execute, resetValues: resetActionValues } = useAction(getSubjectsByCareer, {
     onError: () => {
       resetActionValues()
@@ -46,6 +46,16 @@ const SecondStepForm = ({
       execute({ careerId: values.careerId })
     }
   }, [values.careerId, data, execute])
+
+  const handleNextStep = () => {
+    const isValid = validate()
+    if (!isValid) return
+    setStep(3)
+  }
+
+  const handleBackStep = () => {
+    setStep(1)
+  }
 
   const handleSelectPopover = (value: string) => {
     handleChange('careerId', value)
@@ -125,14 +135,14 @@ const SecondStepForm = ({
       </div>
       <div className='pt-2 flex justify-between gap-6'>
         <Button
-          onClick={() => setStep(1)}
+          onClick={handleBackStep}
           className='flex gap-1 items-center w-full sm:w-auto'
         >
           <ChevronsLeft className='w-4 h-4' />
           <span>Anterior</span>
         </Button>
         <Button
-          onClick={() => setStep(3)}
+          onClick={handleNextStep}
           className='flex gap-1 items-center w-full sm:w-auto'
         >
           <span>Siguiente</span>
