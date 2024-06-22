@@ -10,6 +10,7 @@ import { ShortPublication } from "@/types/business"
 import { X, User } from "lucide-react"
 import { useState } from "react"
 // import { calculateEntryDate } from "@/lib/format-date"
+import { differenceInWeeks } from "date-fns"
 
 interface ShortPublicationCardProps {
   publication: ShortPublication
@@ -43,7 +44,7 @@ const PublicationCard = ({
           <CardTitle className="flex gap-1 items-center text-base">{publication.title}</CardTitle>
           <CardDescription className="text-muted-foreground">
             <p>{publication.city} ({publication.modality})</p>
-            {/* <p>{calculateEntryDate(publication.createdAt)}</p> */}
+            <p> Hace {differenceInWeeks(new Date(), new Date(publication.createdAt))} semanas</p>
 
           </CardDescription>
         </div >
