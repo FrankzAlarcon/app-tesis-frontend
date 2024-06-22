@@ -1,4 +1,4 @@
-import { differenceInDays, eachDayOfInterval, format, isWithinInterval, parse } from "date-fns"
+import { differenceInDays, eachDayOfInterval, format, isWithinInterval, parse, parseISO } from "date-fns"
 import { es } from 'date-fns/locale'
 import { calculateHours } from "./calculate-hours"
 
@@ -13,7 +13,15 @@ const removeAccents = (str: string): string => {
 };
 
 
-export const calculateHoursWithDays = (start: string, end:string, values: any) => {
+interface Values {
+  start: string
+  end: string
+  values: any
+  fechasNoTrabajadas: any[]
+  incluirDiasNoTrabajados: boolean
+}
+
+export const calculateHoursWithDays = ({start, end, values, fechasNoTrabajadas, incluirDiasNoTrabajados}: Values) => {
   const startDate = new Date(start)
   const endDate = new Date(end)
 
@@ -24,22 +32,28 @@ export const calculateHoursWithDays = (start: string, end:string, values: any) =
     const { inicio, fin } = values[dayOfWeek] || {}
     const { inicio: horaAlmuerzoInicio, fin: horaAlmuerzoFin } = values.horaAlmuerzo
     if (inicio && fin) {
-      totalHours += calculateHours(inicio, fin, day)
+      let workHours = calculateHours(inicio, fin, day)
       const start = parse(inicio, 'HH:mm', day)
       const end = parse(fin, 'HH:mm', day)
       if (horaAlmuerzoInicio && horaAlmuerzoFin) {
         const lunchStartTime = parse(horaAlmuerzoInicio, 'HH:mm', day)
         const lunchEndTime = parse(horaAlmuerzoFin, 'HH:mm', day)
-
         if (
           isWithinInterval(lunchStartTime, {start, end})  
           && isWithinInterval(lunchEndTime, {start, end})
         ){
-          totalHours -= calculateHours(horaAlmuerzoInicio, horaAlmuerzoFin, day)
+          workHours -= calculateHours(horaAlmuerzoInicio, horaAlmuerzoFin, day)
         }
       }
+      if (incluirDiasNoTrabajados) {
+        const isNoWorkDate = fechasNoTrabajadas.some((item: any) => format(parseISO(item.date.toISOString()), 'yyyy-MM-dd') === format(day, 'yyyy-MM-dd'));
+        if (!isNoWorkDate) {
+          totalHours += workHours
+        }
+      } else {
+        totalHours += workHours
+      }
     }
-    
   })
   return totalHours
 }   

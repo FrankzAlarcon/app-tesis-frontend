@@ -67,7 +67,7 @@ const initialState = {
   incluirHorasAlmuerzo: false,
   fechasDiasNoTrabajados: [{
     id: generateId(),
-    date: new Date()
+    date: new Date('2021-09-01T00:00:00.000Z')
   }],
   observacionesAdicionales: '',
   horasTotales: '0',
@@ -99,26 +99,92 @@ const ThirdStepForm = ({
   const handleSelectDate = (id: string, date: Date | undefined) => {
     if (!date) return
     const dates = values.fechasDiasNoTrabajados.map((entry) => entry.id === id ? { ...entry, date } : entry)
-    handleChange('fechasDiasNoTrabajados', dates)
+    const updatedValues = {
+      ...values,
+      fechasDiasNoTrabajados: dates
+    }
+    const totalHours = calculateHoursWithDays({
+      start: updatedValues.horarioSemanal.inicio,
+      end: updatedValues.horarioSemanal.fin,
+      values: updatedValues.horarioSemanal,
+      fechasNoTrabajadas: updatedValues.fechasDiasNoTrabajados,
+      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados
+    }) 
+    handleSetValues && handleSetValues({ ...updatedValues, horasTotales: String(totalHours) })
+  }
+
+  const handleEnableNoWorkDays = (e: any) => {
+    const updatedValues = {
+      ...values,
+      incluirDiasNoTrabajados: e
+    }
+    const totalHours = calculateHoursWithDays({
+      start: updatedValues.horarioSemanal.inicio,
+      end: updatedValues.horarioSemanal.fin,
+      values: updatedValues.horarioSemanal,
+      fechasNoTrabajadas: updatedValues.fechasDiasNoTrabajados,
+      incluirDiasNoTrabajados: e
+    })
+    handleSetValues && handleSetValues({ ...updatedValues, horasTotales: String(totalHours) })
+  }
+
+  const handleEnableLunchHours = (e: any) => {
+    const updatedValues = {
+      ...values,
+      incluirHorasAlmuerzo: e
+    }
+    const totalHoursPerWeek = calculateSemanalWorkHours(updatedValues.horarioSemanal, e)
+    const totalHours = calculateHoursWithDays({
+      start: updatedValues.horarioSemanal.inicio,
+      end: updatedValues.horarioSemanal.fin,
+      values: updatedValues.horarioSemanal,
+      fechasNoTrabajadas: updatedValues.fechasDiasNoTrabajados,
+      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados
+    })
+    handleSetValues && handleSetValues({
+      ...updatedValues,
+      horarioSemanal: {
+        ...updatedValues.horarioSemanal,
+        total: String(totalHoursPerWeek)
+      },
+      horasTotales: String(totalHours)
+    })
   }
 
   const handleRemoveDate = (id: string) => {
     const dates = values.fechasDiasNoTrabajados.filter((entry) => entry.id !== id)
-    handleChange('fechasDiasNoTrabajados', dates)
+    const updatedValues = {
+      ...values,
+      fechasDiasNoTrabajados: dates
+    }
+    const totalHours = calculateHoursWithDays({
+      start: updatedValues.horarioSemanal.inicio,
+      end: updatedValues.horarioSemanal.fin,
+      values: updatedValues.horarioSemanal,
+      fechasNoTrabajadas:updatedValues.fechasDiasNoTrabajados,
+      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados
+    })
+    handleSetValues && handleSetValues({ ...updatedValues, horasTotales: String(totalHours) })
   }
 
   const handleAddDate = () => {
     const newDate = {
       id: generateId(),
-      date: new Date()
+      date: new Date('2021-09-01T00:00:00.000Z')
     }
     handleChange('fechasDiasNoTrabajados', [...values.fechasDiasNoTrabajados, newDate])
   }
 
   const handleCalculateSemanalWorkHours = (newValue: any) => {
     // calculate hours
-    const totalHoursPerWeek = calculateSemanalWorkHours(newValue)
-    const totalHour = calculateHoursWithDays(newValue.inicio, newValue.fin, newValue)
+    const totalHoursPerWeek = calculateSemanalWorkHours(newValue, values.incluirHorasAlmuerzo)
+    const totalHour = calculateHoursWithDays({
+      start: newValue.inicio,
+      end: newValue.fin,
+      values: newValue,
+      fechasNoTrabajadas: values.fechasDiasNoTrabajados,
+      incluirDiasNoTrabajados: values.incluirDiasNoTrabajados
+    })
     const updatedValues = {
       ...values,
       horarioSemanal: {
@@ -188,7 +254,7 @@ const ThirdStepForm = ({
                   <Checkbox
                     id='incluir-hora-almuerzo'
                     checked={values.incluirHorasAlmuerzo}
-                    onCheckedChange={(e) => handleChange('incluirHorasAlmuerzo', e)}
+                    onCheckedChange={(e) => handleEnableLunchHours(e)}
                   />
                   <Label
                     htmlFor='dias-no-trabajados' className='text-xs'
@@ -242,7 +308,7 @@ const ThirdStepForm = ({
                   <Checkbox
                     id='dias-no-trabajados'
                     checked={values.incluirDiasNoTrabajados}
-                    onCheckedChange={(e) => handleChange('incluirDiasNoTrabajados', e)}
+                    onCheckedChange={(e) => handleEnableNoWorkDays(e)}
                   />
                   <Label
                     htmlFor='dias-no-trabajados' className='text-xs'

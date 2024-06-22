@@ -17,8 +17,14 @@ const Schedule = ({
 }: ScheduleProps) => {
   const handleCalculateSemanalWorkHours = (newValue: any) => {
     // calculate hours
-    const totalHoursPerWeek = calculateSemanalWorkHours(newValue)
-    const totalHour = calculateHoursWithDays(newValue.inicio, newValue.fin, newValue)
+    const totalHoursPerWeek = calculateSemanalWorkHours(newValue, values.incluirHorasAlmuerzo)
+    const totalHour = calculateHoursWithDays({
+      start: newValue.inicio,
+      end: newValue.fin,
+      values: newValue, 
+      fechasNoTrabajadas: values.fechasDiasNoTrabajados,
+      incluirDiasNoTrabajados: values.incluirDiasNoTrabajados
+    })
     const updatedValues = {
       ...values,
       horarioSemanal: {

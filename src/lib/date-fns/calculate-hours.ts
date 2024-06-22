@@ -14,7 +14,7 @@ export const calculateHours = (start: string, end: string, referenceDay?: any) =
   return differenceInHours(endDate, startDate)
 }
 
-export const calculateSemanalWorkHours = (newValue: any) => {
+export const calculateSemanalWorkHours = (newValue: any, incluirHorasAlmuerzo: boolean) => {
   const keyDays = Object.keys(newValue).filter((key) => ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].includes(key))
   if (keyDays.length === 0) return 0
   let totalHours = 0
@@ -33,6 +33,7 @@ export const calculateSemanalWorkHours = (newValue: any) => {
         if (
           isWithinInterval(lunchStartTime, {start, end})  
           && isWithinInterval(lunchEndTime, {start, end})
+          && incluirHorasAlmuerzo
         ){
           totalHours -= calculateHours(horaAlmuerzoInicio, horaAlmuerzoFin, day)
         }
