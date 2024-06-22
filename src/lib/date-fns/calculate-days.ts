@@ -19,9 +19,17 @@ interface Values {
   values: any
   fechasNoTrabajadas: any[]
   incluirDiasNoTrabajados: boolean
+  incluirHorasAlmuerzo: boolean
 }
 
-export const calculateHoursWithDays = ({start, end, values, fechasNoTrabajadas, incluirDiasNoTrabajados}: Values) => {
+export const calculateHoursWithDays = ({
+  start,
+  end,
+  values,
+  fechasNoTrabajadas,
+  incluirDiasNoTrabajados,
+  incluirHorasAlmuerzo
+}: Values) => {
   const startDate = new Date(start)
   const endDate = new Date(end)
 
@@ -41,6 +49,7 @@ export const calculateHoursWithDays = ({start, end, values, fechasNoTrabajadas, 
         if (
           isWithinInterval(lunchStartTime, {start, end})  
           && isWithinInterval(lunchEndTime, {start, end})
+          && incluirHorasAlmuerzo
         ){
           workHours -= calculateHours(horaAlmuerzoInicio, horaAlmuerzoFin, day)
         }

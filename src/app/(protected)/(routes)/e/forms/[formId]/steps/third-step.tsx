@@ -108,7 +108,8 @@ const ThirdStepForm = ({
       end: updatedValues.horarioSemanal.fin,
       values: updatedValues.horarioSemanal,
       fechasNoTrabajadas: updatedValues.fechasDiasNoTrabajados,
-      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados
+      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados,
+      incluirHorasAlmuerzo: updatedValues.incluirHorasAlmuerzo
     }) 
     handleSetValues && handleSetValues({ ...updatedValues, horasTotales: String(totalHours) })
   }
@@ -123,7 +124,8 @@ const ThirdStepForm = ({
       end: updatedValues.horarioSemanal.fin,
       values: updatedValues.horarioSemanal,
       fechasNoTrabajadas: updatedValues.fechasDiasNoTrabajados,
-      incluirDiasNoTrabajados: e
+      incluirDiasNoTrabajados: e,
+      incluirHorasAlmuerzo: updatedValues.incluirHorasAlmuerzo
     })
     handleSetValues && handleSetValues({ ...updatedValues, horasTotales: String(totalHours) })
   }
@@ -139,7 +141,8 @@ const ThirdStepForm = ({
       end: updatedValues.horarioSemanal.fin,
       values: updatedValues.horarioSemanal,
       fechasNoTrabajadas: updatedValues.fechasDiasNoTrabajados,
-      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados
+      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados,
+      incluirHorasAlmuerzo: e
     })
     handleSetValues && handleSetValues({
       ...updatedValues,
@@ -162,7 +165,8 @@ const ThirdStepForm = ({
       end: updatedValues.horarioSemanal.fin,
       values: updatedValues.horarioSemanal,
       fechasNoTrabajadas:updatedValues.fechasDiasNoTrabajados,
-      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados
+      incluirDiasNoTrabajados: updatedValues.incluirDiasNoTrabajados,
+      incluirHorasAlmuerzo: updatedValues.incluirHorasAlmuerzo
     })
     handleSetValues && handleSetValues({ ...updatedValues, horasTotales: String(totalHours) })
   }
@@ -183,7 +187,8 @@ const ThirdStepForm = ({
       end: newValue.fin,
       values: newValue,
       fechasNoTrabajadas: values.fechasDiasNoTrabajados,
-      incluirDiasNoTrabajados: values.incluirDiasNoTrabajados
+      incluirDiasNoTrabajados: values.incluirDiasNoTrabajados,
+      incluirHorasAlmuerzo: values.incluirHorasAlmuerzo
     })
     const updatedValues = {
       ...values,

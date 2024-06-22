@@ -23,7 +23,8 @@ const Schedule = ({
       end: newValue.fin,
       values: newValue, 
       fechasNoTrabajadas: values.fechasDiasNoTrabajados,
-      incluirDiasNoTrabajados: values.incluirDiasNoTrabajados
+      incluirDiasNoTrabajados: values.incluirDiasNoTrabajados,
+      incluirHorasAlmuerzo: values.incluirHorasAlmuerzo
     })
     const updatedValues = {
       ...values,
