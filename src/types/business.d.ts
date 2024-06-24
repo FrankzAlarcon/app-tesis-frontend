@@ -20,7 +20,7 @@ export interface BusinessProfile {
   city: string | null
   phone: string | null
   description: string | null
-  shortDescription: string | null
+  shortPresentation: string | null
   publications: ShortPublication[]
   hasCovenant: boolean
 }

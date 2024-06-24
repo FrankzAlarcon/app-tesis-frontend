@@ -3,14 +3,13 @@
 import { removePublicationMock } from "@/actions/business/remove-publication"
 import ConfirmDialog from "@/components/confirm-dialog"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
 import { useAction } from "@/hooks/use-action"
 import { ShortPublication } from "@/types/business"
 import { X, User } from "lucide-react"
-import { useState } from "react"
-// import { calculateEntryDate } from "@/lib/format-date"
-import { differenceInWeeks } from "date-fns"
+import { formatDistanceEs } from "@/lib/date-fns/format-distance-es"
+import Link from "next/link"
 
 interface ShortPublicationCardProps {
   publication: ShortPublication
@@ -38,16 +37,16 @@ const PublicationCard = ({
   }
 
   return (
-    <Card className="relative min-w-64 h-[230px] flex flex-col justify-center ">
-      <CardHeader className="w-full py-2 ">
-        <div>
+    <Card className="flex flex-col justify-center w-full h-auto ">
+      <CardHeader className="w-full py-2 flex flex-row justify-between items-start">
+        <div className="pt-1">
           <CardTitle className="flex gap-1 items-center text-base">{publication.title}</CardTitle>
           <CardDescription className="text-muted-foreground">
             <p>{publication.city} ({publication.modality})</p>
-            <p> Hace {differenceInWeeks(new Date(), new Date(publication.createdAt))} semanas</p>
+            <p>{formatDistanceEs(publication.createdAt)}</p>
 
           </CardDescription>
-        </div >
+        </div>
         {
           enableEdition && (
             <ConfirmDialog asChild
@@ -55,7 +54,7 @@ const PublicationCard = ({
               alertDescription="Esta acción no se puede deshacer."
               onConfirm={handleRemovePublication}
             >
-              <Button variant='outline' className="w-6 h-6 p-0 border-none absolute top-0 right-1 ">
+              <Button variant='outline' className="w-6 h-6 mt-0 p-0 border-none">
                 <X className="h-6 w-6 text-gray-800" />
               </Button>
             </ConfirmDialog>
@@ -73,10 +72,12 @@ const PublicationCard = ({
             <span className="text-sm">{publication.postulationCount} postulantes</span>
           </div>
         </div>
-        <div>
-          <Button variant="outline" className="w-full mt-4 border-primary text-primary hover:text-primary">
+        <div className="w-full flex justify-center pt-4">
+          <Link href="/b/publications/new"
+            className="w-full md:w-auto text-center py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
+          >
             Ver publicación
-          </Button>
+          </Link>
         </div>
       </CardContent>
     </Card >
@@ -93,14 +94,8 @@ const PublicationsGroup = ({
 
   return (
     <div className="pt-8">
-      <Button
-        className="absolute m-3 top-0 right-0 border-primary text-primary hover:text-primary"
-        variant="outline"
-      >
-        Crear publicación
-      </Button>
       <div className=''>
-        <div className="flex flex-row justify-center md:justify-start gap-4 flex-wrap">
+        <div className="flex flex-col justify-center gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
           {
             publications.map(publication => (
               <PublicationCard
@@ -114,7 +109,7 @@ const PublicationsGroup = ({
         {
           publications.length === 0 && (
             <div className='text-center text-gray-500'>
-              <p>No hay proyectos publicados</p>
+              <p>Aún no has creado pulicaciones!</p>
             </div>
           )
         }
