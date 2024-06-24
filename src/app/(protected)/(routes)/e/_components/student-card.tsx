@@ -26,19 +26,19 @@ const CompleteFormMenu = ({
       <DropdownMenuTrigger asChild={asChild}>
         {children}
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className='lg:w-80'>
         <DropdownMenuItem className='p-0'>
           <Link
             href='/e/forms/registration-preprofesional-practices'
             className='w-full h-full p-2 hover:bg-black/5 transition-colors'
           >Registro de prácticas preprofesionales</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className='p-0'>
+        {/* <DropdownMenuItem className='p-0'>
           <Link
             href='/e/registration-convalidation-preprofesional-practices'
             className='w-full h-full p-2 hover:bg-black/5 transition-colors'
           >Convalidación de prácticas preprofesionales</Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   )

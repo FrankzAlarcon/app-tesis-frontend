@@ -21,7 +21,6 @@ const StudentPage = async () => {
           </article>
           <article className='w-full h-full md:w-[70%] '>
             <div className=' h-full flex flex-col gap-6 px-2 pt-4 md:overflow-y-auto'>
-              {/* TODO:Hacer componente para publicaicones */}
               {
                 posts.map((post) => (
                   <Post key={post.id} post={post} />
