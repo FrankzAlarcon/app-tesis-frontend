@@ -55,7 +55,7 @@ export const calculateHoursWithDays = ({
         }
       }
       if (incluirDiasNoTrabajados) {
-        const isNoWorkDate = fechasNoTrabajadas.some((item: any) => format(parseISO(item.date.toISOString()), 'yyyy-MM-dd') === format(day, 'yyyy-MM-dd'));
+        const isNoWorkDate = fechasNoTrabajadas.some((item: any) => format(parseISO(item.date), 'yyyy-MM-dd') === format(day, 'yyyy-MM-dd'));
         if (!isNoWorkDate) {
           totalHours += workHours
         }

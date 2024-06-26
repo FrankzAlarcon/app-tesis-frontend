@@ -1,6 +1,5 @@
 'use client'
 
-import { useCurrentUser } from "@/hooks/use-current-user"
 import { ChevronDownIcon, LogOut, Settings, User } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import {
@@ -16,24 +15,26 @@ import Link from "next/link"
 import { signOut } from "@/actions/signout"
 import { Button } from "./ui/button"
 import { useState } from "react"
+import { User as UserType } from "next-auth"
 
 interface ProfileButtonProps {
+  user: UserType
   withLogout?: boolean
   role: string
 }
 
 // TODO: add skeleton loader for name
 const ProfileButton = ({
+  user,
   withLogout = true,
   role
 }: ProfileButtonProps) => {
-  const user = useCurrentUser()
   const [open, setOpen] = useState(false)
 
   const onLogout = async () => {
     await signOut()
   }
-
+  console.log(user)
   const profileLink = role === 'student' ? '/e/profile' : '/b/profile'
   const settingsLink = role === 'student' ? '/e/settings' : '/b/settings'
 

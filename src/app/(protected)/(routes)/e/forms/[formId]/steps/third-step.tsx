@@ -67,7 +67,7 @@ const initialState = {
   incluirHorasAlmuerzo: false,
   fechasDiasNoTrabajados: [{
     id: generateId(),
-    date: new Date('2021-09-01T00:00:00.000Z')
+    date: new Date('2021-09-01T00:00:00.000Z').toISOString()
   }],
   observacionesAdicionales: '',
   horasTotales: '0',
@@ -98,7 +98,7 @@ const ThirdStepForm = ({
 
   const handleSelectDate = (id: string, date: Date | undefined) => {
     if (!date) return
-    const dates = values.fechasDiasNoTrabajados.map((entry) => entry.id === id ? { ...entry, date } : entry)
+    const dates = values.fechasDiasNoTrabajados.map((entry) => entry.id === id ? { ...entry, date: date.toISOString() } : entry)
     const updatedValues = {
       ...values,
       fechasDiasNoTrabajados: dates
@@ -345,7 +345,7 @@ const ThirdStepForm = ({
                         <X className='w-5 h-5' />
                       </Button>
                       <PopoverCalendar
-                        value={entry.date}
+                        value={new Date(entry.date)}
                         onChange={(date) => handleSelectDate(entry.id, date)}
                       />
                     </div>

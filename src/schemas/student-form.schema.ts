@@ -141,7 +141,7 @@ export const step3Schema = z.object({
   }),
   fechasDiasNoTrabajados: z.array(z.object({
     id: z.string(),
-    date: z.date()
+    date: z.string().datetime(),
   })).min(0),
   observacionesAdicionales: z.string().optional(),
   horasTotales: z.string()

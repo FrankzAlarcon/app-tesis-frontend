@@ -36,9 +36,6 @@ const SecondStepForm = ({
     onError: () => {
       resetActionValues()
     },
-    onSuccess: (data) => {
-      console.log('data', data)
-    }
   })
 
   useEffect(() => {
