@@ -30,15 +30,35 @@ export interface Publication {
   title: string
   location: string
   description: string
-  requirements: string[]
-  benefits: string[]
   modality: string
+  entryTime: string
+  departureTime: string
+  benefits: string[]
+  requirements: string[]
+  skills: string[]
+  imageUrl: string | null
   remuneration: number
-  image: string | null
   createdAt: string
   endDate: string
   updatedAt: string
-  skills: string[]
+  postulations: Postulation[]
+}
+
+export interface Postulation {
+  id: string
+  urlCV: string
+  status: string
+  student: ShortStudent
+  createdAt: string
+}
+
+export interface ShortStudentApllicant {
+  id: string
+  name: string
+  email: string
+  phone: string | null
+  urlProfileStudent: string
+  imageUrl: string | null
 }
 
 export interface ShortPublication {

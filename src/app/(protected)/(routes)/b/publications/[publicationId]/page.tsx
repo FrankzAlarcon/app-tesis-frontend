@@ -3,7 +3,9 @@ import { getPublicationEntryMock } from '@/actions/business/get-publication-entr
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { formatDistanceEs } from "@/lib/date-fns/format-distance-es"
-
+import { Clock } from 'lucide-react'
+import ApplicantsGroup from '../_components/applicantsGroup'
+import NotFoundPage from '@/app/not-found'
 
 interface PublicationEntryPageProps {
   params: {
@@ -18,7 +20,9 @@ const PublicationEntryPage = async ({
     return <div>Error</div>
   }
   const publicationEntry = await getPublicationEntryMock(params.publicationId)
-
+  if (!publicationEntry) {
+    return <NotFoundPage />
+  }
   return (
     <section className='p-6'>
       <div className='flex flex-col gap-4'>
@@ -27,7 +31,17 @@ const PublicationEntryPage = async ({
             <Card>
               <CardHeader>
                 <CardTitle>{publicationEntry.title}</CardTitle>
-                <CardDescription>{publicationEntry.createdAt} - {formatDistanceEs(publicationEntry.createdAt)} </CardDescription>
+                <CardDescription>
+                  <div className='flex flex-row justify-between w-full md:w-2/3'>
+                    <p>
+                      {publicationEntry.createdAt} - {formatDistanceEs(publicationEntry.createdAt)}
+                    </p>
+                    <div className='flex flex-row gap-1'>
+                      <Clock size={16} />
+                      <span className=''>{publicationEntry.entryTime} - {publicationEntry.departureTime}</span>
+                    </div>
+                  </div>
+                </CardDescription>
                 <CardDescription>{publicationEntry.location} ({publicationEntry.modality})</CardDescription>
               </CardHeader>
               <CardContent>
@@ -78,16 +92,17 @@ const PublicationEntryPage = async ({
           <div className='w-full md:w-2/5'>
             <Card>
               <CardHeader>
-                <CardTitle>Postulantes</CardTitle>
+                <CardTitle className='text-xl'>Postulantes ({publicationEntry.postulations.length})</CardTitle>
               </CardHeader>
               <CardContent>
+                <ApplicantsGroup applicants={publicationEntry.postulations} />
               </CardContent>
             </Card>
           </div>
         </div>
         <Card>
           <CardHeader>
-            <CardTitle>Te recomendamos estos estudiantes</CardTitle>
+            <CardTitle className='text-xl'>Te recomendamos estos estudiantes</CardTitle>
           </CardHeader>
           <CardContent>
 
