@@ -15,12 +15,14 @@ import Link from 'next/link'
 // TODO: Endpoint for user profile
 const BusinessPage = async () => {
   const profile = await getProfile()
-  const publicationss = await getPublicationsMock()
-  console.log(publicationss);
-  if (!profile || !publicationss) return (null)
+  // const publicationss = await getPublicationsMock()
+  // console.log(publicationss);
+  if (!profile) {
+    return null
+  }
   
   const { publications, ...rest } = profile
-
+  console.log(publications)
   return (
     <div className='pb-6'>
       <div className='relative w-full h-full'>
@@ -67,7 +69,7 @@ const BusinessPage = async () => {
           </Link>
         </div>
         {/* <ProjectsGroup projects={profile?.projects} skills={skills} /> */}
-        <PublicationsGroup publications={publicationss} />
+        <PublicationsGroup publications={publications} />
         <div className='pt-4 flex justify-center text-gray-500'>
           <Link href="/b/publications" className='flex gap-2 items-center hover:underline'>
             Ver todas las publicaciones <ArrowRight className='h-5 w-5' />

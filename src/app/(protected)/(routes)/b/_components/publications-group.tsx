@@ -37,13 +37,13 @@ const PublicationCard = ({
   }
 
   return (
-    <Card className="flex flex-col justify-center w-full h-auto ">
+    <Card className="flex flex-col justify-between w-full h-auto">
       <CardHeader className="w-full py-2 flex flex-row justify-between items-start">
         <div className="pt-1">
           <CardTitle className="flex gap-1 items-center text-base">{publication.title}</CardTitle>
           <CardDescription className="text-muted-foreground">
-            <p>{publication.city} ({publication.modality})</p>
-            <p>{formatDistanceEs(publication.createdAt)}</p>
+            <span className="block">{publication.modality}</span>
+            <span className="block">{formatDistanceEs(publication.createdAt)}</span>
 
           </CardDescription>
         </div>
@@ -63,17 +63,25 @@ const PublicationCard = ({
       </CardHeader >
       <CardContent className="pb-2">
         <div className="flex flex-col gap-2 mt-2">
-          <div className="flex flex-row gap-1">
-            <User className="h-4 w-4" />
-            <span className="text-sm">{publication.candidateCount} candidatos ideales</span>
-          </div>
-          <div className="flex flex-row gap-1">
-            <User className="h-4 w-4" />
-            <span className="text-sm">{publication.postulationCount} postulantes</span>
-          </div>
+          {
+            publication.candidatesCount !== undefined && (
+              <div className="flex flex-row gap-1">
+                <User className="h-4 w-4" />
+                <span className="text-sm">{publication.candidatesCount} candidatos ideales</span>
+              </div>
+            )
+          }
+          {
+            publication.postulationsCount !== undefined && (
+              <div className="flex flex-row gap-1">
+                <User className="h-4 w-4" />
+                <span className="text-sm">{publication.postulationsCount} postulantes</span>
+              </div>
+            )
+          }
         </div>
         <div className="w-full flex justify-center pt-4">
-          <Link href="/b/publications/new"
+          <Link href={`/b/publications/${publication.id}`}
             className="w-full md:w-auto text-center py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
           >
             Ver publicación
