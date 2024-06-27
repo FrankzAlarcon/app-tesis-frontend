@@ -28,14 +28,17 @@ export interface BusinessProfile {
 export interface Publication {
   id: string
   title: string
+  location: string
   description: string
-  requirements: string
-  benefits: string
+  requirements: string[]
+  benefits: string[]
   modality: string
   remuneration: number
   image: string | null
   createdAt: string
+  endDate: string
   updatedAt: string
+  skills: string[]
 }
 
 export interface ShortPublication {

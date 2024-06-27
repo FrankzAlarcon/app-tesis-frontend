@@ -73,7 +73,7 @@ const PublicationCard = ({
           </div>
         </div>
         <div className="w-full flex justify-center pt-4">
-          <Link href="/b/publications/new"
+          <Link href={`/b/publications/${publication.id}`}
             className="w-full md:w-auto text-center py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
           >
             Ver publicación
