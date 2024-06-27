@@ -68,8 +68,8 @@ export interface ShortPublication {
   city: string
   createdAt: string
   endDate: string
-  candidateCount: number
-  postulationCount: number
+  candidatesCount: number
+  postulationsCount: number
 }
 
 export interface ShortBusinessInformation {
