@@ -1,21 +1,24 @@
+import React from 'react'
+import Link from 'next/link'
+import BusinessCard from '../_components/business-profile-card'
 import { getPublications } from '@/actions/business/get-publications'
 import { redirect } from 'next/navigation'
-import React from 'react'
 import { PublicationCard } from '../_components/publications-group'
-import Link from 'next/link'
+import { getShortProfile } from '@/actions/business/get-short-profile'
 
 const PublicationsPage = async () => {
   const publications = await getPublications()
-  if (!publications) {
+  const profile = await getShortProfile()
+  if (!publications || !profile) {
     redirect('/login')
   }
-  console.log(publications)
+
   const { data } = publications
 
   return (
     <div className='p-2 pt-4 flex flex-col gap-4 md:flex-row w-full md:p-8 md:pt-12'>
       <div className='md:w-1/4'>
-
+        <BusinessCard user={profile} />
       </div>
       <div className='bg-white rounded-md shadow-md p-2 space-y-4 md:w-3/4 md:p-4'>
         <div className='flex justify-between items-center'>

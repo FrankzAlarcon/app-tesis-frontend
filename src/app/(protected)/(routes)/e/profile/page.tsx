@@ -1,13 +1,13 @@
 import { getProfile } from '@/actions/students/get-profile'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Mail } from 'lucide-react'
+import { updateImageProfile } from '@/actions/students/update-image-profile'
 import Image from 'next/image'
-import React from 'react'
+import { getSkills } from '@/actions/students/get-skills'
 import EditProfileForm from './_components/edit-profile-form'
 import ProfileContextProvider from '@/contexts/profile-context-provider'
-import { getSkills } from '@/actions/students/get-skills'
 import CertificationGroup from './_components/certifications-group'
 import ProjectsGroup from './_components/projects-group'
+import AvatarComponent from '@/components/avatar'
 
 
 // TODO: Endpoint for user profile
@@ -27,11 +27,15 @@ const ProfilePage = async () => {
             <div className='w-full bg-white rounded-lg shadow-md px-2 pb-2 lg:px-4 lg:pb-4 flex flex-col gap-2'>
               <div className='flex flex-col items-center md:items-start lg:flex-row lg:justify-between relative'>
                 <div className='flex flex-col md:flex-row items-center relative '>
-                  <Avatar className='mx-auto -top-14 w-24 h-24 z-10 absolute md:w-32 md:h-32'>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <div className='pt-12 md:pt-2 md:pl-36'>
+                  <div className='relative w-24 h-12 md:w-32 md:h-16'>
+                    <AvatarComponent
+                      src={profile?.imageUrl}
+                      className='mx-auto -top-14 w-24 h-24 z-10 absolute md:w-32 md:h-32'
+                      withEdit
+                      action={updateImageProfile}
+                    />
+                  </div>
+                  <div className='pt-2 md:pl-4'>
                     <p className='text-3xl font-bold text-center md:text-left'>{profile?.name}</p>
                     <p className='text-gray-700 text-sm'>{profile?.shortPresentation ?? 'Estudiante de ingenieria de software'} </p>
                   </div>

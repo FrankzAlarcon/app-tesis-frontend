@@ -7,5 +7,6 @@ export interface PostulationCard {
   business: {
     name: string
     province: string | null
+    imageUrl: string | null
   }
 }

@@ -38,8 +38,8 @@ const columns: ColumnDef<ForumEntry>[] = [
     ),
     cell: ({ row, }) => {
       return (
-        <div className='flex items-center gap-1'>
-          <AvatarComponent src="https://github.com/shadcn.png" />
+        <div className='flex items-center gap-1 md:gap-4'>
+          <AvatarComponent src={row.original.businessImageUrl} className='md:w-12 h-12' />
           <div className='flex flex-col gap-2'>
             <span className='font-bold'>{row.getValue('businessName')}</span>
             <span className='text-sm text-gray-700'>{row.original.businessDescription}</span>

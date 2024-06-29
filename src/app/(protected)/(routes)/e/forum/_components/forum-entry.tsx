@@ -21,7 +21,7 @@ forumEntry
       <hr className="border-[1.5px]" />
       <div className="pt-2 flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <AvatarComponent src="https://github.com/shadcn.png" />
+          <AvatarComponent src={forumEntry.student.imageUrl} />
           <div className="text-sm">
             <p>Publicado por: <span className="text-primary">{forumEntry.student.user.name}</span></p>
             <p>{formatDistanceEs(forumEntry.createdAt)}</p>

@@ -17,6 +17,8 @@ export interface ShortBusinessProfile {
   name: string
   province: string | null
   city: string | null
+  phone: string | null
+  imageUrl: string | null
   shortPresentation: string | null
 }
 
@@ -27,6 +29,7 @@ export interface BusinessProfile {
   province: string | null
   city: string | null
   phone: string | null
+  imageUrl: string | null
   description: string | null
   shortPresentation: string | null
   publications: ShortPublication[]

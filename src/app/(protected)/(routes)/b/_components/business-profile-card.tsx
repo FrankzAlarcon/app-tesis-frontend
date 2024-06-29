@@ -1,28 +1,39 @@
 import AvatarComponent from '@/components/avatar'
-import { buttonVariants } from '@/components/ui/button'
+import { ShortBusinessProfile } from '@/types/business'
 import Link from 'next/link'
+import React from 'react'
 
 interface BusinessProfileCardProps {
-
+  user: ShortBusinessProfile
 }
 
-const BusinessProfileCard = () => {
+const BusinessProfileCard = ({
+  user
+}: BusinessProfileCardProps) => {
   return (
-    <div className='w-full bg-white flex flex-col items-center pb-4 gap-2 shadow-md rounded-md'>
-      <AvatarComponent src="https://github.com/shadcn.png"
-        className='w-24 h-24 rounded-full shadow-md mt-4 mb-2'
-      />
-      <div className='space-y-2 flex flex-col items-center'>
-        <p className='font-bold'>Nombre</p>
-        <p className='text-gray-800 text-sm'>Description</p>
-        <p className='text-gray-800 text-sm'>Ciudad - Pais</p>
+    <div className='rounded-lg bg-white shadow-md'>
+      <div className='h-16 bg-gray-200 rounded-t-lg'>
+
       </div>
-      <Link href="/b/profile"
-        className={buttonVariants({ variant: 'outline', size: 'sm', className: 'border-primary text-primary' })}
-      >
-        Ver perfil
-      </Link>
-    </div >
+      <div className='flex flex-col items-center justify-center'>
+        <div className='relative w-16 h-10'>
+          <AvatarComponent className='absolute -top-8 w-16 h-16' src={user?.imageUrl} />
+        </div>
+        <div className='px-4 pb-2'>
+          <p className='text-xl font-bold text-center'>{user?.name}</p>
+          {!!user?.city && !!user?.province && (<p className='text-xs text-gray-700 text-center'>{user?.city} - {user?.province}</p>)}
+          {!!user?.phone && (<p className='text-xs text-gray-700 text-center'>{user?.phone}</p>)}
+          {!!user?.shortPresentation && (<p className='text-sm text-gray-700 text-center'>{user?.shortPresentation}</p>)}
+        </div>
+        <div className='pb-2'>
+          <Link href='/b'
+            className='block text-sm py-2 px-4 text-primary font-semibold border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-lg transition duration-300 ease-in-out'
+          >
+            Ver mi perfil
+          </Link>
+        </div>
+      </div>
+    </div>
   )
 }
 

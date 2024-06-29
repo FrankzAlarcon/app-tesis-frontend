@@ -16,6 +16,7 @@ import { signOut } from "@/actions/signout"
 import { Button } from "./ui/button"
 import { useState } from "react"
 import { User as UserType } from "next-auth"
+import AvatarComponent from "./avatar"
 
 interface ProfileButtonProps {
   user: UserType
@@ -34,7 +35,7 @@ const ProfileButton = ({
   const onLogout = async () => {
     await signOut()
   }
-  console.log(user)
+  console.log('server user', user)
   const profileLink = role === 'student' ? '/e/profile' : '/b/profile'
   const settingsLink = role === 'student' ? '/e/settings' : '/b/settings'
 
@@ -42,10 +43,10 @@ const ProfileButton = ({
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
         <div className='flex gap-2 items-center'>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <AvatarComponent
+            src={user.image}
+            name={user?.name as any}
+          />
           <p>{user?.name}</p>
           <ChevronDownIcon className='h-5 w-5' />
         </div>

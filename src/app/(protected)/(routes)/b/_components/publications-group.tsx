@@ -1,6 +1,6 @@
 "use client"
 
-import { removePublicationMock } from "@/actions/business/remove-publication"
+import { removePublication, removePublicationMock } from "@/actions/business/remove-publication"
 import ConfirmDialog from "@/components/confirm-dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,7 +24,14 @@ export const PublicationCard = ({
   large = false
 }: ShortPublicationCardProps) => {
   const { toast } = useToast()
-  const { execute, resetValues } = useAction(removePublicationMock, {
+  const { execute, resetValues } = useAction(removePublication, {
+    onError: () => {
+      toast({
+        title: 'Error al eliminar la publicación',
+        duration: 4000,
+        description: 'Ha ocurrido un error al intentar eliminar la publicación. Por favor, inténtalo de nuevo.',
+      })
+    },
     onSuccess: () => {
       resetValues()
       toast({

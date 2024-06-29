@@ -15,7 +15,7 @@ const Posts = ({
 }: PostProps) => {
   return (
     <article className='h-auto w-full bg-white p-2 flex flex-col gap-2'>
-      <PostHeader name={post.business.name} createdAt={post.createdAt} />
+      <PostHeader name={post.business.name} image={post.business.imageUrl} createdAt={post.createdAt} />
       <div className='text-sm px-2'>
         <p className='font-bold'>{post.title}</p>
         <p className=''>{post.description}</p>

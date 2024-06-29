@@ -2,11 +2,13 @@ import { getForumEntry } from '@/actions/students/get-forum-entry'
 import Link from 'next/link'
 import React from 'react'
 import ForumEntry from '../_components/forum-entry'
-import BusinessProfileCard from '../../../b/_components/business-profile-card'
 import { buttonVariants } from '@/components/ui/button'
 import { getPublications } from '@/actions/students/getPublications'
 import ForumPublication from '../_components/forum-publication'
 import ItemCard from '@/components/item-card'
+import BusinessProfileCard from '../../../b/_components/business-profile-card'
+import { getPublicBusinessShortProfile } from '@/actions/shared/get-public-business-short-profile'
+import NotFoundPage from '@/app/not-found'
 
 interface ForumEntryPageProps {
   params: {
@@ -19,14 +21,14 @@ const ForumEntryPage = async ({
 }: ForumEntryPageProps) => {
   const forumEntries = await getForumEntry(params.businessId)
   const publications = await getPublications()
-  console.log(publications);
-  if (!forumEntries) {
-    return <div>Error</div>
+  const businessShortProfile = await getPublicBusinessShortProfile(params.businessId)
+  if (!forumEntries || params.businessId === undefined || !businessShortProfile) {
+    return <NotFoundPage />
   }
   return (
     <div className='h-forum lg:overflow-hidden w-full flex items-start md:justify-center flex-col md:flex-row gap-4 p-2 md:p-4 lg:px-6'>
       <div className='w-full md:w-[35%]'>
-        <BusinessProfileCard />
+        <BusinessProfileCard user={businessShortProfile} />
       </div>
       <div className=' md:hidden w-full md:w-[40%] p-3 bg-white rounded-md'>
         <span className='text-sm font-bold'>Ultimas ofertas publicadas:</span>

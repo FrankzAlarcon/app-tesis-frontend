@@ -11,6 +11,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { ChevronDown } from 'lucide-react'
+import { getShortProfile } from '@/actions/students/get-short-profile'
+import AvatarComponent from '@/components/avatar'
 
 interface CompleteFormMenuProps {
   children: React.ReactNode
@@ -45,25 +47,25 @@ const CompleteFormMenu = ({
 }
 
 async function StudentCard() {
-  const profile = await getProfile()
+  const profile = await getShortProfile()
   if (!profile) return (<div>Loading...</div>)
-  const { name, faculty, ira } = profile
+  const { name, faculty, ira, shortPresentation, postulationsCount, recommendedCount } = profile
   return (
     <div className='w-full md:h-[30rem] lg:h-[23rem] bg-white rounded-xl'>
       <div className='h-1/6 w-full bg-[#A0B4B7] rounded-t-xl '></div>
       <div className='relative px-6'>
         <div className='flex w-full justify-center'>
-          <Avatar className=' w-12 h-12 z-10 absolute -top-8 md:w-16 md:h-16'>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <AvatarComponent
+            src={profile?.imageUrl}
+            name={name}
+            className='w-12 h-12 z-10 absolute -top-8 md:w-16 md:h-16'
+          />
         </div>
         <section className='text-center pt-10 flex flex-col gap-1'>
           <h4 className='text-black font-bold text-base'>{name}</h4>
           <p className='text-secondary-foreground text-sm'>{faculty}</p>
-          <div className='flex justify-between'>
-            <p className='text-secondary-foreground text-sm'>9no semestre</p>
-            <p className='text-secondary-foreground text-sm'>N° Créditos 110</p>
+          <div className='flex justify-center'>
+            <p className='text-secondary-foreground text-xs'>{shortPresentation}</p>
           </div>
         </section>
         <div className='flex flex-col gap-4 mt-4'>
@@ -82,13 +84,13 @@ async function StudentCard() {
             <Badge className='bg-[#EEF7FE]'>
               <div className='w-full py-1 flex flex-row justify-between px-2'>
                 <span className='text-[#6B7280]'>Postulaciones actuales</span>
-                <span className='text-primary'>5</span>
+                <span className='text-primary'>{postulationsCount}</span>
               </div>
             </Badge>
             <Badge className='bg-[#EEF7FE]'>
               <div className='w-full py-1 flex flex-row justify-between px-2'>
                 <span className='text-[#6B7280]'>Empresas que te buscan</span>
-                <span className='text-primary'>2</span>
+                <span className='text-primary'>{recommendedCount}</span>
               </div>
             </Badge>
           </div>

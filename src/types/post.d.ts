@@ -14,6 +14,7 @@ export interface Post {
   business: {
     id: string
     name: string
+    imageUrl: string | null
   }
   bookmarked: boolean
   createdAt: string
@@ -30,5 +31,6 @@ export interface ShortInformationCard {
     id: string
     name: string
     province: string | null
+    imageUrl: string | null
   }
 }

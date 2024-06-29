@@ -1,6 +1,7 @@
 "use client"
 
 import { removePostulation } from '@/actions/students/remove-postulation'
+import AvatarComponent from '@/components/avatar'
 import ConfirmDialog from '@/components/confirm-dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -38,7 +39,11 @@ const PostulationCard = ({
   return (
     <Card className='flex shadow-sm border-2'>
       <div className='p-4 flex items-center justify-center'>
-        <Image src="https://github.com/shadcn.png" alt="Postulaciones" width={80} height={80} />
+        <AvatarComponent
+          src={postulation.business.imageUrl}
+          name={postulation.business.name}
+          className='w-20 h-20'
+        />
       </div>
       <div className='w-full'>
         <CardHeader className='p-4 space-y-0'>

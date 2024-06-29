@@ -13,7 +13,9 @@ const ForumPublication = ({ shortPublication }: ForumPublicationProps) => {
     <div className=" w-full border-2 p-2 rounded-lg">
       <div className='flex flex-row gap-2 w-full '>
         <div className=' w-[40%] flex flex-col items-center '>
-          <AvatarComponent src="https://github.com/shadcn.png"
+          <AvatarComponent
+            src={shortPublication.business.imageUrl}
+            name={shortPublication.business.name}
             className='w-14 h-14 rounded-full shadow-md mt-4 mb-2'
           />
           <p className='text-gray-500 text-xs text-center '>{formatDistanceEs(shortPublication.createdAt)}</p>

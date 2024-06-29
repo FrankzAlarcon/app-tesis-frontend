@@ -3,7 +3,6 @@
 import { BACKEND_API_URL } from "@/config/config"
 import { currentUser } from "@/lib/auth"
 import { postulationSchema } from "@/schemas/postulation.schema"
-import axios from "axios"
 import { revalidatePath } from "next/cache"
 
 // interface PrevState {

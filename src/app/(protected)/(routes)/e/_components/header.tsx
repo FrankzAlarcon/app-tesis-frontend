@@ -5,14 +5,18 @@ import { Input } from '@/components/ui/input'
 import { currentUser } from '@/lib/auth'
 import { studentRoutes } from '@/routes/student-routes'
 import { redirect } from 'next/navigation'
+import { getShortProfile } from '@/actions/students/get-short-profile'
 
 
 const Header = async () => {
   const user = await currentUser()
+  const profile = await getShortProfile()
   if (!user) {
     redirect('/login')
   }
   const { role, accessToken, ...rest } = user
+  rest.image = profile?.imageUrl
+  console.log('[HEADER STUDENT]',rest)
   return (
     <div className='w-full bg-white fixed flex flex-col md:flex-row md:justify-between gap-2 shadow-md z-30 p-2'>
       <div className='flex flex-col md:flex-row gap-4'>
@@ -36,7 +40,7 @@ const Header = async () => {
         </nav>
       </div>
       <div className='hidden md:flex items-center'>
-        <ProfileButton role={user.role} user={user} />
+        <ProfileButton role={role} user={rest as any} />
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ export interface ForumEntry {
   businessId: string
   businessName: string
   businessDescription: string
+  businessImageUrl: string
   count: number
   avgGrade: number
 }
@@ -17,6 +18,7 @@ export interface Forum {
   updatedAt: string
   student: {
     id: string
+    imageUrl: string | null
     user: {
       name: string
     }

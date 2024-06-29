@@ -25,12 +25,14 @@ const action = async (data: InputType): Promise<ReturnType> => {
       }
     })
   } catch (error) {
+    console.log('Error al eliminar la publicación', error)
     return {
       error: 'Error al eliminar la publicación'
     }
   }
 
-  revalidatePath('/profile')
+  revalidatePath('/b')
+  revalidatePath('/b/publications')
 
   return {
     data: {
