@@ -5,6 +5,7 @@ import { formatDistanceEs } from '@/lib/date-fns/format-distance-es'
 import { FileText, SquareUserRound } from 'lucide-react'
 import Link from 'next/link'
 import Tooltip from '@/components/tooltip'
+import AvatarComponent from '@/components/avatar'
 
 interface ApplicantCardProps {
   id: string
@@ -26,10 +27,10 @@ const ApplicantCard = ({
     <div className="flex flex-col border-b border-b-black   ">
       <div className='flex flex-col md:flex-row gap-2 md:items-center  '>
         <div className='flex flex-row gap-2 w-full md:w-2/5'>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <AvatarComponent
+            src={applicant.imageUrl}
+            name={applicant.name}
+          />
           <div>
             <p className="text-sm font-bold">{applicant.name}</p>
             <p className="text-muted-foreground text-xs">{formatDistanceEs(applicantDate)}</p>
