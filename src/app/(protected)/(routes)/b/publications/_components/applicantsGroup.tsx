@@ -84,6 +84,11 @@ const ApplicantsGroup = ({
 }: ApplicantsGroupProps) => {
   return (
     <div className='flex flex-col gap-2 '>
+      {applicants.length === 0 && (
+        <div className='flex flex-col gap-2'>
+          <p className='text-center text-muted-foreground'>No hay postulaciones</p>
+        </div>
+      )}
       {applicants.map(applicant => (
         <ApplicantCard
           key={applicant.id}
