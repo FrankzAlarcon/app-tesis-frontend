@@ -12,6 +12,14 @@ export interface Business {
   updatedAt: string
 }
 
+export interface ShortBusinessProfile {
+  id: string
+  name: string
+  province: string | null
+  city: string | null
+  shortPresentation: string | null
+}
+
 export interface BusinessProfile {
   id: string
   name: string
@@ -25,21 +33,27 @@ export interface BusinessProfile {
   hasCovenant: boolean
 }
 
+interface ShortSkill {
+  publicationSkillId: string
+  skillId: string
+  name: string
+}
+
 export interface Publication {
   id: string
   title: string
-  location: string
+  // location: string
   description: string
   modality: string
   entryTime: string
   departureTime: string
-  benefits: string[]
-  requirements: string[]
-  skills: string[]
+  benefits: string
+  requirements: string
+  skills: ShortSkill[]
   imageUrl: string | null
-  remuneration: number
+  remuneration: string
   createdAt: string
-  endDate: string
+  // endDate: string
   updatedAt: string
   postulations: Postulation[]
 }
@@ -52,12 +66,10 @@ export interface Postulation {
   createdAt: string
 }
 
-export interface ShortStudentApllicant {
+export interface ShortStudent {
   id: string
   name: string
   email: string
-  phone: string | null
-  urlProfileStudent: string
   imageUrl: string | null
 }
 
@@ -65,9 +77,9 @@ export interface ShortPublication {
   id: string
   title: string
   modality: string
-  city: string
+  city?: string
   createdAt: string
-  endDate: string
+  endDate?: string
   candidatesCount: number
   postulationsCount: number
 }

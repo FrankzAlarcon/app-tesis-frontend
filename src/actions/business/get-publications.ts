@@ -1,17 +1,18 @@
 "use server"
+
 import { BACKEND_API_URL } from "@/config/config"
 import { currentUser } from "@/lib/auth"
 import { ShortPublication } from "@/types/business"
 import axios from "axios"
 
-export const getPublications = async (): Promise<ShortPublication[] | null> => {
+export const getPublications = async (): Promise<{data: ShortPublication[]} | null> => {
   const user = await currentUser()
 
   if (!user?.accessToken) {
     return null
   }
 
-  return axios.get(`${BACKEND_API_URL}/publications`, {
+  return axios.get(`${BACKEND_API_URL}/business/publications`, {
     headers: {
       Authorization: `Bearer ${user.accessToken}`
     }
@@ -29,8 +30,8 @@ export const getPublicationsMock = async (): Promise<ShortPublication[] | null> 
       modality: 'Presencial',
       createdAt: '2024-03-01',
       endDate: '2024-03-30',
-      candidateCount: 5,
-      postulationCount: 3,
+      candidatesCount: 5,
+      postulationsCount: 3,
     },
     {
       id: '2',
@@ -39,8 +40,8 @@ export const getPublicationsMock = async (): Promise<ShortPublication[] | null> 
       modality: 'Remoto',
       createdAt: '2024-03-01',
       endDate: '2024-03-30',
-      candidateCount: 5,
-      postulationCount: 3,
+      candidatesCount: 5,
+      postulationsCount: 3,
     },
     {
       id: '3',
@@ -49,8 +50,8 @@ export const getPublicationsMock = async (): Promise<ShortPublication[] | null> 
       modality: 'Presencial',
       createdAt: '2021-09-01',
       endDate: '2021-09-30',
-      candidateCount: 5,
-      postulationCount: 3,
+      candidatesCount: 5,
+      postulationsCount: 3,
     },
     {
       id: '4',
@@ -59,8 +60,8 @@ export const getPublicationsMock = async (): Promise<ShortPublication[] | null> 
       modality: 'Presencial',
       createdAt: '2021-09-01',
       endDate: '2021-09-30',
-      candidateCount: 5,
-      postulationCount: 3,
+      candidatesCount: 5,
+      postulationsCount: 3,
     },
     {
       id: '5',
@@ -69,8 +70,8 @@ export const getPublicationsMock = async (): Promise<ShortPublication[] | null> 
       modality: 'Remoto',
       createdAt: '2021-09-01',
       endDate: '2021-09-30',
-      candidateCount: 5,
-      postulationCount: 3,
+      candidatesCount: 5,
+      postulationsCount: 3,
     },
   ]
 }

@@ -13,6 +13,13 @@ export const formatDateComplete = (date: string) => {
   })
 }
 
+export const formatDateText = (date: string) => {
+  return new Date(date).toLocaleDateString('ES-es', {
+    month: 'long',
+    year: 'numeric',
+    day: 'numeric'
+  })
+}
 
 
 

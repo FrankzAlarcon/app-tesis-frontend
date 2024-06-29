@@ -10,15 +10,18 @@ import { ShortPublication } from "@/types/business"
 import { X, User } from "lucide-react"
 import { formatDistanceEs } from "@/lib/date-fns/format-distance-es"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 interface ShortPublicationCardProps {
   publication: ShortPublication
   enableEdition: boolean
+  large?: boolean
 }
 
-const PublicationCard = ({
+export const PublicationCard = ({
   publication,
-  enableEdition
+  enableEdition,
+  large = false
 }: ShortPublicationCardProps) => {
   const { toast } = useToast()
   const { execute, resetValues } = useAction(removePublicationMock, {
@@ -44,7 +47,6 @@ const PublicationCard = ({
           <CardDescription className="text-muted-foreground">
             <span className="block">{publication.modality}</span>
             <span className="block">{formatDistanceEs(publication.createdAt)}</span>
-
           </CardDescription>
         </div>
         {
@@ -61,8 +63,8 @@ const PublicationCard = ({
           )
         }
       </CardHeader >
-      <CardContent className="pb-2">
-        <div className="flex flex-col gap-2 mt-2">
+      <CardContent className={cn("pb-2", large && "sm:flex sm:justify-between")}>
+        <div className="flex flex-col gap-2 mt-2 sm:w-full">
           {
             publication.candidatesCount !== undefined && (
               <div className="flex flex-row gap-1">
@@ -80,9 +82,11 @@ const PublicationCard = ({
             )
           }
         </div>
-        <div className="w-full flex justify-center pt-4">
+        <div className={cn("w-full flex justify-center pt-4",
+          large && "sm:w-40"
+        )}>
           <Link href={`/b/publications/${publication.id}`}
-            className="w-full md:w-auto text-center py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
+            className="w-full sm:w-40 text-center py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
           >
             Ver publicación
           </Link>

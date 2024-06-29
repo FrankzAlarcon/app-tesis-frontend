@@ -21,6 +21,7 @@ interface ConfirmDialogProps {
   alertConfirmText?: string
   onConfirm: () => void
   asChild?: boolean
+  className?: string
 }
 
 const ConfirmDialog = ({
@@ -29,12 +30,13 @@ const ConfirmDialog = ({
   alertDescription,
   alertCancelText,
   alertConfirmText,
+  className,
   onConfirm,
   asChild = false
 }: ConfirmDialogProps) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild={asChild}>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild={asChild} className={className}>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{alertTitle}</AlertDialogTitle>

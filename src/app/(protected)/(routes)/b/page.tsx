@@ -15,8 +15,6 @@ import Link from 'next/link'
 // TODO: Endpoint for user profile
 const BusinessPage = async () => {
   const profile = await getProfile()
-  // const publicationss = await getPublicationsMock()
-  // console.log(publicationss);
   if (!profile) {
     return null
   }

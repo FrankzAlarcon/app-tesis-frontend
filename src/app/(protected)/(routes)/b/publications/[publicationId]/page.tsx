@@ -1,11 +1,13 @@
 import React from 'react'
-import { getPublicationEntryMock } from '@/actions/business/get-publication-entry'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { getPublicationEntry } from '@/actions/business/get-publication-entry'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { formatDistanceEs } from "@/lib/date-fns/format-distance-es"
 import { Clock } from 'lucide-react'
 import ApplicantsGroup from '../_components/applicantsGroup'
 import NotFoundPage from '@/app/not-found'
+import { formatDateText } from '@/lib/format-date'
+import SafeHTML from '@/components/safe-html'
 
 interface PublicationEntryPageProps {
   params: {
@@ -19,7 +21,8 @@ const PublicationEntryPage = async ({
   if (!params.publicationId) {
     return <div>Error</div>
   }
-  const publicationEntry = await getPublicationEntryMock(params.publicationId)
+  const publicationEntry = await getPublicationEntry(params.publicationId)
+  console.log(publicationEntry)
   if (!publicationEntry) {
     return <NotFoundPage />
   }
@@ -31,18 +34,28 @@ const PublicationEntryPage = async ({
             <Card>
               <CardHeader>
                 <CardTitle>{publicationEntry.title}</CardTitle>
-                <CardDescription>
-                  <div className='flex flex-row justify-between w-full md:w-2/3'>
+                <div className='text-sm'>
+                  <div className='flex gap-8'>
                     <p>
-                      {publicationEntry.createdAt} - {formatDistanceEs(publicationEntry.createdAt)}
+                      {formatDateText(publicationEntry.createdAt)} - {formatDistanceEs(publicationEntry.createdAt)}
                     </p>
                     <div className='flex flex-row gap-1'>
                       <Clock size={16} />
                       <span className=''>{publicationEntry.entryTime} - {publicationEntry.departureTime}</span>
                     </div>
                   </div>
-                </CardDescription>
-                <CardDescription>{publicationEntry.location} ({publicationEntry.modality})</CardDescription>
+                </div>
+                <div className='text-sm'>
+                  {
+                    (publicationEntry as any)?.location ? (
+                      `${(publicationEntry as any).location} (${publicationEntry.modality})`
+                    ) : (
+                      <p>
+                        <span className='font-bold'>Modalidad: </span>{publicationEntry.modality}
+                      </p>
+                    )
+                  }
+                </div>
               </CardHeader>
               <CardContent>
                 <article className='w-full flex flex-col gap-4 md:gap-0 md:flex-row'>
@@ -51,10 +64,10 @@ const PublicationEntryPage = async ({
                     <div className='flex flex-row flex-wrap gap-2'>
                       {publicationEntry.skills.map(skill => (
                         <Badge
-                          key={skill}
+                          key={skill.publicationSkillId}
                           className="border px-4 rounded-full bg-blue-100 text-black"
                         >
-                          {skill}
+                          {skill.name}
                         </Badge>
                       ))}
                     </div>
@@ -69,21 +82,13 @@ const PublicationEntryPage = async ({
                   <p className='text-base'>{publicationEntry.description}</p>
                   <div>
                     <p className='font-bold'>Requisitos:</p>
-                    <ul className='text-sm list-disc ml-6' >
-                      {publicationEntry.requirements.map(req => (
-                        <li key={req}>{req}</li>
-                      ))}
-                    </ul>
+                    <SafeHTML>{publicationEntry.requirements}</SafeHTML>
                   </div>
                   {/* Calular duracion con fecha incio y fecha fin */}
-                  <p><span className='font-bold'>Duración:</span> {publicationEntry.endDate} </p>
+                  {/* <p><span className='font-bold'>Duración:</span> {publicationEntry.endDate} </p> */}
                   <div>
                     <p className='font-bold'>Beneficios para el estudiante:</p>
-                    <ul className='text-sm list-disc ml-6'>
-                      {publicationEntry.benefits.map(benefit => (
-                        <li key={benefit}>{benefit}</li>
-                      ))}
-                    </ul>
+                    <SafeHTML>{publicationEntry.benefits}</SafeHTML>
                   </div>
                 </div>
               </CardContent>
@@ -100,14 +105,20 @@ const PublicationEntryPage = async ({
             </Card>
           </div>
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle className='text-xl'>Te recomendamos estos estudiantes</CardTitle>
-          </CardHeader>
-          <CardContent>
+        {
+          (publicationEntry as any).recommended?.length > 0 && (
+            <div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className='text-xl'>Te recomendamos estos estudiantes</CardTitle>
+                </CardHeader>
+                <CardContent>
 
-          </CardContent>
-        </Card>
+                </CardContent>
+              </Card>
+            </div>
+          )
+        }
       </div>
     </section >
   )
