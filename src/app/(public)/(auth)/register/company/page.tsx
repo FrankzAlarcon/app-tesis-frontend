@@ -1,5 +1,6 @@
 import React from 'react'
 import BackArrowButton from '../../_components/back-arrow-button'
+import CompanyRegisterForm from '../../_components/forms/company-register-form'
 
 function RegisterCompanyPage() {
   return (
@@ -7,6 +8,7 @@ function RegisterCompanyPage() {
       <BackArrowButton returnUrl='/register-type-selection' />
       <div className='flex flex-col w-7/12  '>
         <h3 className='font-semibold text-xl mb-2'>Crear una cuenta de Empresa</h3>
+        <CompanyRegisterForm />
       </div>
     </section>
   )

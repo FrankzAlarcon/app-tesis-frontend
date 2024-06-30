@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import { useState, useTransition } from "react"
 import { loginSchema } from "@/schemas/auth.schema"
 import { FormError } from "../form-error"
+import PasswordInput from "@/components/password-input"
 
 function LoginForm() {
   const [isPending, startTransition] = useTransition()
@@ -75,7 +76,7 @@ function LoginForm() {
             <FormItem>
               <FormLabel className="text-primary">Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder="Contraseña" type="password" disabled={isPending} {...field} />
+                <PasswordInput placeholder="Contraseña" disabled={isPending} {...field} />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -91,10 +92,11 @@ function LoginForm() {
         </Button>
         <div className="flex flex-col gap-2 items-center">
           <p className="text-sm hover:underline">
-            <Link href="/auth/password-recovery">¿Olvidaste tu contraseña?</Link>
+            <Link href="/recovery-password">¿Olvidaste tu contraseña?</Link>
           </p>
           <p
-            className='text-center text-sm'>¿Ya tienes una cuenta?<span className='ml-1 text-primary font-semibold'>
+            className='text-center text-sm'>¿No tienes una cuenta?
+            <span className='ml-1 text-primary font-semibold'>
               <Link href='/register-type-selection'>Regístrate</Link>
             </span>
           </p>
