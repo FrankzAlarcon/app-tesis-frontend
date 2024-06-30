@@ -24,10 +24,11 @@ import FormSubmit from "@/components/form-utilities/form-submit"
 import Link from "next/link"
 
 interface RegisterFormProps {
+  rol: string
   actionLogin: (values: z.infer<typeof registerSchema>) => Promise<any>
 }
 
-function RegisterForm({ actionLogin }: RegisterFormProps) {
+function RegisterForm({ actionLogin, rol }: RegisterFormProps) {
   // Form definition
   const [error, setError] = useState('')
   const pathname = usePathname()
@@ -84,7 +85,7 @@ function RegisterForm({ actionLogin }: RegisterFormProps) {
             <FormItem>
               <FormLabel className="text-primary">Nombre</FormLabel>
               <FormControl>
-                <Input placeholder="Nombre y Apellido" {...field} />
+                <Input placeholder={rol === 'student' ? 'Nombre y Apellido' : 'Nombre de la empresa'} {...field} />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
