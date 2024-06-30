@@ -1,19 +1,27 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Clock } from 'lucide-react';
 
-const TimeRangeInput = () => {
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+interface TimeRangeInputProps {
+  entryTime: string;
+  setEntryTime: (value: string) => void;
+  departureTime: string;
+  setDepartureTime: (value: string) => void;
+}
 
+const TimeRangeInput = ({
+  entryTime,
+  setEntryTime,
+  departureTime,
+  setDepartureTime,
+}: TimeRangeInputProps) => {
   return (
     <div className="flex items-center border border-gray-300 rounded px-2 ">
       <div className="flex items-center">
         <Input
           id="start-time"
           type="time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
+          value={entryTime}
+          onChange={(e) => setEntryTime(e.target.value)}
           className="border-none p-0 focus:ring-0"
         />
       </div>
@@ -22,8 +30,8 @@ const TimeRangeInput = () => {
         <Input
           id="end-time"
           type="time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
+          value={departureTime}
+          onChange={(e) => setDepartureTime(e.target.value)}
           className="border-none p-0 focus:ring-0"
         />
       </div>

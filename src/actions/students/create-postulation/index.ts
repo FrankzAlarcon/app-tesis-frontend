@@ -74,11 +74,5 @@ export const createPostulation = async (prevState: any, data: FormData) => {
     }      
   })
 
-  const response = await rta.json()
-
-  console.log(response)
-
-  console.log('crear postulation')
-  console.log('revalidatePath', `/e/postulations/${prevState.publicationId}`)
   revalidatePath(`/e/postulations/${prevState.publicationId}`)
 }

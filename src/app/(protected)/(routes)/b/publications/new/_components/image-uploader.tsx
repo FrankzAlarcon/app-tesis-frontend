@@ -1,18 +1,25 @@
+"use client"
+
 import React from 'react';
 import { X } from 'lucide-react';
 import { Upload } from 'lucide-react'
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 type ImageUploaderProps = {
+  preview: string | null
+  setPreview: React.Dispatch<React.SetStateAction<string | null>>
   onImageChange: (file: File | null) => void;
 };
 
-const ImageUploader = ({ onImageChange }: ImageUploaderProps) => {
-  const [preview, setPreview] = React.useState<string | null>(null);
-
+const ImageUploader = ({
+  onImageChange,
+  preview,
+  setPreview
+}: ImageUploaderProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      setPreview(URL.createObjectURL(file));
       onImageChange(file);
     } else {
       setPreview(null);
@@ -42,18 +49,23 @@ const ImageUploader = ({ onImageChange }: ImageUploaderProps) => {
   };
 
   return (
-    <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center relative">
+    <div className="border-2 border-dashed border-blue-700 rounded-md p-4 text-center relative">
       {preview ? (
         <div className="relative">
-          <img src={preview} alt="Preview" className=" max-w-[200px] md:max-w-[400px]
-          h-auto mx-auto" />
-          <button
+          <Image
+            src={preview}
+            alt="Preview" className=" max-w-[200px] md:max-w-[400px] h-auto mx-auto"
+            width={200}
+            height={200}
+          />
+          <Button
             type="button"
-            className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+            variant='ghost'
+            className="absolute top-2 right-2 shadow"
             onClick={handleRemoveImage}
           >
-            <X className="w-4 h-4 text-black" />
-          </button>
+            <X className="w-4 h-4" />
+          </Button>
         </div>
       ) : (
         <div

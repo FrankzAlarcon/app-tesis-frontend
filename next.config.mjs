@@ -4,6 +4,8 @@ const nextConfig = {
     remotePatterns: [
       {
         hostname: "github.com"
+      }, {
+        hostname: "publications-images-business.s3.us-east-1.amazonaws.com"
       }
     ]
   }

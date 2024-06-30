@@ -1,24 +1,18 @@
 "use client"
 
-
-import React, { use, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import TipTapEditor from '@/components/tip-tap-editor'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useAction } from '@/hooks/use-action'
 import SelectPopoverModality from '@/components/select-popover-modality'
-// import { createPublication } from '@/actions/business/create-publication'
 import { Checkbox } from '@/components/ui/checkbox'
 import ConfirmDialog from '@/components/confirm-dialog'
 import FormError from '@/components/form-utilities/form-error'
-import Loader from '@/components/loader'
-import { ShortSkill } from '@/types/business'
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
 import { ChevronsUpDown } from "lucide-react"
 import { X } from "lucide-react"
-
 import {
   Command,
   CommandEmpty,
@@ -29,18 +23,20 @@ import {
 } from "@/components/ui/command"
 import TimeRangeInput from '@/components/time-range'
 import ImageUploader from './image-uploader'
+import { ProjectSkill } from '@/types/student'
+import { modalities } from '@/constants/modalities'
+import { useRouter } from 'next/navigation'
 
 
 interface NewPublicationProps {
-  skills: ShortSkill[]
+  skills: ProjectSkill[]
 }
-
-const modalities = ['Presencial', 'Remoto', 'Híbrido']
 
 function NewPublication({
   skills
 }: NewPublicationProps
 ) {
+  const router = useRouter()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [modality, setModality] = useState('')
@@ -50,9 +46,9 @@ function NewPublication({
   const [requirements, setRequirements] = useState('')
   const [isRemunerated, setIsRemunerated] = useState(false)
   const [remuneration, setRemuneration] = useState('')
-  const [error, setError] = useState('')
-  const [selectedSkills, setSelectedSkills] = useState<ShortSkill[]>([])
-  const [newSkillsSelected, setNewSkillsSelected] = useState<ShortSkill[]>([])
+  const [error, setError] = useState({} as any)
+  const [selectedSkills, setSelectedSkills] = useState<ProjectSkill[]>([])
+  const [notRegisteredSkills, setNotRegisteredSkills] = useState<ProjectSkill[]>([])
   const [searchTerm, setSearchTerm] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -68,9 +64,9 @@ function NewPublication({
   };
 
 
-  const handleOnSelectSkill = (skill: ShortSkill) => {
+  const handleOnSelectSkill = (skill: ProjectSkill) => {
     const skills = [...selectedSkills]
-    const index = skills.findIndex((s) => s.skillId === skill.skillId)
+    const index = skills.findIndex((s) => s.id === skill.id)
     if (index === -1) {
       skills.push(skill)
     } else {
@@ -80,22 +76,22 @@ function NewPublication({
   }
 
 
-  const handleOnRemoveSkill = (skill: ShortSkill) => {
-    const skills = selectedSkills.filter((s) => s.skillId !== skill.skillId)
+  const handleOnRemoveSkill = (skill: ProjectSkill) => {
+    const skills = selectedSkills.filter((s) => s.id !== skill.id)
     setSelectedSkills(skills)
-    if (newSkillsSelected.some((s) => s.skillId === skill.skillId)) {
-      setNewSkillsSelected(newSkillsSelected.filter((s) => s.skillId !== skill.skillId))
+    if (notRegisteredSkills.some((s) => s.id === skill.id)) {
+      setNotRegisteredSkills(notRegisteredSkills.filter((s) => s.id !== skill.id))
     }
   }
 
   const handleAddNewSkill = (skillName: string) => {
     const id = Math.random().toString(36).substring(7)
-    const newSkill = { publicationSkillId: 'new', skillId: id, name: skillName }
-    if (newSkillsSelected.some((s) => s.name === newSkill.name)) {
+    const newSkill = { publicationId: 'new', id: id, name: skillName }
+    if (notRegisteredSkills.some((s) => s.name === newSkill.name)) {
       setSearchTerm('')
       return
     }
-    setNewSkillsSelected([...newSkillsSelected, newSkill])
+    setNotRegisteredSkills([...notRegisteredSkills, newSkill])
     handleOnSelectSkill(newSkill)
     setSearchTerm('')
   };
@@ -104,10 +100,49 @@ function NewPublication({
     skill.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleCreatePublication = async () => {
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('modality', modality)
+    formData.append('entryTime', entryTime)
+    formData.append('departureTime', departureTime)
+    formData.append('benefits', benefits)
+    formData.append('requirements', requirements)
+    const existingSkills = selectedSkills.filter((skill) => (skill as any).publicationId !== 'new')
+    for (const skill of existingSkills) {
+      formData.append('skillsIds', skill.id)
+    }
+    for (const skill of notRegisteredSkills) {
+      formData.append('notRegisteredSkills', skill.name)
+    }
+    formData.append('remuneration', isRemunerated ? remuneration : '')
+    formData.append('image', image as Blob)
+
+    try {
+      const response = await fetch('/api/publications', {
+        method: 'POST',
+        body: formData
+      })
+      if (!response.ok) {
+        const data = await response.json()
+        console.log(data)
+        setError(data)
+        return
+      }
+      const data = await response.json()
+      console.log(data)
+      setError({})
+      router.push(`/b/publications/${data.id}`)
+    } catch (error) {
+      setError({general:'Ocurrió un error al publicar la publicación'})
+    }
+  }
+
 
   return (
     <section className=' md:px-6 flex flex-col gap-4 mt-4'>
-      <div>
+      <div className='space-y-2'>
         <Label className='font-semibold '>Titulo</Label>
         <Input
           id='title'
@@ -117,10 +152,12 @@ function NewPublication({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        {error.title && <FormError error={error.title[0]} />}
       </div>
       <div className='flex flex-col gap-2'>
         <Label className='font-semibold'>Descripción</Label>
         <TipTapEditor content={description} setContent={setDescription} />
+        {error.description && <FormError error={error.description[0]} />}
       </div>
       <div className='flex flex-col gap-4 md:gap-4 md:flex-row justify-between'>
         <div className='flex flex-col gap-2'>
@@ -133,10 +170,18 @@ function NewPublication({
             setValue={setModality}
             label='Selecciona la modalidad'
           />
+          {error.modality && <FormError error={error.modality[0]} />}
         </div>
         <div className='flex flex-col gap-2'>
           <Label className='font-semibold'>Selecciona el horario de trabajo</Label>
-          <TimeRangeInput />
+          <TimeRangeInput
+            entryTime={entryTime}
+            setEntryTime={setEntryTime}
+            departureTime={departureTime}
+            setDepartureTime={setDepartureTime}
+          />
+          {error.entryTime && <FormError error={error.entryTime[0]} />}
+          {error.departureTime && <FormError error={error.departureTime[0]} />}
         </div>
         <div className='flex flex-col gap-2'>
           <div className='flex flex-row gap-1'>
@@ -161,10 +206,12 @@ function NewPublication({
       <div className='flex flex-col gap-2'>
         <Label className='font-semibold'>Añade los beneficios que le ofreces al estudiantes</Label>
         <TipTapEditor content={benefits} setContent={setBenefits} />
+        {error.benefits && <FormError error={error.benefits[0]} />}
       </div>
       <div className='flex flex-col gap-2'>
         <Label className='font-semibold'>Añade los requisitos del puesto</Label>
         <TipTapEditor content={requirements} setContent={setRequirements} />
+        {error.requirements && <FormError error={error.requirements[0]} />}
       </div>
       <div className='flex flex-col gap-2'>
         <Label className='font-semibold'>Habilidades requeridas *</Label>
@@ -190,7 +237,7 @@ function NewPublication({
                     <Button
                       className="mt-2"
                       onClick={() => handleAddNewSkill(searchTerm)}>
-                      Agregar "{searchTerm}"
+                      Agregar {`"${searchTerm}"`}
                     </Button>
                   </CommandEmpty>
                 ) : (
@@ -198,7 +245,7 @@ function NewPublication({
                     <CommandGroup>
                       {filteredSkills.map((skill) => (
                         <CommandItem
-                          key={skill.skillId}
+                          key={skill.id}
                           value={skill.name}
                           onSelect={() => handleOnSelectSkill(skill)}
                         >
@@ -213,7 +260,7 @@ function NewPublication({
           </Popover>
           <div className='my-2'>
             {selectedSkills.map((skill) => (
-              <Badge key={skill.skillId} className="mr-1 hover:bg-primary">
+              <Badge key={skill.id} className="mr-1 hover:bg-primary">
                 {skill.name}
                 <Button
                   className="h-4 w-4 text-white p-0 ml-1"
@@ -226,19 +273,25 @@ function NewPublication({
           </div>
         </div>
       </div>
-      {!!error && <FormError error={error} />}
       <div className='flex flex-col gap-2'>
         <Label className='font-semibold'>Imagen</Label>
-        <ImageUploader onImageChange={handleImageChange} />
+        <span className='text-xs text-gray-700'>La imagen es opcional, pero te recomendamos colocar una!</span>
+        <ImageUploader
+          preview={preview}
+          setPreview={setPreview}
+          onImageChange={handleImageChange}
+        />
+        {error.image && <FormError error={error.image} />}
       </div>
       <div className='flex justify-end'>
         <ConfirmDialog
           asChild
           alertTitle='Publicar publicación'
           alertDescription='¿Estás seguro de publicar la publicación?'
-          onConfirm={() => console.log('confirm')}
+          onConfirm={handleCreatePublication}
         >
-          <Button className='btn btn-primary w-full md:w-auto'
+          <Button
+            className='btn btn-primary w-full md:w-auto'
             disabled={[title, description, modality, entryTime, departureTime, benefits, requirements, selectedSkills].includes('')}
           >
             Publicar
