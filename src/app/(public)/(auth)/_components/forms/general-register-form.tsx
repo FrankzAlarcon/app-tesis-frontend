@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { Button } from "@/components/ui/button"
+
 import {
   Form,
   FormControl,
@@ -15,14 +15,19 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { registerSchema } from "@/schemas/auth.schema"
-import Loader from "@/components/loader"
+import PaswordInput from "@/components/password-input"
 import { useState, useTransition } from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { registerStudent } from "@/actions/students/register"
 import { useToast } from "@/components/ui/use-toast"
 import { FormError } from "../form-error"
+import FormSubmit from "@/components/form-utilities/form-submit"
+import Link from "next/link"
 
-function RegisterForm() {
+interface RegisterFormProps {
+  actionLogin: (values: z.infer<typeof registerSchema>) => Promise<any>
+}
+
+function RegisterForm({ actionLogin }: RegisterFormProps) {
   // Form definition
   const [error, setError] = useState('')
   const pathname = usePathname()
@@ -48,7 +53,7 @@ function RegisterForm() {
     startTransition(() => {
       console.log(values)
       console.log(pathname)
-      registerStudent(values)
+      actionLogin(values)
         .then((res) => {
           if (res.error) {
             setError(res.error)
@@ -74,7 +79,7 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="name"
-          disabled={form.formState.isSubmitting}
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Nombre</FormLabel>
@@ -88,7 +93,7 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="email"
-          disabled={form.formState.isSubmitting}
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Email</FormLabel>
@@ -102,12 +107,12 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="password"
-          disabled={form.formState.isSubmitting}
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder="Contraseña" type="password" {...field} />
+                <PaswordInput placeholder="Contraseña" {...field} />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -116,23 +121,26 @@ function RegisterForm() {
         <FormField
           control={form.control}
           name="passwordConfirmation"
-          disabled={form.formState.isSubmitting}
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-primary">Confirmación de contraseña</FormLabel>
               <FormControl>
-                <Input placeholder="Confirmación de contraseña" type="password" {...field} />
+                <PaswordInput placeholder="Confirmación de contraseña"  {...field} />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
         <FormError message={error} />
-        <Button className='sm:min-w-24 mt-4' type='submit'>
-          {form.formState.isSubmitting ? (
-            <Loader className='text-white h-5 w-5' />
-          ) : 'Registrarse'}
-        </Button>
+        <FormSubmit isSubmitting={isPending} />
+        <div className="flex flex-col gap-2 items-center">
+          <p
+            className='text-center text-sm'>¿Ya tienes una cuenta?<span className='ml-1 text-primary font-semibold'>
+              <Link href='/login'>Inicia sesión</Link>
+            </span>
+          </p>
+        </div>
       </form>
     </Form>
   )

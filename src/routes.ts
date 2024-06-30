@@ -19,6 +19,7 @@ export const authRoutes = [
   "/register/student",
   "/register/company",
   "/register-type-selection",
+  "/recovery-password",
 ]
 
 

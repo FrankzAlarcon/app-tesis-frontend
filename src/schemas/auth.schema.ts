@@ -24,3 +24,9 @@ export const registerSchema = z.object({
     message: "Su contraseña debe tener al menos 6 caracteres.",
   }),
 })
+
+export const recoveryPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Por favor, ingrese un correo electrónico válido.",
+  }),
+})
