@@ -6,6 +6,7 @@ export interface Business {
   city: string | null
   phone: string | null
   description: string | null
+  shortPresentation: string | null
   hasCovenant: boolean
   userId: string
   createdAt: string
