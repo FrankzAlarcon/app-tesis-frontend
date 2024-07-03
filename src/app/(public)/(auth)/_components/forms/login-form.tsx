@@ -92,7 +92,7 @@ function LoginForm() {
         </Button>
         <div className="flex flex-col gap-2 items-center">
           <p className="text-sm hover:underline">
-            <Link href="/recovery-password">¿Olvidaste tu contraseña?</Link>
+            <Link href="/recovery-password" className="text-primary">¿Olvidaste tu contraseña?</Link>
           </p>
           <p
             className='text-center text-sm'>¿No tienes una cuenta?

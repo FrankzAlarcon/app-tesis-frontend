@@ -27,6 +27,7 @@ export const useAction = <TInput, TOutput>(
   const execute = useCallback(async (input: TInput) => {
     setIsLoading(true)
     try {
+      console.log('Antes action', input)
       const result = await action(input)
       console.log('RESULT', result)
       if (!result) {

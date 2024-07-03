@@ -10,7 +10,7 @@ export interface Post {
   url: string | null
   remuneration: string
   businessId: string
-  image: string | null
+  imageUrl: string | null
   business: {
     id: string
     name: string

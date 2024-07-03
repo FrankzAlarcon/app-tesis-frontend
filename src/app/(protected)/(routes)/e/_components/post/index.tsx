@@ -3,6 +3,8 @@ import PostFooter from './post-footer'
 import PostHeader from './post-header'
 import { Post } from '@/types/post'
 import { formatMoney } from '@/lib/format-money'
+import SafeHTML from '@/components/safe-html'
+import Image from 'next/image'
 
 interface PostProps {
   post: Post
@@ -18,26 +20,14 @@ const Posts = ({
       <PostHeader name={post.business.name} image={post.business.imageUrl} createdAt={post.createdAt} />
       <div className='text-sm px-2'>
         <p className='font-bold'>{post.title}</p>
-        <p className=''>{post.description}</p>
+        <SafeHTML>{post.description}</SafeHTML>
         <div>
           <p className='font-bold'>Requisitos</p>
-          <ul>
-            {
-              post.requirements.split('\n').map((requirement) => (
-                <li className='list-disc ml-4' key={requirement}>{requirement}</li>
-              ))
-            }
-          </ul>
+          <SafeHTML>{post.requirements}</SafeHTML>
         </div>
         <div>
           <p className='font-bold'>Beneficios</p>
-          <ul>
-            {
-              post.benefits.split('\n').map((benefit) => (
-                <li className='list-disc ml-4' key={benefit}>{benefit}</li>
-              ))
-            }
-          </ul>
+          <SafeHTML>{post.benefits}</SafeHTML>
         </div>
         <div className='flex gap-1'>
           <p className='font-bold'>Modalidad:</p>
@@ -47,8 +37,8 @@ const Posts = ({
           <p className='font-bold'>Remuneración:</p>
           <p>{formatMoney(post.remuneration)}</p>
         </div>
-        {post.image && (
-          <img src={post.image} alt='Imagen de la publicación' className='w-full h-40 object-cover' />
+        {post.imageUrl && (
+          <Image src={post.imageUrl} width={320} height={160} alt='Imagen de la publicación' className='w-full h-auto max-h-64 object-contain' />
         )}
       </div>
       {!noFooter && (<PostFooter id={post.id} isBookmarked={post.bookmarked} />)}

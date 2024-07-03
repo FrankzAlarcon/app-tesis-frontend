@@ -20,6 +20,8 @@ export const authRoutes = [
   "/register/company",
   "/register-type-selection",
   "/recovery-password",
+  '/confirm-email',
+  '/reset-password',
 ]
 
 

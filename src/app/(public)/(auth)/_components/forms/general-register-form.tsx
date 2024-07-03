@@ -61,9 +61,9 @@ function RegisterForm({ actionLogin, rol }: RegisterFormProps) {
             return
           }
           toast({
-            title: 'Registro exitoso',
-            description: 'Usuario registrado correctamente',
-            duration: 4000,
+            title: 'Se ha enviado un correo de confirmación a tu email',
+            description: 'Tu cuenta se ha creado correctamente, verifica tu email para iniciar sesión',
+            duration: 8000,
             variant: 'default'
           })
           router.push('/login')

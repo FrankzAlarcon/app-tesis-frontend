@@ -1,11 +1,20 @@
+import { cn } from '@/lib/utils'
 import { ArrowLeftFromLine } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const NotFoundPage = () => {
+interface NotFoundPageProps {
+  complete?: boolean
+}
+
+const NotFoundPage = ({
+  complete = true
+}: NotFoundPageProps) => {
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center w-screen h-screen bg-gray-100'>
+    <div className={cn('flex flex-col md:flex-row items-center justify-center h-screen bg-gray-100',
+      complete && 'w-screen'
+    )}>
       <Image
         src='/custom-pages-resources/404.png'
         alt='Pagina no encontrada'
