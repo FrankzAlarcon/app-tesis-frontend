@@ -19,6 +19,7 @@ import FormError from '@/components/form-utilities/form-error'
 import { useEffect } from 'react'
 import { calculateHoursWithDays } from '@/lib/date-fns/calculate-days'
 import { calculateSemanalWorkHours } from '@/lib/date-fns/calculate-hours'
+import ResetDataButton from '../../_components/reset-data-button'
 
 interface ThirdStepFormProps {
   setStep: (step: Step) => void
@@ -240,14 +241,14 @@ const ThirdStepForm = ({
                 <div className='w-full'>
                   <PopoverCalendar
                     value={new Date(values.horarioSemanal?.inicio as string)}
-                    onChange={(date) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, inicio: date })}
+                    onChange={(date) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, inicio: date?.toISOString() })}
                   />
                 </div>
                 <div><p className='font-bold text-sm'>Terminación</p></div>
                 <div className='w-full'>
                   <PopoverCalendar
                     value={new Date(values.horarioSemanal?.fin as string)}
-                    onChange={(date) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, fin: date })}
+                    onChange={(date) => handleCalculateSemanalWorkHours({ ...values.horarioSemanal, fin: date?.toISOString() })}
                   />
                 </div>
               </div>
@@ -486,7 +487,7 @@ const ThirdStepForm = ({
           </div>
         </div>
       </div>
-      <div className='pt-2 flex justify-between gap-6'>
+      <div className='pt-2 flex flex-col sm:flex-row justify-between gap-6'>
         <Button
           onClick={handleBackStep}
           className='flex gap-1 items-center w-full sm:w-auto'
@@ -494,6 +495,7 @@ const ThirdStepForm = ({
           <ChevronsLeft className='w-4 h-4' />
           <span>Anterior</span>
         </Button>
+        <ResetDataButton setStep={setStep} />
         <Button
           onClick={handleNextStep}
           className='flex gap-1 items-center w-full sm:w-auto'

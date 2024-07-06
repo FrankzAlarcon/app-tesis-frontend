@@ -15,6 +15,7 @@ import SubjectCard from "../../_components/subject-card"
 import { Textarea } from "@/components/ui/textarea"
 import Loader from "@/components/loader"
 import { useEffect } from "react"
+import ResetDataButton from "../../_components/reset-data-button"
 
 interface SecondStepFormProps {
   setStep: (step: Step) => void
@@ -130,7 +131,7 @@ const SecondStepForm = ({
           />
         </div>
       </div>
-      <div className='pt-2 flex justify-between gap-6'>
+      <div className='pt-2 flex flex-col sm:flex-row justify-between gap-6'>
         <Button
           onClick={handleBackStep}
           className='flex gap-1 items-center w-full sm:w-auto'
@@ -138,6 +139,7 @@ const SecondStepForm = ({
           <ChevronsLeft className='w-4 h-4' />
           <span>Anterior</span>
         </Button>
+        <ResetDataButton setStep={setStep} />
         <Button
           onClick={handleNextStep}
           className='flex gap-1 items-center w-full sm:w-auto'

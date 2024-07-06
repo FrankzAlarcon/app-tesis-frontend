@@ -16,4 +16,5 @@ export const getCareers = async (): Promise<Career[] | null> => {
       Authorization: `Bearer ${user.accessToken}`
     }
   }).then(response => response.data)
+  .catch(() => null)
 }

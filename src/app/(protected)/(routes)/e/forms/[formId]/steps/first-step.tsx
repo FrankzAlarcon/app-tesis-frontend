@@ -15,13 +15,20 @@ import { Button } from '@/components/ui/button'
 import { ChevronsRight } from 'lucide-react'
 import { useEffect } from 'react'
 import FormError from '@/components/form-utilities/form-error'
+import { careerModalities } from '@/constants/career-modalities'
+import { careers } from '@/constants/careers'
+import ResetDataButton from '../../_components/reset-data-button'
 
 interface FirstStepFormProps {
   setStep: (step: Step) => void
 }
 
 const initialState = {
+  career: '',
+  modality: '',
   razonSocial: '',
+  ruc: '',
+  email: '',
   ciudad: '',
   direccion: '',
   telefono: '',
@@ -64,6 +71,46 @@ const FirstStepForm = ({
 
   return (
     <div className='space-y-4'>
+      <div className='border flex flex-col gap-4 md:flex-row px-2 py-4'>
+        <div className='w-full space-y-2'>
+          <div className='relative w-full'>
+            <Label
+              htmlFor='tipo-institucion'
+              className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
+            >
+              Carrera
+            </Label>
+            <SelectPopover
+              label='Selecciona una...'
+              options={careers}
+              value={values.career}
+              className='w-full border border-gray-200 text-xs'
+              setValue={(value) => handleChange('career', value)}
+              emptyLabel='No existe el tipo de institución receptora'
+            />
+          </div>
+          {fieldErrors?.career && <FormError error={fieldErrors.career[0]} />}
+        </div>
+        <div className='w-full space-y-2'>
+          <div className='relative w-full'>
+            <Label
+              htmlFor='tipo-institucion'
+              className='absolute -top-2.5 left-3 text-sm font-bold bg-white px-1'
+            >
+              Modalidad
+            </Label>
+            <SelectPopover
+              label='Selecciona una...'
+              options={careerModalities}
+              value={values.modality}
+              className='w-full border border-gray-200 text-xs'
+              setValue={(value) => handleChange('modality', value)}
+              emptyLabel='No existe el tipo de institución receptora'
+            />
+          </div>
+          {fieldErrors?.modality && <FormError error={fieldErrors.modality[0]} />}
+        </div>
+      </div>
       <div className='border'>
         <div className='border-b py-1 px-2 md:px-4'>
           <p className='font-bold text-sm'>1. Datos de la Empresa o Institución</p>
@@ -80,6 +127,32 @@ const FirstStepForm = ({
               
             />
             {fieldErrors?.razonSocial && <FormError error={fieldErrors.razonSocial[0]} />}
+          </div>
+          <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
+            <div className='w-full space-y-2'>
+              <FormInput
+                id='ruc'
+                name='RUC'
+                type='text'
+                className='w-full'
+                value={values.ruc}
+                setValue={(value) => handleChange('ruc', value)}
+                placeholder='RUC de la empresa o institución'
+              />
+              {fieldErrors?.ruc && <FormError error={fieldErrors.ruc[0]} />}
+            </div>
+            <div className='w-full space-y-2'>
+              <FormInput
+                id='email'
+                name='Correo electrónico'
+                type='text'
+                className='w-full'
+                value={values.email}
+                setValue={(value) => handleChange('email', value)}
+                placeholder='Email de la empresa o institución'
+              />
+              {fieldErrors?.email && <FormError error={fieldErrors.email[0]} />}
+            </div>
           </div>
           <div className='flex flex-col gap-4 md:gap-6 md:flex-row'>
             <div className='w-full space-y-2'>
@@ -443,7 +516,9 @@ const FirstStepForm = ({
           </div>
         </div>
       </div>
-      <div className='pt-2 flex justify-end'>
+      <div className='pt-2 flex justify-between gap-2'>
+        <div></div>
+        <ResetDataButton setStep={setStep} />
         <Button
           onClick={handleNextStep}
           className='flex gap-1 items-center w-full sm:w-auto'

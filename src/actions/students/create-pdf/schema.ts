@@ -9,18 +9,7 @@ const relacionConSchema = z.object({
   codigo: z.string(),
   titulo: z.string(),
 })
-
-export const businessDataSchema = z.object({
-  career: z.enum(careers.map(career => career.id) as any, {
-    errorMap: (_issue, _ctx) => ({
-      message: 'Seleccione una carrera válida'
-    })
-  }),
-  modality: z.enum(careerModalities.map(modality => modality.id) as any, {
-    errorMap: (_issue, _ctx) => ({
-      message: 'Seleccione una modalidad válida'
-    })
-  }),
+const businessDataSchema = z.object({
   razonSocial: z.string().min(1, 'Razon Social es requerida'),
   ruc: z.string().regex(/^[0-9]+$/, 'RUC debe ser un número').min(1, 'RUC es requerido'),
   email: z.string().email('Email no válido').min(1, 'Email es requerido'),
@@ -34,11 +23,17 @@ export const businessDataSchema = z.object({
     })
   }),
   responsable: z.string().min(1, 'Responsable es requerido'),
+})
+
+const studentDataSchema = z.object({
   cedula: z.string().min(1, 'Cedula es requerido'),
   nombres: z.string().min(1, 'Nombre requerido'),
   creditos: z.string().regex(/^[0-9]+$/, 'Créditos debe ser un número').refine(value => !isNaN(Number(value)) && Number(value) <= 120, {
     message: 'Créditos debe ser un número y menor o igual a 120'
-  }),
+  })
+})
+
+const internshipDataSchema = z.object({
   tipoPractica: z.enum(tipoPractica.map(tipo => tipo.id) as any, {
     errorMap: (_issue, _ctx) => ({
       message: 'Seleccione un tipo de práctica válido'
@@ -52,13 +47,13 @@ export const businessDataSchema = z.object({
   relacionConVinculacion: relacionConSchema.required(),
 })
 
-export const step2Schema = z.object({
+const subjectsDataSchema = z.object({
   subjects: z.array(z.string().optional()).min(0),
   careerId: z.string(),
   additionalSubjects: z.string(),
 })
 
-export const step3Schema = z.object({
+const scheduleDataSchema = z.object({
   areaAsignada: z.string().min(1, 'Área Asignada es requerida'),
   incluirDiasNoTrabajados: z.boolean(),
   incluirHorasAlmuerzo: z.boolean(),
@@ -167,6 +162,9 @@ export const step3Schema = z.object({
     value: z.boolean(),
     amount: z.string().optional()
   }),
+})
+
+const activitiesDataSchema = z.object({
   actividadesDesarrolladas: z.string().optional(),
   habilidadesAdquiridas: z.string().optional(),
   observacionesGenerales: z.string().optional(),
@@ -179,7 +177,7 @@ export const step3Schema = z.object({
   })
 })
 
-export const step4Schema = z.object({
+const signatureDataSchema = z.object({
   tutor: z.object({
     name: z.string().min(1, 'Nombre es requerido'),
     ci: z.string().min(1, 'Cedula es requerida'),
@@ -196,4 +194,24 @@ export const step4Schema = z.object({
     name: z.string().min(1, 'Nombre es requerido'),
     ci: z.string().min(1, 'Cedula es requerida'),
   })
+})
+
+export const faa119FormSchema = z.object({
+  career: z.enum(careers.map(career => career.id) as any, {
+    errorMap: (_issue, _ctx) => ({
+      message: 'Seleccione una carrera válida'
+    })
+  }),
+  modality: z.enum(careerModalities.map(modality => modality.id) as any, {
+    errorMap: (_issue, _ctx) => ({
+      message: 'Seleccione una modalidad válida'
+    })
+  }),
+  businessData: businessDataSchema,
+  studentData: studentDataSchema,
+  internshipData: internshipDataSchema,
+  subjectsData: subjectsDataSchema,
+  scheduleData: scheduleDataSchema,
+  activitiesData: activitiesDataSchema,
+  signatureData: signatureDataSchema,
 })
