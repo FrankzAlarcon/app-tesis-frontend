@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useToast } from '@/components/ui/use-toast'
 import Loader from '@/components/loader'
+import { usePreview } from '@/hooks/use-preview'
+import { useParams, useRouter } from 'next/navigation'
 
 interface FourthStepFormProps {
   setStep: (step: Step) => void
@@ -44,13 +46,17 @@ const FourthStepForm = ({
   epnSigners
 }: FourthStepFormProps) => {
   const { values, fieldErrors, handleChange, validate } = useValuesValidation(initialValues, step4Schema, LocalStorageKeys.STEP_4)
+  const { setData, setFormId, setFormData } = usePreview()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+  const params = useParams()
 
   useEffect(() => {
     console.log('Use effect', epnSigners)
     handleChange('decano', epnSigners.decano)
     handleChange('comisionPracticas', epnSigners.representanteComision)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [epnSigners])
 
   const handleDownload = async () => {
@@ -77,7 +83,7 @@ const FourthStepForm = ({
     const validatedStepTwo = stepTwoData.data
     const validatedStepThree = stepThreeData.data
     try {
-      const response = await axios.post('/api/forms',{
+      const formData = {
         career: validatedStepOne.career,
         modality: validatedStepOne.modality,
         businessData: {
@@ -133,17 +139,12 @@ const FourthStepForm = ({
           comisionPracticas: values.comisionPracticas,
           decano: values.decano,
         }
-      }, {
-        responseType: 'blob'
-      })
-  
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'faa119.pdf');
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      }
+      const response = await axios.post('/api/forms', formData)
+      setFormData(formData)
+      setFormId(params.formId as string)
+      setData(response.data.data)
+      router.push('/e/forms/preview')
     } catch (error) {
       toast({
         title: 'Error al descargar el documento',

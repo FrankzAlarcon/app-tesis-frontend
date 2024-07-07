@@ -89,7 +89,7 @@ const CertificationGroup = ({
   }
 
   return (
-    <div className='mt-4 bg-white rounded-lg shadow-md mx-4 p-2 lg:py-4 lg:px-8 lg:mx-8'>
+    <div className='mt-4 bg-white rounded-lg shadow-md mx-4 p-2 lg:py-4 lg:px-8 lg:mr-8'>
       <div className="flex justify-between items-center pb-2">
         <p className=' text-xl font-bold'>Cursos y certificaciones</p>
         <Toggle asChild>

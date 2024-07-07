@@ -1,9 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import { getProfile } from '@/actions/students/get-profile'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,14 +11,18 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { getShortProfile } from '@/actions/students/get-short-profile'
 import AvatarComponent from '@/components/avatar'
+import { getStudentForms } from '@/actions/students/get-available-forms'
+import { StudentForm } from '@/types/forms'
 
 interface CompleteFormMenuProps {
   children: React.ReactNode
   asChild?: boolean
+  studentForms: StudentForm[]
 }
 
 const CompleteFormMenu = ({
   children,
+  studentForms,
   asChild = false
 }: CompleteFormMenuProps) => {
   return (
@@ -29,12 +31,16 @@ const CompleteFormMenu = ({
         {children}
       </DropdownMenuTrigger>
       <DropdownMenuContent className='lg:w-80'>
-        <DropdownMenuItem className='p-0'>
-          <Link
-            href='/e/forms/registration-preprofesional-practices'
-            className='w-full h-full p-2 hover:bg-black/5 transition-colors'
-          >Registro de prácticas preprofesionales</Link>
-        </DropdownMenuItem>
+        {
+          studentForms.map((form) => (
+            <DropdownMenuItem key={form.id} className='p-0'>
+              <Link
+                href={`/e/forms/${form.id}`}
+                className='w-full h-full p-2 hover:bg-black/5 transition-colors'
+              >{form.name}</Link>
+            </DropdownMenuItem>
+          ))
+        }
         {/* <DropdownMenuItem className='p-0'>
           <Link
             href='/e/registration-convalidation-preprofesional-practices'
@@ -48,8 +54,11 @@ const CompleteFormMenu = ({
 
 async function StudentCard() {
   const profile = await getShortProfile()
-  if (!profile) return (<div>Loading...</div>)
+  const studentForms = await getStudentForms()
+  if (!profile || !studentForms) return (<div>Loading...</div>)
+
   const { name, faculty, ira, shortPresentation, postulationsCount, recommendedCount } = profile
+
   return (
     <div className='w-full md:h-[30rem] lg:h-[23rem] bg-white rounded-xl'>
       <div className='h-1/6 w-full bg-[#A0B4B7] rounded-t-xl '></div>
@@ -94,7 +103,7 @@ async function StudentCard() {
               </div>
             </Badge>
           </div>
-          <CompleteFormMenu asChild>
+          <CompleteFormMenu asChild studentForms={studentForms}>
             <Button
               size='xs'
               variant='outline'

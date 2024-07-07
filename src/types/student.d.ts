@@ -1,3 +1,5 @@
+import { RegisteredForm, StudentForm } from "./forms"
+
 export interface ProjectSkill {
   id: string
   name: string
@@ -32,6 +34,7 @@ export interface Profile {
   faculty: string | null
   projects: Project[]
   certifications: Certification[]
+  studentForms: RegisteredForm[]
 }
 
 export interface ShortStudentProfile {

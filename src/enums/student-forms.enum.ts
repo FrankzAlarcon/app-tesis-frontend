@@ -1,0 +1,6 @@
+export enum StudentFormStatus {
+  EMITIDO = 'EMITIDO',
+  PENDIENTE = 'PENDIENTE',
+  APROBADO = 'APROBADO',
+  RECHAZADO = 'RECHAZADO'
+}

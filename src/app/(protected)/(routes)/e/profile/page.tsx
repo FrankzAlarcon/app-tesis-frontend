@@ -8,9 +8,8 @@ import ProfileContextProvider from '@/contexts/profile-context-provider'
 import CertificationGroup from './_components/certifications-group'
 import ProjectsGroup from './_components/projects-group'
 import AvatarComponent from '@/components/avatar'
+import TrackingForms from './_components/tracking-forms'
 
-
-// TODO: Endpoint for user profile
 const ProfilePage = async () => {
   const profile = await getProfile()
   const skills = await getSkills()
@@ -30,6 +29,7 @@ const ProfilePage = async () => {
                   <div className='relative w-24 h-12 md:w-32 md:h-16'>
                     <AvatarComponent
                       src={profile?.imageUrl}
+                      name={profile?.name}
                       className='mx-auto -top-14 w-24 h-24 z-10 absolute md:w-32 md:h-32'
                       withEdit
                       action={updateImageProfile}
@@ -61,11 +61,21 @@ const ProfilePage = async () => {
             </div>
           </div>
         </div>
-        <div className='mt-60 bg-white rounded-lg shadow-md mx-4 p-2 lg:mt-48 lg:py-4 lg:px-8 lg:mx-8'>
-          <p className=' text-xl font-bold'>Información relevante</p>
-          <ProjectsGroup projects={profile?.projects} skills={skills} />
+        <div className='flex flex-col md:flex-row gap-4 md:gap-0 mt-60 lg:mt-48 w-full'>
+          <div className='w-full md:w-1/4 '>
+            <div className='bg-white rounded mx-4 lg:ml-8 shadow-md p-2 lg:py-4 lg:px-8'>
+              <p className='font-bold'>Registro de prácticas</p>
+              <TrackingForms trackedForms={profile.studentForms} />
+            </div>
+          </div>
+          <div className='w-full md:w-3/4'>
+            <div className='bg-white rounded-lg shadow-md mx-4 p-2 lg:py-4 lg:px-8 lg:mr-8'>
+              <p className=' text-xl font-bold'>Información relevante</p>
+              <ProjectsGroup projects={profile?.projects} skills={skills} />
+            </div>
+            <CertificationGroup certifications={profile?.certifications} />
+          </div>
         </div>
-        <CertificationGroup certifications={profile?.certifications} />
       </div>
     </ProfileContextProvider>
   )

@@ -1,29 +1,8 @@
-import Image from "next/image"
-import ContainerForm from "./steps/container-form"
-import { getCareers } from "@/actions/students/get-careers"
-import { epnSigners } from "@/constants/epn-signers"
-import NotFoundPage from "@/app/not-found"
-import { getStudentForms } from "@/actions/students/get-available-forms"
+import React from 'react'
+import ConfirmStep from '../_components/confirm-step'
+import Image from 'next/image'
 
-interface SelectedFormPageProps {
-  params: {
-    formId: string
-  }
-}
-
-const SelectedFormPage = async ({
-  params
-}: SelectedFormPageProps) => {
-
-  const studentForms = await getStudentForms()
-  const careers = await getCareers()
-  if (!careers || !studentForms) {
-    return null
-  }
-  if (studentForms.length === 0 || !studentForms.find(form => form.id === params.formId)) {
-    return <NotFoundPage />
-  }
-
+const FormPreviewPage = () => {
   return (
     <div className="p-4 lg:py-8 lg:px-12">
       <div className="bg-white w-full rounded-sm shadow-sm p-2">
@@ -40,11 +19,11 @@ const SelectedFormPage = async ({
           </div>
         </div>
         <div className="pt-4 md:px-4 md:py-8 lg:p-8">
-          <ContainerForm careers={careers} epnSigners={epnSigners} />
+          <ConfirmStep />
         </div>
       </div>
     </div>
   )
 }
 
-export default SelectedFormPage
+export default FormPreviewPage

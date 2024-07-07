@@ -19,6 +19,7 @@ const ContainerForm = ({
   careers
 }: ContainerFormProps) => {
   const [step, setStep] = useState<Step>(1)
+  
   return (
     <div>
       {step === 1 && <FirstStepForm setStep={setStep} />}
