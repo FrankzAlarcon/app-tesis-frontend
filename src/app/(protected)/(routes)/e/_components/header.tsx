@@ -6,6 +6,7 @@ import { currentUser } from '@/lib/auth'
 import { studentRoutes } from '@/routes/student-routes'
 import { redirect } from 'next/navigation'
 import { getShortProfile } from '@/actions/students/get-short-profile'
+import Searcher from '@/components/inputs/searcher'
 
 
 const Header = async () => {
@@ -16,7 +17,6 @@ const Header = async () => {
   }
   const { role, accessToken, ...rest } = user
   rest.image = profile?.imageUrl
-  console.log('[HEADER STUDENT]',rest)
   return (
     <div className='w-full bg-white fixed flex flex-col md:flex-row md:justify-between gap-2 shadow-md z-30 p-2'>
       <div className='flex flex-col md:flex-row gap-4'>
@@ -27,7 +27,7 @@ const Header = async () => {
           </div>
         </div>
         <div className='w-full pt-2 md:max-w-96 lg:min-w-80'>
-          <Input className='w-full' placeholder='Buscar' />
+          <Searcher />
         </div>
       </div>
       <div>

@@ -16,12 +16,14 @@ interface ShortPublicationCardProps {
   publication: ShortPublication
   enableEdition: boolean
   large?: boolean
+  isPublic?: boolean
 }
 
 export const PublicationCard = ({
   publication,
   enableEdition,
-  large = false
+  large = false,
+  isPublic = false
 }: ShortPublicationCardProps) => {
   const { toast } = useToast()
   const { execute, resetValues } = useAction(removePublication, {
@@ -57,7 +59,7 @@ export const PublicationCard = ({
           </CardDescription>
         </div>
         {
-          enableEdition && (
+          enableEdition && !isPublic && (
             <ConfirmDialog asChild
               alertTitle={`¿Eliminar la publicación "${publication.title}"?`}
               alertDescription="Esta acción no se puede deshacer."
@@ -92,7 +94,7 @@ export const PublicationCard = ({
         <div className={cn("w-full flex justify-center pt-4",
           large && "sm:w-40"
         )}>
-          <Link href={`/b/publications/${publication.id}`}
+          <Link href={!isPublic ? `/b/publications/${publication.id}`: `/e/postulations/${publication.id}`}
             className="w-full sm:w-40 text-center py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
           >
             Ver publicación
@@ -105,10 +107,12 @@ export const PublicationCard = ({
 
 interface PublicationsGroupProps {
   publications: ShortPublication[]
+  isPublic?: boolean
 }
 
 const PublicationsGroup = ({
   publications = [],
+  isPublic = false
 }: PublicationsGroupProps) => {
 
   return (
@@ -121,6 +125,7 @@ const PublicationsGroup = ({
                 key={publication.id}
                 publication={publication}
                 enableEdition
+                isPublic={isPublic}
               />
             ))
           }
@@ -128,7 +133,13 @@ const PublicationsGroup = ({
         {
           publications.length === 0 && (
             <div className='text-center text-gray-500'>
-              <p>Aún no has creado pulicaciones!</p>
+              {
+                !isPublic ? (
+                  <p>Aún no has creado pulicaciones!</p>
+                ) : (
+                  <p>Aún no existen publicaciones</p>
+                )
+              }
             </div>
           )
         }

@@ -9,9 +9,24 @@ import CertificationGroup from './_components/certifications-group'
 import ProjectsGroup from './_components/projects-group'
 import AvatarComponent from '@/components/avatar'
 import TrackingForms from './_components/tracking-forms'
+import { cn } from '@/lib/utils'
+import { Profile } from '@/types/student'
 
-const ProfilePage = async () => {
-  const profile = await getProfile()
+interface ProfilePageProps {
+  isPublic?: boolean
+  publicProfile?: Profile | null
+}
+
+const ProfilePage = async ({
+  isPublic = false,
+  publicProfile = null
+}: ProfilePageProps) => {
+  let profile = null
+  if (isPublic) {
+    profile = publicProfile
+  } else {
+    profile = await getProfile()
+  }
   const skills = await getSkills()
   if (!profile || !skills) return (<div>Loading...</div>)
   const { id, email, name, projects, ...rest } = profile
@@ -45,9 +60,13 @@ const ProfilePage = async () => {
                     <p className='font-bold pb-1'>Conéctate conmigo: </p>
                     <p className='text-sm text-gray-700 flex gap-1 items-center'><Mail className='h-4 w-4' /><span>{profile?.email}</span></p>
                   </div>
-                  <div className='pt-2'>
-                    <EditProfileForm completeProfile={rest} />
-                  </div>
+                  {
+                    !isPublic && (
+                      <div className='pt-2'>
+                        <EditProfileForm completeProfile={rest} />
+                      </div>
+                    )
+                  }
                 </div>
               </div>
               {
@@ -62,18 +81,22 @@ const ProfilePage = async () => {
           </div>
         </div>
         <div className='flex flex-col md:flex-row gap-4 md:gap-0 mt-60 lg:mt-48 w-full'>
-          <div className='w-full md:w-1/4 '>
-            <div className='bg-white rounded mx-4 lg:ml-8 shadow-md p-2 lg:py-4 lg:px-8'>
-              <p className='font-bold'>Registro de prácticas</p>
-              <TrackingForms trackedForms={profile.studentForms} />
-            </div>
-          </div>
-          <div className='w-full md:w-3/4'>
+          {
+            !isPublic && (
+              <div className='w-full md:w-1/4 '>
+                <div className='bg-white rounded mx-4 lg:ml-8 shadow-md p-2 lg:py-4 lg:px-8'>
+                  <p className='font-bold'>Registro de prácticas</p>
+                  <TrackingForms trackedForms={profile.studentForms} />
+                </div>
+              </div>
+            )
+          }
+          <div className={cn('w-full md:w-3/4', isPublic && 'md:w-full')}>
             <div className='bg-white rounded-lg shadow-md mx-4 p-2 lg:py-4 lg:px-8 lg:mr-8'>
               <p className=' text-xl font-bold'>Información relevante</p>
-              <ProjectsGroup projects={profile?.projects} skills={skills} />
+              <ProjectsGroup projects={profile?.projects} skills={skills} isPublic={isPublic} />
             </div>
-            <CertificationGroup certifications={profile?.certifications} />
+            <CertificationGroup certifications={profile?.certifications} isPublic={isPublic} />
           </div>
         </div>
       </div>

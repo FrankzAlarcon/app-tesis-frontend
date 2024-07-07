@@ -17,11 +17,13 @@ import { useToast } from "@/components/ui/use-toast"
 interface CertificationCardProps {
   certification: Certification
   enableEdition: boolean
+  isPublic?: boolean
 }
 
 const CertificationCard = ({
   certification,
-  enableEdition
+  enableEdition,
+  isPublic = false
 }: CertificationCardProps) => {
   const { toast } = useToast()
   const { execute, resetValues } = useAction(removeCertification, {
@@ -52,7 +54,7 @@ const CertificationCard = ({
             </Link>
           </div>
           {
-            enableEdition && (
+            enableEdition && !isPublic && (
               <ConfirmDialog asChild 
                 alertTitle={`¿Estás seguro que quieres eliminar la certificación: ${certification.name}?`}
                 alertDescription="Esta acción no se puede deshacer."
@@ -77,10 +79,12 @@ const CertificationCard = ({
 
 interface CertificationGroupProps {
   certifications: Certification[]
+  isPublic?: boolean
 }
 
 const CertificationGroup = ({
-  certifications = []
+  certifications = [],
+  isPublic = false
 }: CertificationGroupProps) => {
   const [enableEditMode, setEnableEditMode] = useState(false)
 
@@ -92,11 +96,15 @@ const CertificationGroup = ({
     <div className='mt-4 bg-white rounded-lg shadow-md mx-4 p-2 lg:py-4 lg:px-8 lg:mr-8'>
       <div className="flex justify-between items-center pb-2">
         <p className=' text-xl font-bold'>Cursos y certificaciones</p>
-        <Toggle asChild>
-          <Button aria-label="Habilitar edición" variant='ghost' onClick={() => handleEnableEdit()}>
-            <Pencil className="w-5 h-5" />
-          </Button>
-        </Toggle>
+        {
+          !isPublic && (
+            <Toggle asChild>
+              <Button aria-label="Habilitar edición" variant='ghost' onClick={() => handleEnableEdit()}>
+                <Pencil className="w-5 h-5" />
+              </Button>
+            </Toggle>
+          )
+        }
       </div>
       <div>
         <div className='grid gap-4 md:grid-cols-2'>
@@ -109,7 +117,7 @@ const CertificationGroup = ({
               />
             ))
           }
-          <NewCertification />
+          { !isPublic && (<NewCertification />)}
         </div>
       </div>
     </div>   

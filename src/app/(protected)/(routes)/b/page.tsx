@@ -7,11 +7,23 @@ import EditProfileForm from './_components/edit-profile-form'
 import Link from 'next/link'
 import AvatarComponent from '@/components/avatar'
 import { updateImageProfile } from '@/actions/business/update-image-profile'
+import { BusinessProfile } from '@/types/business'
 
-
+interface BusinessPageProps {
+  isPublic?: boolean
+  publicProfile?: BusinessProfile | null
+}
 // TODO: Endpoint for user profile
-const BusinessPage = async () => {
-  const profile = await getProfile()
+const BusinessPage = async ({
+  isPublic = false,
+  publicProfile = null
+}: BusinessPageProps) => {
+  let profile = null
+  if (isPublic) {
+    profile = publicProfile
+  } else {
+    profile = await getProfile()
+  }
   if (!profile) {
     return null
   }
@@ -41,11 +53,15 @@ const BusinessPage = async () => {
                   <p className='text-gray-700 text-sm'>{profile?.shortPresentation ?? 'Empresa'} </p>
                 </div>
               </div>
-              <div className='flex gap-4 items-center'>
-                <div className='pt-2'>
-                  <EditProfileForm completeProfile={rest} />
-                </div>
-              </div>
+              {
+                !isPublic && (
+                  <div className='flex gap-4 items-center'>
+                    <div className='pt-2'>
+                      <EditProfileForm completeProfile={rest} />
+                    </div>
+                  </div>
+                )
+              }
             </div>
             {
               profile?.description && (
@@ -61,19 +77,27 @@ const BusinessPage = async () => {
       <div className='mt-40 bg-white relative rounded-lg shadow-md mx-4 p-2 lg:mt-36 lg:py-4 lg:px-8 lg:mx-8'>
         <div className='flex justify-between items-center'>
           <p className=' text-xl font-bold'>Publicaciones</p>
-          <Link href="/b/publications/new"
-            className="py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
-          >
-            Crear publicación
-          </Link>
+          {
+            !isPublic && (
+              <Link href="/b/publications/new"
+                className="py-2 px-4 text-primary border border-primary bg-background hover:bg-blue-700 hover:text-white rounded-md transition duration-300 ease-in-out"
+              >
+                Crear publicación
+              </Link>
+            )
+          }
         </div>
         {/* <ProjectsGroup projects={profile?.projects} skills={skills} /> */}
-        <PublicationsGroup publications={publications} />
-        <div className='pt-4 flex justify-center text-gray-500'>
-          <Link href="/b/publications" className='flex gap-2 items-center hover:underline'>
-            Ver todas las publicaciones <ArrowRight className='h-5 w-5' />
-          </Link>
-        </div>
+        <PublicationsGroup publications={publications} isPublic={isPublic} />
+        {
+          !isPublic && (
+            <div className='pt-4 flex justify-center text-gray-500'>
+              <Link href="/b/publications" className='flex gap-2 items-center hover:underline'>
+                Ver todas las publicaciones <ArrowRight className='h-5 w-5' />
+              </Link>
+            </div>
+          )
+        }
       </div>
     </div>
 

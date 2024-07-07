@@ -1,11 +1,17 @@
 import React, { ReactNode } from 'react'
 import Header from './_components/header'
+import { currentUser } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 
 const StudentsLayout = async ({
   children
 }: {
   children: ReactNode
 }) => {
+  const user = await currentUser()
+  if (!user || user.role === 'business') {
+    redirect('/login')
+  }
   return (
     <div className='min-h-screen bg-[#f2f2f2]'>
       <Header />

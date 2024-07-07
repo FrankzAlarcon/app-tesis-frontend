@@ -16,11 +16,13 @@ import { Toggle } from "@/components/ui/toggle"
 interface ProjectCardProps {
   project: Project
   enableEdition: boolean
+  isPublic?: boolean
 }
 
 const ProjectCard = ({
   project,
-  enableEdition
+  enableEdition,
+  isPublic = false
 }: ProjectCardProps) => {
   const { toast } = useToast()
   const { execute, resetValues } = useAction(removeProject, {
@@ -46,7 +48,7 @@ const ProjectCard = ({
           {project.description && (<CardDescription className="text-muted-foreground">{project.description}</CardDescription>)}
         </div>
         {
-          enableEdition && (
+          enableEdition && !isPublic && (
             <ConfirmDialog asChild 
               alertTitle={`¿Estás seguro que quieres eliminar el proyecto: ${project.name}?`}
               alertDescription="Esta acción no se puede deshacer."
@@ -78,11 +80,13 @@ const ProjectCard = ({
 interface ProjectsGroupProps {
   projects: Project[]
   skills: ProjectSkill[]
+  isPublic?: boolean
 }
 
 const ProjectsGroup = ({
   projects = [],
-  skills = []
+  skills = [],
+  isPublic = false
 }: ProjectsGroupProps) => {
   const [enableEditMode, setEnableEditMode] = useState(false)
 
@@ -93,11 +97,15 @@ const ProjectsGroup = ({
     <div>
       <div className="flex justify-between items-center pb-2">
         <p className='font-bold py-2'>Mis proyectos destacados:</p>
-        <Toggle asChild>
-          <Button aria-label="Habilitar edición" variant='ghost' onClick={() => handleEnableEdit()}>
-            <Pencil className="w-5 h-5" />
-          </Button>
-        </Toggle>
+        {
+          !isPublic && (
+            <Toggle asChild>
+              <Button aria-label="Habilitar edición" variant='ghost' onClick={() => handleEnableEdit()}>
+                <Pencil className="w-5 h-5" />
+              </Button>
+            </Toggle>
+          )
+        }
       </div>
       <div className='grid gap-4 md:grid-cols-2'>
         {
@@ -106,10 +114,11 @@ const ProjectsGroup = ({
               key={project.id}
               project={project}
               enableEdition={enableEditMode}
+              isPublic={isPublic}
             />
           ))
         }
-        <NewProject skills={skills} />
+        { !isPublic && (<NewProject skills={skills} />)}
       </div>
     </div>
   )

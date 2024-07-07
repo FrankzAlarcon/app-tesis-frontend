@@ -6,6 +6,7 @@ import { companyRoutes } from '@/routes/student-routes'
 import { currentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { getShortProfile } from '@/actions/business/get-short-profile'
+import Searcher from '@/components/inputs/searcher'
 
 
 const Header = async () => {
@@ -26,7 +27,7 @@ const Header = async () => {
           </div>
         </div>
         <div className='w-full pt-2 md:max-w-96 lg:min-w-80'>
-          <Input className='w-full' placeholder='Buscar' />
+          <Searcher />
         </div>
         <div className='w-full'>
           <nav className='flex justify-around items-center'>
