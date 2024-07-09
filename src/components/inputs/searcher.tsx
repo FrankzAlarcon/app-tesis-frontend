@@ -44,8 +44,8 @@ const Searcher = ({
       text: debouncedValue
     }).then(() => {
       setOpen(true)
-    } )
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue])
 
   return (
@@ -72,7 +72,7 @@ const Searcher = ({
                       <CommandItem key={student.id}
                         value={student.studentId}
                         onSelect={(value) => {
-                          const startRoute = isBusiness ? '/b/profile' : '/b/profile/e'
+                          const startRoute = isBusiness ? '/b/profile/e' : '/e/profile'
                           router.push(`${startRoute}/${value}`)
                           setOpen(false)
                         }}
@@ -99,29 +99,32 @@ const Searcher = ({
               data && !isLoading && data.business.length > 0 && (
                 <CommandGroup heading='Empresas'>
                   {
-                    data.business.map((business) => (
-                      <CommandItem key={business.id}
-                        value={business.businessId}
-                        onSelect={(value) => {
-                          const startRoute = isBusiness ? '/b/profile' : '/b/profile/e'
-                          router.push(`${startRoute}/${value}`)
-                          setOpen(false)
-                        }}
-                        className='cursor-pointer text-xs'
-                      >
-                        <p className='overflow-hidden whitespace-nowrap text-ellipsis'>
-                          <span className='text-sm text-black'>{business.name}</span>
-                          {
-                            business.shortPresentation && (
-                              <>
-                                <span className='font-bold text-sm'> · </span>
-                                <span className='text-gray-800'>{business.shortPresentation}</span>
-                              </>
-                            )
-                          }
-                        </p>
-                      </CommandItem>
-                    ))
+                    data.business.map((business) => {
+                      console.log(business);
+                      return (
+                        <CommandItem key={business.id}
+                          value={business.businessId}
+                          onSelect={(value) => {
+                            const startRoute = isBusiness ? '/b/profile' : '/e/profile/b'
+                            router.push(`${startRoute}/${value}`)
+                            setOpen(false)
+                          }}
+                          className='cursor-pointer text-xs'
+                        >
+                          <p className='overflow-hidden whitespace-nowrap text-ellipsis'>
+                            <span className='text-sm text-black'>{business.name}</span>
+                            {
+                              business.shortPresentation && (
+                                <>
+                                  <span className='font-bold text-sm'> · </span>
+                                  <span className='text-gray-800'>{business.shortPresentation}</span>
+                                </>
+                              )
+                            }
+                          </p>
+                        </CommandItem>
+                      )
+                    })
                   }
                 </CommandGroup>
               )

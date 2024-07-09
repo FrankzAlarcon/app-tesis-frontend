@@ -27,7 +27,7 @@ const Header = async () => {
           </div>
         </div>
         <div className='w-full pt-2 md:max-w-96 lg:min-w-80'>
-          <Searcher />
+          <Searcher isBusiness />
         </div>
         <div className='w-full'>
           <nav className='flex justify-around items-center'>
