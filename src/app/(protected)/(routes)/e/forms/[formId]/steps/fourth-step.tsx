@@ -56,13 +56,16 @@ const FourthStepForm = ({
     console.log('Use effect', epnSigners)
     handleChange('decano', epnSigners.decano)
     handleChange('comisionPracticas', epnSigners.representanteComision)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [epnSigners])
 
   const handleDownload = async () => {
     setIsLoading(true)
     const isValid = validate()
-    if (!isValid) return
+    if (!isValid) {
+      setIsLoading(false)
+      return
+    }
     const stepOne = JSON.parse(localStorage.getItem(LocalStorageKeys.STEP_1) || '{}') as any
     const stepTwo = JSON.parse(localStorage.getItem(LocalStorageKeys.STEP_2) || '{}') as any
     const stepThree = JSON.parse(localStorage.getItem(LocalStorageKeys.STEP_3) || '{}') as any
@@ -194,7 +197,7 @@ const FourthStepForm = ({
               />
             </div>
           </div>
-          { fieldErrors?.tutor && <FormError error={fieldErrors.tutor[0]} /> }
+          {fieldErrors?.tutor && <FormError error={fieldErrors.tutor[0]} />}
         </div>
         <div className='border border-collapse p-2'>
           <p className='font-bold text-sm text-center'>Entidad Receptora</p>
@@ -225,7 +228,7 @@ const FourthStepForm = ({
               />
             </div>
           </div>
-          { fieldErrors?.entidadReceptora && <FormError error={fieldErrors.entidadReceptora[0]} /> }
+          {fieldErrors?.entidadReceptora && <FormError error={fieldErrors.entidadReceptora[0]} />}
         </div>
         <div className='border border-collapse p-2'>
           <p className='font-bold text-sm text-center'>Comisión de prácticas preprofesionales</p>
@@ -241,7 +244,7 @@ const FourthStepForm = ({
               <p className='text-sm w-16'>Nombre:</p>
               <Input
                 value={epnSigners.representanteComision.name}
-                disabled
+                // disabled
                 onChange={(e) => handleChange('comisionPracticas', { ...values.comisionPracticas, name: e.target.value })}
                 placeholder='Nombre'
                 className='w-full'
@@ -251,14 +254,14 @@ const FourthStepForm = ({
               <p className='text-sm w-16'>Cédula:</p>
               <Input
                 value={epnSigners.representanteComision.ci}
-                disabled
+                // disabled
                 onChange={(e) => handleChange('comisionPracticas', { ...values.comisionPracticas, ci: e.target.value })}
                 placeholder='Cédula'
                 className='w-full'
               />
             </div>
           </div>
-          { fieldErrors?.comisionPracticas && <FormError error={fieldErrors.comisionPracticas[0]} /> }
+          {fieldErrors?.comisionPracticas && <FormError error={fieldErrors.comisionPracticas[0]} />}
         </div>
         <div className='border border-collapse p-2'>
           <p className='font-bold text-sm text-center'>Decano(a) de la Facultad / Director(a) de la ESFOT</p>
@@ -274,7 +277,7 @@ const FourthStepForm = ({
               <p className='text-sm w-16'>Nombre:</p>
               <Input
                 value={epnSigners.decano.name}
-                disabled
+                // disabled
                 onChange={(e) => handleChange('decano', { ...values.decano, name: e.target.value })}
                 placeholder='Nombre'
                 className='w-full'
@@ -284,14 +287,14 @@ const FourthStepForm = ({
               <p className='text-sm w-16'>Cédula:</p>
               <Input
                 value={epnSigners.decano.ci}
-                disabled
+                // disabled
                 onChange={(e) => handleChange('decano', { ...values.decano, ci: e.target.value })}
                 placeholder='Cédula'
                 className='w-full'
               />
             </div>
           </div>
-          { fieldErrors?.decano && <FormError error={fieldErrors.decano[0]} /> }
+          {fieldErrors?.decano && <FormError error={fieldErrors.decano[0]} />}
         </div>
       </div>
       <div className='pt-2 flex justify-between gap-6'>

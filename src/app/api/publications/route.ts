@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     requirements: formData.get('requirements') as string,
     skillsIds: (formData.getAll('skillsIds') as string[]),
     notRegisteredSkills: (formData.getAll('notRegisteredSkills') as string[]),
-    remuneration: formData.get('remuneration') as string,    
+    remuneration: formData.get('remuneration') as string,
   }
   console.log(fields)
   const validatedFields = createPublicationSchema.safeParse(fields)
@@ -38,8 +38,8 @@ export async function POST(request: Request) {
         image: 'La imagen debe pesar menos de 3MB'
       }, { status: 400 })
     }
-  
-    if (!['image/jpeg', 'image/png' ].includes(image.type)) {
+
+    if (!['image/jpeg', 'image/png'].includes(image.type)) {
       return Response.json({
         image: 'La imagen debe ser JPG o PNG'
       }, { status: 400 })
@@ -72,21 +72,21 @@ export async function POST(request: Request) {
   if (image) validatedFormData.append('image', image)
 
   try {
-    // const rta = await axios.post(`${BACKEND_API_URL}/publications`, validatedFormData, {
-      const rta = await axios.post(`http://localhost:3400/api/v1/publications`, validatedFormData, {
+    const rta = await axios.post(`${BACKEND_API_URL}/publications`, validatedFormData, {
+      // const rta = await axios.post(`http://localhost:3400/api/v1/publications`, validatedFormData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${user.accessToken}`
       }
     })
-  
+
     if (rta.status === 201) {
       console.log('Publicación creada', rta.data)
       return Response.json({ ...rta.data }, {
         status: 200
       })
     }
-    console.log('Error',rta.data)
+    console.log('Error', rta.data)
     return Response.json({ error: 'Error al crear la publicación' }, { status: 500 })
   } catch (error) {
     console.log('Error', (error as any).response.data)
