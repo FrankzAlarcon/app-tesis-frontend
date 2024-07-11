@@ -31,7 +31,7 @@ const ActivitiesPieChart = () => {
   const options = {
     plugins: {
       legend: {
-        position: 'left',
+        position: 'left' as 'left',
       },
     },
   };

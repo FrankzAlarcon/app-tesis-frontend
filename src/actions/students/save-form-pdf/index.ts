@@ -40,7 +40,7 @@ const action = async (data: InputType): Promise<ReturnType> => {
   formData.append('status', 'EMITIDO')
 
   try {
-    await axios.post(`${BACKEND_API_URL}/student-form/upload-pending`, formData, {
+    await axios.post(`${BACKEND_API_URL}/student-form/upload-emitted`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${user.accessToken}`
