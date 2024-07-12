@@ -19,21 +19,21 @@ export async function POST(request: NextRequest) {
 
   const file = formData.get('file') as File | null | undefined
   if (!file || !file.name || file.size === 0) {
-    return {
+    return Response.json({
       error: "Se debe cargar un archivo"
-    }
+    }, { status: 400 })
   }
 
   if (file.size > 3 * 1024 * 1024) {
-    return {
+    return Response.json({
       error: "El archivo debe pesar menos de 3MB"
-    }
+    }, { status: 400 })
   }
 
   if (!['application/pdf'].includes(file.type)) {
-    return {
+    return Response.json({
       error: "El archivo debe ser un PDF"
-    }
+    }, { status: 400 })
   }
   const user = await currentUser()
   const newFormData = new FormData()
