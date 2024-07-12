@@ -44,6 +44,7 @@ const ConfirmDialog = ({
             {alertDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>
+        {}
         <AlertDialogFooter>
           <AlertDialogCancel>{alertCancelText ? alertCancelText : 'Cancelar'}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>{alertConfirmText ? alertConfirmText : 'Continuar'}</AlertDialogAction>

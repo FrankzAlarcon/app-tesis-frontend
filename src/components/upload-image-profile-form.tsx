@@ -16,7 +16,6 @@ import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Image as ImageIcon, XCircle } from 'lucide-react'
 import { useFormState } from 'react-dom'
-import { updateImageProfile } from '@/actions/business/update-image-profile'
 import Image from 'next/image'
 
 type Action = (prevState: any, data: FormData) => {

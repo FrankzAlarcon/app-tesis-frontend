@@ -1,12 +1,18 @@
 "use client"
 
+import { downloadForm } from '@/actions/students/download-form'
+import Loader from '@/components/loader'
+import UploadFileModal from '@/components/modals/upload-file-modal'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { StudentFormStatus } from '@/enums/student-forms.enum'
+import { useAction } from '@/hooks/use-action'
 import { formatDateComplete } from '@/lib/format-date'
 import { cn } from '@/lib/utils'
 import { RegisteredForm } from '@/types/forms'
+import axios from 'axios'
 import { BookCheck, BookX, CircleArrowLeft, CircleArrowRight, Notebook, NotebookPen } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useMemo, useState } from 'react'
 
 interface TrackingFormsProps {
@@ -85,7 +91,27 @@ const ApprovedForm = ({ date, status }: {date: string | null, status: string}) =
 const TrackingForms = ({
   trackedForms
 }: TrackingFormsProps) => {
+  const router = useRouter()
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [files, setFiles] = useState<File[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const { execute, isLoading } = useAction(downloadForm, {
+    onError: (error) => {
+      console.log(error)
+    },
+    onSuccess: (data) => {
+      const pdfData = Uint8Array.from(data.file.data)
+      const url = window.URL.createObjectURL(new Blob([pdfData.buffer], { type: "application/pdf" }))
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', 'formulario.pdf')
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(url)
+    }
+  })
   const selectedForm = useMemo(() => {
     if (trackedForms.length === 0) return null
     return trackedForms[selectedIndex]
@@ -103,10 +129,45 @@ const TrackingForms = ({
     setSelectedIndex(newIndex)
   }
 
-  const handleDownloadForm = () => {
+  const handleDownloadForm = async () => {
     // TODO: download form
-    // TODO: Upload form with first signatures
-    console.log('descargar formulario seleccionado', selectedForm?.url)
+    await execute({
+      studentFormId: selectedForm?.id || '',
+      status: selectedForm?.status as StudentFormStatus || StudentFormStatus.EMITIDO
+    })
+  }
+  
+  const handleUploadForm = async () => {
+    if (files.length === 0) {
+      setError('No se ha seleccionado ningún archivo')
+      return false
+    }
+    if (files[0].type !== 'application/pdf') {
+      setError('El archivo seleccionado no es un PDF')
+      return false
+    }
+    if (files.length > 1) {
+      setError('Solo se puede subir un archivo')
+      return false
+    }   
+    const formData = new FormData()
+    formData.append('file', files[0])
+    formData.append('url', selectedForm?.url || '')
+
+    try {
+      const rta = await axios.post('/api/forms/upload-pending', formData)
+      if (rta.status !== 200) {
+        setError('Ha ocurrido un error al guardar el archivo. Por favor intenta de nuevo.')
+        return false
+      }
+      router.refresh()
+      setError(null)
+      return true
+    } catch (error) {
+      console.log((error as any).response.data)
+      setError((error as any).response.data.error || 'Ha ocurrido un error al guardar el archivo. Por favor intenta de nuevo.')
+      return false
+    }
   }
   return (
     <div>
@@ -162,14 +223,24 @@ const TrackingForms = ({
             <div className='space-y-2'>
               {
                 selectedForm.status === StudentFormStatus.EMITIDO && (
-                  <Button
-                    variant='outline'
-                    size='sm'
-                    className='w-full'
-                    onClick={handleDownloadForm}
+                  <UploadFileModal
+                    asChild
+                    alertTitle='Subir formulario F_AA_119'
+                    alertDescription='Arrastra el formulario con las firmas de tu Tutor de EPN y del Responsable de la Entidad Receptora'
+                    files={files}
+                    setFiles={setFiles}
+                    onConfirm={handleUploadForm}
+                    error={error}
+                    setError={setError}
                   >
-                    Subir formulario
-                  </Button>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      className='w-full'
+                    >
+                      Subir formulario
+                    </Button>
+                  </UploadFileModal>
                 )
               }
               <Button
@@ -178,7 +249,13 @@ const TrackingForms = ({
                 className='w-full'
                 onClick={handleDownloadForm}
               >
-                Descargar formulario
+                {
+                  isLoading ? (
+                    <Loader className='text-black h-5 w-5' />
+                  ) : (
+                    <span>Descargar formulario</span>
+                  )
+                }
               </Button>
             </div>
             <div className='flex justify-center gap-4'>
