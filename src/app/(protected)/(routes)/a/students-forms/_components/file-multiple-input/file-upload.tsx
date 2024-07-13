@@ -31,7 +31,6 @@ function FileUpload() {
     <div className='flex flex-col h-full justify-between pb-4'>
       <div className='flex flex-col gap-4'>
         <UploadInputFile onChange={handleFileChange} />
-        <FilterSearch />
       </div>
       <TableFile files={files} onRemove={handleFileRemove} />
       <div className='flex justify-end'>

@@ -7,7 +7,7 @@ async function CompaniesPage() {
   const businessArray = business?.data
   return (
     <div className='w-11/12 h-5/6 dashboard-container-shadow p-4'>
-      <CompaniesView business={businessArray} />
+      <CompaniesView />
     </div>
   )
 }

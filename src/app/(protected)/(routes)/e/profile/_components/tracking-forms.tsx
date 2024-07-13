@@ -130,7 +130,6 @@ const TrackingForms = ({
   }
 
   const handleDownloadForm = async () => {
-    // TODO: download form
     await execute({
       studentFormId: selectedForm?.id || '',
       status: selectedForm?.status as StudentFormStatus || StudentFormStatus.EMITIDO
