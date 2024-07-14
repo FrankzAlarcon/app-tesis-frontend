@@ -19,6 +19,10 @@ export interface Post {
   bookmarked: boolean
   createdAt: string
   updatedAt: string
+
+  matchScore: number | undefined
+  matchCount: number | undefined
+  totalSkillsCount: number | undefined
 }
 
 

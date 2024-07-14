@@ -9,6 +9,7 @@ import NotFoundPage from '@/app/not-found'
 import { formatDateText } from '@/lib/format-date'
 import SafeHTML from '@/components/safe-html'
 import Image from 'next/image'
+import RecommendationsGroup from '../_components/recommendations-group'
 
 interface PublicationEntryPageProps {
   params: {
@@ -98,8 +99,9 @@ const PublicationEntryPage = async ({
                       <Image
                         src={publicationEntry.imageUrl}
                         alt={publicationEntry.title}
-                        width={500}
-                        height={300}
+                        className='w-full h-auto max-h-64 object-contain'
+                        width={320}
+                        height={160}
                       />
                     </div>
                   )
@@ -119,14 +121,14 @@ const PublicationEntryPage = async ({
           </div>
         </div>
         {
-          (publicationEntry as any).recommended?.length > 0 && (
+          publicationEntry.recommendations.length > 0 && (
             <div>
               <Card>
                 <CardHeader>
                   <CardTitle className='text-xl'>Te recomendamos estos estudiantes</CardTitle>
                 </CardHeader>
                 <CardContent>
-
+                  <RecommendationsGroup recommendations={publicationEntry.recommendations} />
                 </CardContent>
               </Card>
             </div>

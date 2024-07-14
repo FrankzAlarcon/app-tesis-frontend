@@ -61,6 +61,13 @@ export interface Publication {
   // endDate: string
   updatedAt: string
   postulations: Postulation[]
+  recommendations: Recommendation[]
+}
+
+export interface Recommendation extends ShortStudent {
+  matchCount: number
+  totalStudentSkills: number
+  matchScore: number
 }
 
 export interface Postulation {
