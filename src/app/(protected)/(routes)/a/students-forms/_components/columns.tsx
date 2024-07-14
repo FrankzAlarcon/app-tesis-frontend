@@ -7,11 +7,18 @@ import { ColumnDef } from "@tanstack/react-table"
 
 export type StudentForm = {
   id: string
+  studentId: string
   studentName: string
   formId: string
   formCode: string
   status: StudentFormStatus
-  onDownload: (id: string, status: StudentFormStatus) => void
+  onDownload: (data: {
+    id: string,
+    status: StudentFormStatus
+    studentName: string
+    formCode: string
+    studentId: string
+  }) => void
 }
 
 export const columns: ColumnDef<StudentForm>[] = [
@@ -48,13 +55,22 @@ export const columns: ColumnDef<StudentForm>[] = [
     header: "Acciones",
     cell: ({ row }) => {
       const formId = row.original.id
+      const formCode = row.original.formCode
+      const studentName = row.original.studentName
       const status = row.original.status
+      const studentId = row.original.studentId
       return (
         <div className="flex justify-center">
           <Button
             size='sm' variant='outline'
             className="border-none cursor-pointer hover:underline"
-            onClick={() => row.original.onDownload(formId, status)}
+            onClick={() => row.original.onDownload({
+              id: formId,
+              status,
+              studentName,
+              formCode,
+              studentId
+            })}
           >
             <span>Descargar</span>
           </Button>

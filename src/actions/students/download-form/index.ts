@@ -30,7 +30,12 @@ const action = async (data: InputType): Promise<ReturnType> => {
       }
     }
     
-    return { data: { file: response.data } }
+    return { data: {
+      file: response.data,
+      studentName: data.studentName,
+      formCode: data.formCode,
+      studentId: data.studentId
+    } }
   } catch (error) {
     console.log('Error [catch]', (error as any).response?.data)
     return {

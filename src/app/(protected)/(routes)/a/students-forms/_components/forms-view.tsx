@@ -38,7 +38,7 @@ function FormsView({ onShowForm }: FormsViewProps) {
       const link = document.createElement('a')
       link.style.display = 'none'
       link.href = url
-      link.setAttribute('download', 'formulario.pdf')
+      link.setAttribute('download', `${data.studentName};${data.formCode};${data.studentId}.pdf`)
       document.body.appendChild(link)
       link.click()
       link.remove()
@@ -102,10 +102,17 @@ function FormsView({ onShowForm }: FormsViewProps) {
     })
   }
 
-  const handleDownload = useCallback(async (id: string, status: StudentFormStatus) => {
+  const handleDownload = useCallback(async (
+    {id, status, formCode, studentId, studentName }: {
+    id: string, status: StudentFormStatus, formCode: string
+    studentName: string, studentId: string}
+  ) => {
     await executeDownloadForm({
       studentFormId: id,
-      status
+      status,
+      formCode,
+      studentName,
+      studentId
     })
   }, [executeDownloadForm])
 
@@ -119,6 +126,7 @@ function FormsView({ onShowForm }: FormsViewProps) {
       formId: form.formId,
       status: form.status,
       studentName: form.studentName,
+      studentId: form.studentId,
       onDownload: handleDownload
     }))
   }, [studentForms, handleDownload])

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Upload } from 'lucide-react'
 interface FileInputProps {
   onChange: (selectedFiles: File[]) => void;
 }
 
 function FileInput({ onChange }: FileInputProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
     onChange(selectedFiles);
@@ -22,8 +23,7 @@ function FileInput({ onChange }: FileInputProps) {
 
   const handleAreaClick = () => {
     // Disparar el evento de clic del input file
-    const input = document.getElementById('fileInput') as HTMLInputElement;
-    input.click();
+    if (inputRef.current) inputRef.current.click();
   };
 
   return (
@@ -31,9 +31,10 @@ function FileInput({ onChange }: FileInputProps) {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       onClick={handleAreaClick}
-      className='flex flex-col items-center justify-center py-2  mt-3 border-2 border-dashed border-[#1D4ED8] rounded-lg cursor-pointer'
+      className='flex flex-col items-center justify-center py-12 mt-3 border-2 border-dashed border-[#1D4ED8] rounded-lg cursor-pointer'
     >
       <input
+        ref={inputRef}
         id="fileInput"
         type="file"
         multiple
@@ -45,7 +46,6 @@ function FileInput({ onChange }: FileInputProps) {
       <Upload size={70} strokeWidth={0.5} className='text-[#1D4ED8]' />
       <strong className='text-sm'>Cargar documentos</strong>
       <span className="text-gray-500 text-sm">Arrastra y suelta tus archivos aquí</span>
-
     </div>
   );
 }

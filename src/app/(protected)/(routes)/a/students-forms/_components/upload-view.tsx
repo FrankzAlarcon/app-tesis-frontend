@@ -12,6 +12,7 @@ function UploadView({ onBack }: UploadViewProps) {
   return (
     <section className='h-full relative'>
       <p className='font-semibold text-base '>Subir formularios aprobados</p>
+      <p className='text-xs'>El nombre del archivo debe cumplir el formato [Nombre Estudiante];[Código Formulario];[Identificador generado]</p>
       <FileUpload />
       <Button
         size='sm'

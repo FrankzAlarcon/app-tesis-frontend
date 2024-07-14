@@ -11,7 +11,7 @@ function StudentsPage() {
     setShowUploadInputForm(true);
   }
   return (
-    <div className='w-11/12 h-5/6 dashboard-container-shadow p-4'>
+    <div className='w-11/12 min-h-5/6 dashboard-container-shadow p-4'>
       {!showUplodInputForm
         ?
         <FormsView onShowForm={handleShowForm} />
