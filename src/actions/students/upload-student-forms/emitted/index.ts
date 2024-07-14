@@ -7,7 +7,8 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { saveFormPdfSchema } from "./schema";
 import { BACKEND_API_URL } from "@/config/config";
 import axios from "axios";
-import { faa119FormSchema } from "../create-pdf/schema";
+import { faa119FormSchema } from "../../create-pdf/schema";
+import { revalidatePath } from "next/cache";
 
 const action = async (data: InputType): Promise<ReturnType> => {
   const user = await currentUser()
@@ -28,10 +29,7 @@ const action = async (data: InputType): Promise<ReturnType> => {
     }
   }
 
-
-
   const blobData = await base64ToBlob(data.data, 'application/pdf')
-  console.log(blobData)
   const formData = new FormData()
   formData.append('formId', data.formId)
   formData.append('studentId', user.name)
@@ -40,7 +38,7 @@ const action = async (data: InputType): Promise<ReturnType> => {
   formData.append('status', 'EMITIDO')
 
   try {
-    await axios.post(`${BACKEND_API_URL}/student-form/upload-pending`, formData, {
+    await axios.post(`${BACKEND_API_URL}/student-form/upload-emitted`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${user.accessToken}`
@@ -53,6 +51,8 @@ const action = async (data: InputType): Promise<ReturnType> => {
     }
   }
 
+  revalidatePath('/e/profile')
+
   return { 
     data: {
       saved: true
@@ -60,4 +60,4 @@ const action = async (data: InputType): Promise<ReturnType> => {
   }
 }
 
-export const savedFormPdf = createSafeAction(saveFormPdfSchema, action)
+export const uploadEmittedForm = createSafeAction(saveFormPdfSchema, action)

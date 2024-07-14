@@ -1,28 +1,31 @@
 'use client'
-import React from 'react'
+
 import FilterSearch from '../../_components/filter-search'
 import CompanyCard from './company-card'
 import { Button } from '@/components/ui/button'
-
-
 import { useAction } from '@/hooks/use-action'
 import { useToast } from '@/components/ui/use-toast'
 import { createConvenant } from '@/actions/business/create-convenant'
-import { useCurrentUser } from '@/hooks/use-current-user'
-import { Business } from '@/types/business'
 import { removeCovenant, } from '@/actions/business/remove-convenant'
+import { useEffect, useMemo, useState } from 'react'
+import { getAllBusiness } from '@/actions/admin/get-business'
+import { useDebounceValue } from 'usehooks-ts'
+import { useRouter } from 'next/navigation'
+import Loader from '@/components/loader'
 
-
-interface AddCompanyProps {
-  companies: Business[]
-}
-
-function AddCompany({ companies }: AddCompanyProps) {
-  const [showAlertDialog, setShowAlertDialog] = React.useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
-  const [selectedCompany, setSelectedCompany] = React.useState<string | null>(null);
+function AddCompany() {
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
   const { toast } = useToast()
-
+  const router = useRouter()
+  const [debouncedValue, setDebouncedValue] = useDebounceValue<string>('', 800)
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc')
+  const { data, isLoading: isLoadingAllBusiness, execute: executeAllBusiness} = useAction(getAllBusiness, {})
+  const companies = useMemo(() => {
+    if (!data || !data.data || data.data.length === 0) return []
+    return data.data
+  }, [data])
   const { execute: executeConvenant, resetValues: resetValuesConvenant } = useAction(createConvenant, {
     onError: () => {
       toast({
@@ -40,7 +43,6 @@ function AddCompany({ companies }: AddCompanyProps) {
       })
     }
   })
-
   const { execute, resetValues, isLoading } = useAction(removeCovenant, {
     onError: () => {
       toast({
@@ -58,6 +60,35 @@ function AddCompany({ companies }: AddCompanyProps) {
       })
     }
   })
+
+  useEffect(() => {
+    if (!debouncedValue.trim()) {
+      executeAllBusiness({
+        limit: 10,
+        offset: 0,
+      })
+      return
+    }
+    executeAllBusiness({
+      limit: 10,
+      offset: 0,
+      filterField: 'name',
+      filterValue: debouncedValue,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue])
+
+  const handleChangeOrder = (order: 'asc' | 'desc') => {
+    setOrder(order)
+    executeAllBusiness({
+      limit: 10,
+      offset: 0,
+      filterField: 'name',
+      filterValue: debouncedValue,
+      orderField: 'createdAt',
+      orderDirection: order,
+    })
+  }
 
   const handleDeleteConvenant = async () => {
     await execute({ convenantId: selectedCompany! })
@@ -92,10 +123,14 @@ function AddCompany({ companies }: AddCompanyProps) {
     setShowDeleteDialog(true);
   }
 
+  const onVisit = (businessId: string) => {
+    router.push(`/a/profile/b/${businessId}`)
+  }
+
   return (
     <section className='w-full h-full p-10' >
       {showAlertDialog && (
-        <div className='fixed inset-0 bg-black/50 flex justify-center items-center'>
+        <div className='fixed z-30 inset-0 bg-black/50 flex justify-center items-center'>
           <div className='bg-white pb-4 rounded-3xl w-[450px]'>
             <div className='bg-primary text-white text-center w-full rounded-t-3xl p-3'>
               <p className='text-lg font-semibold'>
@@ -129,7 +164,7 @@ function AddCompany({ companies }: AddCompanyProps) {
         </div>
       )}
       {showDeleteDialog && (
-        <div className='fixed inset-0 bg-black/50 flex justify-center items-center'>
+        <div className='fixed z-30 inset-0 bg-black/50 flex justify-center items-center'>
           <div className='bg-white pb-4 rounded-3xl w-[450px]'>
             <div className='bg-destructive text-white text-center w-full rounded-t-3xl p-3'>
               <p className='text-lg font-semibold'>
@@ -163,23 +198,37 @@ function AddCompany({ companies }: AddCompanyProps) {
       )}
 
       <div className='h-full flex flex-col gap-4'>
-        <FilterSearch showBackButton backUrl='/a/companies' />
-        <div className='grid grid-cols-2 overflow-y-auto p-3 gap-y-4'>
-          {companies.map(company => (
-            <CompanyCard
-              logo=''
-              key={company.id}
-              name={company.name}
-              description={company.shortPresentation}
-              location={company.province}
-              id={company.id}
-              onAdd={handleAddCompany}
-              onDelete={handleDeleteCompany}
-              onVisit={() => console.log('Visiting company')}
-              hasConvenant={company.hasCovenant}
-            />
-          ))}
-        </div>
+        <FilterSearch
+          showBackButton
+          backUrl='/a/companies'
+          handleChangeOrder={handleChangeOrder}
+          order={order}
+          setValue={setDebouncedValue}
+        />
+        {
+          isLoadingAllBusiness ? (
+            <div className='w-full flex justify-center'>
+              <Loader />
+            </div>
+          ) : (
+            <div className='grid grid-cols-2 overflow-y-auto p-3 gap-y-4'>
+              {companies.map(company => (
+                <CompanyCard
+                  logo={company.imageUrl}
+                  key={company.id}
+                  name={company.name}
+                  description={company.shortPresentation}
+                  location={company.province}
+                  id={company.id}
+                  onAdd={handleAddCompany}
+                  onDelete={handleDeleteCompany}
+                  onVisit={onVisit}
+                  hasConvenant={company.hasCovenant}
+                />
+              ))}
+            </div>
+          )
+        }
       </div>
     </section >
   )

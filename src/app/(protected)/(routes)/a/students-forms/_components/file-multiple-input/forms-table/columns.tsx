@@ -3,10 +3,11 @@ import React from "react";
 
 export type Form = {
   id: string;
+  studentId: string;
   studentName: string;
-  formId: string;
+  formCode: string;
   status: "Aprobado" | "En proceso";
-  onRemove: (index: number) => void;
+  onRemove: (index: string) => void;
 };
 
 
@@ -40,10 +41,12 @@ export const columns: ColumnDef<Form>[] = [
     accessorKey: "actions",
     header: "Acciones",
     cell: ({ row }) => {
-      const form = row.original.id;
+      const studentId = row.original.id;
+      const studentName = row.original.studentName;
+      const formCode = row.original.formCode;
       return (
         <button
-          onClick={() => row.original.onRemove(parseInt(form))}
+          onClick={() => row.original.onRemove(`${studentName};${formCode};${studentId}`)}
           className="text-red-500"
         >
           Eliminar

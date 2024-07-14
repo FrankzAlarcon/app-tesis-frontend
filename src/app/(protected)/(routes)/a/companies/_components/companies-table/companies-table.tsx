@@ -5,12 +5,18 @@ import { DataTable } from '../../../_components/data-table'
 
 interface CompaniesTableProps {
   data: Company[]
+  handleNextPage: () => void
+  handlePreviousPage: () => void
 }
 
 
 function CompaniesTable({ data }: CompaniesTableProps) {
   return (
-    <DataTable columns={columns} data={data} pageSize={7} />
+    <DataTable
+      columns={columns}
+      data={data}
+      pageSize={10}
+    />
   )
 }
 

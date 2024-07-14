@@ -1,12 +1,13 @@
 export interface Business {
   id: string
-  name: stirng
+  name: string
   code: string
   province: string | null
   city: string | null
   phone: string | null
   description: string | null
   shortPresentation: string | null
+  imageUrl: string | null
   hasCovenant: boolean
   userId: string
   createdAt: string
@@ -60,6 +61,13 @@ export interface Publication {
   // endDate: string
   updatedAt: string
   postulations: Postulation[]
+  recommendations: Recommendation[]
+}
+
+export interface Recommendation extends ShortStudent {
+  matchCount: number
+  totalStudentSkills: number
+  matchScore: number
 }
 
 export interface Postulation {

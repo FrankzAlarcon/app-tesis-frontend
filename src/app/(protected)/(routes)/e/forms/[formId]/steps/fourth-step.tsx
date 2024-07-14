@@ -2,7 +2,7 @@
 
 import ResetDataButton from '../../_components/reset-data-button'
 import { Button } from '@/components/ui/button'
-import { ChevronsLeft, Download } from 'lucide-react'
+import { ChevronsLeft, ScanEye } from 'lucide-react'
 import { Step } from './container-form'
 import { Input } from '@/components/ui/input'
 import { useValuesValidation } from '@/hooks/use-values-validation'
@@ -316,8 +316,8 @@ const FourthStepForm = ({
               <Loader className='text-white h-5 w-5' />
             ) : (
               <>
-                <Download className='w-4 h-4' />
-                <span>Descargar documento</span>
+                <ScanEye className='w-4 h-4' />
+                <span>Previsualizar</span>
               </>
             )
           }

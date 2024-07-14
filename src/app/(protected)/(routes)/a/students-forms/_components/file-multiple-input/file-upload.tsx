@@ -21,17 +21,15 @@ function FileUpload() {
     console.log(formData.getAll('file'));
   };
 
-  const handleFileRemove = (index: number) => {
-    const updatedFiles = [...files];
-    updatedFiles.splice(index, 1);
+  const handleFileRemove = (key: string) => {
+    const updatedFiles = files.filter((file) => file.name !== key);
     setFiles(updatedFiles);
   };
 
   return (
-    <div className='flex flex-col h-full justify-between pb-4'>
+    <div className='flex flex-col gap-4 h-full justify-between pb-4'>
       <div className='flex flex-col gap-4'>
         <UploadInputFile onChange={handleFileChange} />
-        <FilterSearch />
       </div>
       <TableFile files={files} onRemove={handleFileRemove} />
       <div className='flex justify-end'>
@@ -44,7 +42,6 @@ function FileUpload() {
           Cargar todos
         </Button>
       </div>
-
     </div>
   );
 }

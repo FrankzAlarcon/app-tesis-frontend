@@ -1,23 +1,23 @@
 "use client"
 
-import { savedFormPdf } from '@/actions/students/save-form-pdf'
 import InformDialog from '@/components/inform-dialog'
 import Loader from '@/components/loader'
+import Link from 'next/link'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useAction } from '@/hooks/use-action'
 import { usePreview } from '@/hooks/use-preview'
 import { BookX, ChevronsLeft, Download } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
-import Link from 'next/link'
 import { useToast } from '@/components/ui/use-toast'
+import { uploadEmittedForm } from '@/actions/students/upload-student-forms/emitted'
 
 const ConfirmStep = () => {
   const { data, formId, formData, setData, setFormData } = usePreview()
   const { toast } = useToast()
   const informButton = useRef<HTMLButtonElement>(null)
   const router = useRouter()
-  const { execute, isLoading } = useAction(savedFormPdf, {
+  const { execute, isLoading } = useAction(uploadEmittedForm, {
     onError: (error) => {
       toast({
         title: error,
@@ -26,9 +26,13 @@ const ConfirmStep = () => {
       })
     },
     onSuccess: () => {
+      const link = document.createElement('a')
+      link.href = `data:application/pdf;base64,${data}`
+      link.download = `formulario-${formId}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
       informButton.current?.click()
-      setFormData({})
-      setData('')
     }
   
   })
@@ -48,6 +52,8 @@ const ConfirmStep = () => {
   }
 
   const handleReturnForm = () => {
+    setFormData({})
+    setData('')
     router.push(`/e/forms/${formId}`)
   }
 

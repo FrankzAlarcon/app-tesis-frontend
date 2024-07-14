@@ -15,11 +15,11 @@ export const getAllBusiness = async (limit: number = 10, offset: number = 0) => 
       Authorization: `Bearer ${user?.accessToken}`
     }
   }).then(res => {
-    console.log(res)
+    // console.log(res)
     return res.data
   })
     .catch(err => {
-      console.log(err)
+      // console.log(err)
       return null
     })
 }

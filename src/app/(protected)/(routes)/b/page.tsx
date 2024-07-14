@@ -29,7 +29,6 @@ const BusinessPage = async ({
   }
   
   const { publications, ...rest } = profile
-  console.log(publications, rest)
   return (
     <div className='pb-6'>
       <div className='relative w-full h-full'>

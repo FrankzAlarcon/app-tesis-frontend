@@ -35,7 +35,6 @@ const ProfileButton = ({
   const onLogout = async () => {
     await signOut()
   }
-  console.log('server user', user)
   const profileLink = role === 'student' ? '/e/profile' : '/b/profile'
   const settingsLink = role === 'student' ? '/e/settings' : '/b/settings'
 

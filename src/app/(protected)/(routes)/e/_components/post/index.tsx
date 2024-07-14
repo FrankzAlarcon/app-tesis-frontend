@@ -16,7 +16,14 @@ const Posts = ({
   noFooter = false
 }: PostProps) => {
   return (
-    <article className='h-auto w-full bg-white p-2 flex flex-col gap-2'>
+    <article className='relative h-auto w-full bg-white p-2 flex flex-col gap-2 rounded-xl shadow-sm'>
+      {
+        post.matchCount && (
+          <div className='absolute top-0 right-0 w-full flex justify-end'>
+            <p className='shadow-sm text-xs text-center bg-primary font-bold p-2 text-white rounded-tr-xl rounded-bl-xl'>Coincide con tu perfil. {post.matchCount} aptitudes!</p>
+          </div>
+        )
+      }
       <PostHeader name={post.business.name} image={post.business.imageUrl} createdAt={post.createdAt} />
       <div className='text-sm px-2'>
         <p className='font-bold'>{post.title}</p>

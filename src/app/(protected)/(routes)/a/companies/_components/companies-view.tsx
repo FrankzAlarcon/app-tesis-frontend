@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react'
+
+import { useEffect, useMemo, useState } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import FilterSearch from '../../_components/filter-search'
 import CompaniesTable from './companies-table/companies-table'
@@ -10,6 +11,9 @@ import { createConvenant } from '@/actions/business/create-convenant'
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
 import { useAction } from '@/hooks/use-action'
+import { getAllBusiness } from '@/actions/admin/get-business'
+import Loader from '@/components/loader'
+import { useDebounceValue } from 'usehooks-ts'
 
 
 
@@ -17,12 +21,44 @@ interface CompaniesViewProps {
   business: Business[]
 }
 
-function CompaniesView({ business }: CompaniesViewProps) {
-  const [showAlertDialog, setShowAlertDialog] = React.useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
-  const [selectedCompany, setSelectedCompany] = React.useState<string | null>(null);
+function CompaniesView() {
+  // const addCovenantButtonRef = useRef<HTMLButtonElement>(null);
+  // const deleteCovenantButtonRef = useRef<HTMLButtonElement>(null);
+  const [showAlertDialog, setShowAlertDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc');
+  const [limit, setLimit] = useState<number>(10);
+  const [offset, setOffset] = useState<number>(0);
+  const { data: business, isLoading: isLoadingGetAll, execute: executeAllBusiness } = useAction(getAllBusiness, {
+    onError: () => {
+      toast({
+        title: 'Error al obtener las empresas',
+        duration: 4000,
+        description: 'Ha ocurrido un error al intentar obtener las empresas. Por favor, inténtalo de nuevo.',
+      })
+    },
+  })
+  const [debouncedValue, setDebouncedValue] = useDebounceValue<string>('', 800)
+  useEffect(() => {
+    if (!debouncedValue.trim()) {
+      executeAllBusiness({
+        limit: 10,
+        offset: 0,
+      })
+      return
+    }
+    executeAllBusiness({
+      limit: 10,
+      offset: 0,
+      filterField: 'name',
+      filterValue: debouncedValue,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue])
+
+  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
   const { toast } = useToast()
-  const { execute: executeCovenant, resetValues: resetValuesCovenant } = useAction(createConvenant, {
+  const { execute: executeAddCovenant, resetValues: resetValuesCovenant } = useAction(createConvenant, {
     onError: () => {
       toast({
         title: 'Error al agregar la empresa',
@@ -40,7 +76,7 @@ function CompaniesView({ business }: CompaniesViewProps) {
     }
   })
 
-  const { execute, resetValues, isLoading } = useAction(removeCovenant, {
+  const { execute: executeRemoveCovenant, resetValues, isLoading: isLoadingRemoveCovenant } = useAction(removeCovenant, {
     onError: () => {
       toast({
         title: 'Error al eliminar la empresa',
@@ -82,30 +118,66 @@ function CompaniesView({ business }: CompaniesViewProps) {
       startDate: startDate,
       endDate: endDate,
     }
-    executeCovenant(data);
+    executeAddCovenant(data);
     setShowAlertDialog(false);
   }
 
   const handleDeleteCovenant = () => {
-    execute({ convenantId: selectedCompany! })
+    executeRemoveCovenant({ convenantId: selectedCompany! })
     setShowDeleteDialog(false);
   }
 
-
-
-
-  const companies = business.map((company) => {
-    return {
-      id: company.id,
-      name: company.name,
-      code: company.code.split("-")[0],
-      agreement: company.hasCovenant ? 'Laboral' : 'Sin convenio',
-      onAdd: handleAddCompany,
-      onRemove: handleDeleteCompany,
-    }
+  const handleChangeOrder = (order: 'asc' | 'desc') => {
+    setOrder(order)
+    executeAllBusiness({
+      limit: 10,
+      offset: 0,
+      filterField: 'name',
+      filterValue: debouncedValue,
+      orderField: 'createdAt',
+      orderDirection: order,
+    })
   }
-  )
 
+  const handleNextPage = () => {
+    setOffset(offset + limit)
+    executeAllBusiness({
+      limit: 10,
+      offset: offset + limit,
+      filterField: 'name',
+      filterValue: debouncedValue,
+      orderField: 'createdAt',
+      orderDirection: order,
+    })
+  }
+
+  const handlePreviousPage = () => {
+    setOffset(offset - limit)
+    executeAllBusiness({
+      limit: 10,
+      offset: offset - limit,
+      filterField: 'name',
+      filterValue: debouncedValue,
+      orderField: 'createdAt',
+      orderDirection: order,
+    })
+  }
+  const companies = useMemo(() => {
+    if (!business || business.data.length === 0) {
+      return []
+    }
+    return business.data.map((company) => {
+      return {
+        id: company.id,
+        name: company.name,
+        code: company.code.split("-")[0],
+        agreement: company.hasCovenant ? 'Laboral' : 'Sin convenio',
+        onAdd: handleAddCompany,
+        onRemove: handleDeleteCompany,
+      }
+    })
+  }, [business])
+  console.log({companies})
   return (
     <section>
       <div className='flex flex-row justify-between items-center w-full mb-2'>
@@ -133,9 +205,9 @@ function CompaniesView({ business }: CompaniesViewProps) {
                   size='sm'
                   className='bg-primary rounded-xl px-8 hover:bg-blue-700/90'
                   onClick={handleAddCovenant}
-                  disabled={isLoading}
+                  disabled={isLoadingRemoveCovenant}
                 >
-                  {isLoading ? 'Agregando...' : 'Agregar'}
+                  {isLoadingRemoveCovenant ? 'Agregando...' : 'Agregar'}
                 </Button>
                 <Button
                   size='sm'
@@ -184,9 +256,25 @@ function CompaniesView({ business }: CompaniesViewProps) {
         </div>
       )}
 
-      <FilterSearch />
-      <div className='mt-4'>
-        <CompaniesTable data={companies} />
+      <FilterSearch
+        setValue={setDebouncedValue}
+        order={order}
+        handleChangeOrder={handleChangeOrder}
+      />
+      <div className='mt-4 min-h-[300px]'>
+        {
+          isLoadingGetAll ? (
+            <div className='flex justify-center '>
+              <Loader />
+            </div>
+          )
+          : <CompaniesTable
+              handleNextPage={handleNextPage}
+              handlePreviousPage={handlePreviousPage}
+              data={companies}
+            />
+        }
+        
       </div>
     </section >
   )

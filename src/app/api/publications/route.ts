@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     notRegisteredSkills: (formData.getAll('notRegisteredSkills') as string[]),
     remuneration: formData.get('remuneration') as string,
   }
-  console.log(fields)
   const validatedFields = createPublicationSchema.safeParse(fields)
 
   if (!validatedFields.success) {
@@ -73,7 +72,6 @@ export async function POST(request: Request) {
 
   try {
     const rta = await axios.post(`${BACKEND_API_URL}/publications`, validatedFormData, {
-      // const rta = await axios.post(`http://localhost:3400/api/v1/publications`, validatedFormData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${user.accessToken}`

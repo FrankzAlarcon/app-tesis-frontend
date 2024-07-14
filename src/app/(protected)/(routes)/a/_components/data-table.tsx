@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-
 import {
   ColumnDef,
   flexRender,
@@ -9,7 +8,6 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table"
-
 import {
   Table,
   TableBody,
@@ -18,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
 import { useEffect } from "react"
 
 interface DataTableProps<TData, TValue> {
@@ -26,12 +23,16 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
   section?: string
   pageSize?: number
+  handleNextPage?: () => void
+  handlePreviousPage?: () => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   pageSize,
+  handleNextPage,
+  handlePreviousPage
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -102,7 +103,10 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
+          onClick={() => {
+            table.previousPage()
+            handlePreviousPage && handlePreviousPage()
+          }}
           disabled={!table.getCanPreviousPage()}
         >
           Anterior
@@ -110,7 +114,10 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
+          onClick={() => {
+            table.nextPage()
+            handleNextPage && handleNextPage()
+          }}
           disabled={!table.getCanNextPage()}
         >
           Siguiente

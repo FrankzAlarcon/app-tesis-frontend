@@ -8,7 +8,7 @@ async function Header() {
   const session = await auth();
 
   return (
-    <header className='h-14 shadow-md bg-white py-2 px-6 flex flex-row justify-between relative'>
+    <header className='h-14 shadow-md bg-white py-2 px-6 flex flex-row justify-between relative z-30'>
       <div className=''>
         <Image
           src="/logo-FIS.png"
