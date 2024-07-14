@@ -104,7 +104,7 @@ function AddCompany({ companies }: AddCompanyProps) {
             </div>
             <div className='flex flex-col justify-center w-full'>
               <p className='text-center text-secondary-foreground text-sm px-8 py-2'>
-                {selectedCompany && companies.find(company => company.id === selectedCompany)?.name} aparecerá en tu lista de empresas y podrás obtener las estadísticas específicas sobre los estudiantes que han realizado prácticas aquí y su experiencia.
+                {selectedCompany && companies.find(company => company.id === selectedCompany)?.name} aparecerá en tu lista de empresas con convenio. Recuerda que puedes eliminarlo en cualquier momento.
               </p>
               <div className='flex flex-row w-full px-10 justify-between mt-4'>
                 <Button
@@ -138,7 +138,7 @@ function AddCompany({ companies }: AddCompanyProps) {
             </div>
             <div className='flex flex-col justify-center w-full'>
               <p className='text-center text-secondary-foreground text-sm px-8 py-2'>
-                {selectedCompany && companies.find(company => company.id === selectedCompany)?.name} será eliminado de tu lista de empresas y no podrás obtener las estadísticas específicas sobre los estudiantes que han realizado prácticas aquí y su experiencia.
+                {selectedCompany && companies.find(company => company.id === selectedCompany)?.name} será eliminado de tu lista de empresas con convenio.
               </p>
               <div className='flex flex-row w-full px-10 justify-between mt-4'>
                 <Button
