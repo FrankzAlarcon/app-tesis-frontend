@@ -105,7 +105,7 @@ const TrackingForms = ({
       const link = document.createElement('a')
       link.style.display = 'none'
       link.href = url
-      link.setAttribute('download', 'formulario.pdf')
+      link.setAttribute('download', `${data.studentId ? data.studentId : 'F_AA_119_Registro de practicas preprofesionales'}.pdf`)
       document.body.appendChild(link)
       link.click()
       link.remove()
@@ -132,7 +132,10 @@ const TrackingForms = ({
   const handleDownloadForm = async () => {
     await execute({
       studentFormId: selectedForm?.id || '',
-      status: selectedForm?.status as StudentFormStatus || StudentFormStatus.EMITIDO
+      status: selectedForm?.status as StudentFormStatus || StudentFormStatus.EMITIDO,
+      formCode: '',
+      studentName:  '',
+      studentId:  selectedForm?.studentId || ''
     })
   }
   
