@@ -37,7 +37,7 @@ const NewForum = ({
   const { execute, isLoading } = useAction(createForum, {
     onError: (error) => setError(error),
     onSuccess: () => {
-      router.push(`/e/forum/${businessId}`)
+      router.push(`/e/forum/${businessId || selectedBusinessId}`)
       setError('')
       setTitle('')
       setContent('')
@@ -49,7 +49,8 @@ const NewForum = ({
       setError('Faltan campos por llenar')
       return
     }
-    await execute({ title, description: content, grade, businessId: businessId! })
+    // console.log('onConfirm', { title, content, grade, businessId: businessId || selectedBusinessId });
+    await execute({ title, description: content, grade, businessId: businessId || selectedBusinessId })
   }
 
   return (
@@ -65,7 +66,7 @@ const NewForum = ({
           )
         }
         {
-          !businessId && allBusiness &&(
+          !businessId && allBusiness && (
             <SelectPopover
               label='Selecciona una empresa'
               options={allBusiness}
@@ -104,7 +105,7 @@ const NewForum = ({
                 >
                   <Star className={cn('w-5 h-5',
                     grade >= gradeItem && 'text-black fill-amber-500'
-                  )}  />
+                  )} />
                 </Button>
               ))
             }

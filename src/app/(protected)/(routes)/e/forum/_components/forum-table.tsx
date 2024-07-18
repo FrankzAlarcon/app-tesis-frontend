@@ -12,14 +12,22 @@ import React, { useState } from 'react'
 
 
 const calculateGrade = (avgGrade: number) => {
-  // replace this to manage the grades in a better way, for example 4.5 should be 'Muy buena experiencia'
-  if (avgGrade >= 4 && avgGrade <= 5) return 'Exelente experiencia'
+  if (avgGrade >= 4 && avgGrade <= 5) return 'Excelente experiencia'
   if (avgGrade >= 3 && avgGrade < 4) return 'Buena experiencia'
   if (avgGrade >= 2 && avgGrade < 3) return 'Experiencia regular'
   if (avgGrade >= 1 && avgGrade < 2) return 'Mala experiencia'
   if (avgGrade >= 0 && avgGrade < 1) return 'Muy mala experiencia'
   return 'Sin calificar'
 }
+
+const formatGrade = (grade: unknown): string => {
+  if (typeof grade === 'number') {
+    const roundedGrade = grade.toFixed(1);
+    const numberGrade = parseFloat(roundedGrade);
+    return numberGrade.toString();
+  }
+  return 'N/A';
+};
 
 interface ForumTableProps {
   forum: ForumEntry[]
@@ -28,15 +36,8 @@ interface ForumTableProps {
 const columns: ColumnDef<ForumEntry>[] = [
   {
     accessorKey: 'businessName',
-    header: ({ column }) => (
-      <Button variant="ghost" size="sm"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Empresa
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row, }) => {
+    header: () => <div className="font-bold">Empresa</div>,
+    cell: ({ row }) => {
       return (
         <div className='flex items-center gap-1 md:gap-4'>
           <AvatarComponent src={row.original.businessImageUrl} className='md:w-12 h-12' />
@@ -47,7 +48,8 @@ const columns: ColumnDef<ForumEntry>[] = [
         </div>
       )
     }
-  }, {
+  },
+  {
     accessorKey: 'count',
     header: () => <div className="font-bold">Opiniones</div>,
     cell: ({ row }) => (
@@ -56,19 +58,27 @@ const columns: ColumnDef<ForumEntry>[] = [
         <span className='text-xs text-gray-700'>Opinión(es)</span>
       </div>
     )
-  }, {
+  },
+  {
     accessorKey: 'avgGrade',
-    header: () => <div className="font-bold">Calificación</div>,
+    header: ({ column }) => (
+      <Button variant="ghost" size="sm" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        Calificación
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => (
       <div className='flex flex-col gap-1'>
         <div className="flex gap-1 items-center">
-          <span className='font-bold'>{row.getValue('avgGrade')}/5</span>
+          <span className='font-bold'>
+            {formatGrade(row.getValue('avgGrade'))}/5
+          </span>
           <Star className='w-4 h-4 text-black fill-amber-400' />
         </div>
         <span className='text-xs text-gray-500'>{calculateGrade(row.getValue('avgGrade'))}</span>
       </div>
-    )
-
+    ),
+    sortingFn: 'basic', // Añade esto si quieres usar la función de ordenación básica de react-table
   }
 ]
 

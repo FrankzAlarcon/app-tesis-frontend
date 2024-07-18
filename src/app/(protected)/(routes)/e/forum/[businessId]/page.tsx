@@ -21,6 +21,7 @@ const ForumEntryPage = async ({
 }: ForumEntryPageProps) => {
   const forumEntries = await getForumEntry(params.businessId)
   const publications = await getPublications()
+  console.log(publications);
   const businessShortProfile = await getPublicBusinessShortProfile(params.businessId)
   if (!forumEntries || params.businessId === undefined || !businessShortProfile) {
     return <NotFoundPage />

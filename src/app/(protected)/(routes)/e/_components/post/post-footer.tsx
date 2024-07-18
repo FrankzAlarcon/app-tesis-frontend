@@ -10,18 +10,20 @@ import React from 'react'
 interface PostFooterProps {
   id: string
   isBookmarked?: boolean
+  companyId: string
 }
 
 const PostFooter = ({
   id,
-  isBookmarked = false
+  isBookmarked = false,
+  companyId
 }: PostFooterProps) => {
   const { execute: executeCreateBookmark } = useAction(createBookmark, {
     onSuccess: () => {
       console.log('success')
     }
   })
-  const { execute: executeRemoveBookmark} = useAction(removeBookmark, {
+  const { execute: executeRemoveBookmark } = useAction(removeBookmark, {
     onSuccess: () => {
       console.log('success')
     }
@@ -46,7 +48,7 @@ const PostFooter = ({
       </div>
       <div className='w-full'>
         <Link
-          href={`/e/forum/${id}`}
+          href={`/e/forum/${companyId}`}
           className=' p-2 border-none text-primary hover:bg-blue-500/20 hover:text-primary w-full rounded-none flex items-center gap-1 justify-center transition-colors'
         >
           <MessageCircleQuestion className='w-5 h-5' />
@@ -64,7 +66,7 @@ const PostFooter = ({
               <BookmarkCheck className='w-5 h-5' />
               <span>Guardado</span>
             </>
-          ): (
+          ) : (
             <>
               <BookmarkPlus className='w-5 h-5' />
               <span>Guardar</span>

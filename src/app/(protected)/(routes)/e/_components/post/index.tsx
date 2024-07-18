@@ -25,7 +25,7 @@ const Posts = ({
         )
       }
       <PostHeader name={post.business.name} image={post.business.imageUrl} createdAt={post.createdAt} />
-      <div className='text-sm px-2'>
+      <div className='text-sm px-2 flex gap-3 flex-col'>
         <p className='font-bold'>{post.title}</p>
         <SafeHTML>{post.description}</SafeHTML>
         <div>
@@ -48,7 +48,7 @@ const Posts = ({
           <Image src={post.imageUrl} width={320} height={160} alt='Imagen de la publicación' className='w-full h-auto max-h-64 object-contain' />
         )}
       </div>
-      {!noFooter && (<PostFooter id={post.id} isBookmarked={post.bookmarked} />)}
+      {!noFooter && (<PostFooter id={post.id} companyId={post.business.id} isBookmarked={post.bookmarked} />)}
     </article>
   )
 }
