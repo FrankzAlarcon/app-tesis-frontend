@@ -18,7 +18,7 @@ function FileUpload() {
     files.forEach((file) => {
       formData.append('file', file);
     });
-    console.log(formData.getAll('file'));
+    formData.getAll('file')
   };
 
   const handleFileRemove = (key: string) => {
