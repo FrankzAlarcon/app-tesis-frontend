@@ -6,14 +6,14 @@ import { ShortInformationCard } from "@/types/post"
 import axios from "axios"
 
 //simulador de la funcion getPulications
-export const getPublications = async (): Promise<ShortInformationCard[] | null> => {
+export const getLastPublicationsByBusiness = async (businessId: string): Promise<ShortInformationCard[] | null> => {
   const user = await currentUser()
 
   if (!user.accessToken) {
     return null
   }
 
-  return axios.get(`${BACKEND_API_URL}/publications/last`, {
+  return axios.get(`${BACKEND_API_URL}/publications/last/${businessId}`, {
     headers: {
       Authorization: `Bearer ${user.accessToken}`
     }

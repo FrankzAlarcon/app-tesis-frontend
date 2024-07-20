@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import ForumEntry from '../_components/forum-entry'
 import { buttonVariants } from '@/components/ui/button'
-import { getPublications } from '@/actions/students/getPublications'
+import { getLastPublicationsByBusiness } from '@/actions/students/get-last-publications-by-business'
 import ForumPublication from '../_components/forum-publication'
 import ItemCard from '@/components/item-card'
 import BusinessProfileCard from '../../../b/_components/business-profile-card'
@@ -19,8 +19,11 @@ interface ForumEntryPageProps {
 const ForumEntryPage = async ({
   params
 }: ForumEntryPageProps) => {
+  if (!params.businessId) {
+    return <NotFoundPage />
+  }
   const forumEntries = await getForumEntry(params.businessId)
-  const publications = await getPublications()
+  const publications = await getLastPublicationsByBusiness(params.businessId)
   console.log(publications);
   const businessShortProfile = await getPublicBusinessShortProfile(params.businessId)
   if (!forumEntries || params.businessId === undefined || !businessShortProfile) {
