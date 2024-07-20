@@ -45,7 +45,7 @@ const FourthStepForm = ({
   setStep,
   epnSigners
 }: FourthStepFormProps) => {
-  const { values, fieldErrors, handleChange, validate } = useValuesValidation(initialValues, step4Schema, LocalStorageKeys.STEP_4)
+  const { values, fieldErrors, handleChange, validate, handleSetValues } = useValuesValidation(initialValues, step4Schema, LocalStorageKeys.STEP_4)
   const { setData, setFormId, setFormData } = usePreview()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
@@ -54,8 +54,19 @@ const FourthStepForm = ({
 
   useEffect(() => {
     console.log('Use effect', epnSigners)
-    handleChange('decano', epnSigners.decano)
-    handleChange('comisionPracticas', epnSigners.representanteComision)
+    // handleChange('decano', epnSigners.decano)
+    // handleChange('comisionPracticas', epnSigners.representanteComision)
+    handleSetValues({
+      ...values,
+      decano: {
+        name: epnSigners.decano.name,
+        ci: epnSigners.decano.ci,
+      },
+      comisionPracticas: {
+        name: epnSigners.representanteComision.name,
+        ci: epnSigners.representanteComision.ci,
+      }
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [epnSigners])
 
