@@ -246,3 +246,7 @@
     list-style: decimal;
     margin-left: 10px;
   }
+
+.gradient-profile {
+  background: linear-gradient(1.3deg, rgb(91, 117, 163) 11.4%, rgb(68, 98, 128) 77%);
+}

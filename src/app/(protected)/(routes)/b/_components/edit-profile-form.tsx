@@ -173,20 +173,6 @@ const EditProfileForm = ({
               />
               <FormField
                 control={form.control}
-                name='city'
-                disabled={form.formState.isSubmitting}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ciudad</FormLabel>
-                    <FormControl>
-                      <Input type='text' placeholder='Quito...' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name='phone'
                 disabled={form.formState.isSubmitting}
                 render={({ field }) => (

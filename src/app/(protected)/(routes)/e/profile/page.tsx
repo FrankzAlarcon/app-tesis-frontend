@@ -35,7 +35,7 @@ const ProfilePage = async ({
       <div className='pb-6'>
         <div className='relative w-full h-full'>
           <div className='w-full h-48 absolute top-0 left-0'>
-            <Image src='/profile-background.png' className='w-full h-full' alt='Profile background' width={400} height={200} />
+            <div className='w-full h-full gradient-profile'></div>
           </div>
           <div className='w-full px-4 relative top-32 lg:px-8 max-h-96 lg:max-h-72'>
             <div className='w-full bg-white rounded-lg shadow-md px-2 pb-2 lg:px-4 lg:pb-4 flex flex-col gap-2'>
