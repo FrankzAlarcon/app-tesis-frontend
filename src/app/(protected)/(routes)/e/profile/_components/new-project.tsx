@@ -90,8 +90,8 @@ const NewProject = ({
     const skillsIds = form.getValues('skills')
     if (skillsIds.some((item) => item.id === skill.id)) return
     form.setValue('skills', [...skillsIds, {
-    id: skill.id,
-    name: skill.name
+      id: skill.id,
+      name: skill.name
     }])
     setOpenSkillPopover(false)
   }
@@ -156,7 +156,7 @@ const NewProject = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />            
+              />
               <FormField
                 control={form.control}
                 name='skills'
@@ -190,7 +190,7 @@ const NewProject = ({
                                     value={skill.name}
                                     onSelect={() => handleOnSelectSkill(skill)}
                                   >
-                                      <span>{skill.name}</span>
+                                    <span>{skill.name}</span>
                                   </CommandItem>
                                 ))
                               }
@@ -207,7 +207,7 @@ const NewProject = ({
                             className="h-4 w-4 text-white p-0 ml-1"
                             onClick={() => handleOnRemoveSkill(skill)}
                           >
-                              <X aria-label="Eliminar habilidad" className="text-white h-4 w-4" />
+                            <X aria-label="Eliminar habilidad" className="text-white h-4 w-4" />
                           </Button>
                         </Badge>
                       ))

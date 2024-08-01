@@ -10,7 +10,7 @@ export const completeProfileSchema = z.object({
 export const createProjectSchema = z.object({
   name: z.string().min(1, 'El nombre el obligatorio'),
   description: z.string().min(1, 'La descripción el obligatorio'),
-  url: z.string().url('La URL no es válida').min(1, 'La URL el obligatoria'),
+  url: z.string().url('La URL debe ser válida (procure que tenga "https://")').min(1, 'La URL el obligatoria'),
   skills: z.array(z.object({
     id: z.string(),
     name: z.string()
@@ -20,7 +20,7 @@ export const createProjectSchema = z.object({
 export const createCertificationSchema = z.object({
   name: z.string().min(1, 'El nombre el obligatorio'),
   emissionDate: z.date(),
-  url: z.string().url('La URL no es válida').min(1, 'La URL el obligatoria'),
+  url: z.string().url('La URL debe ser válida (procure que tenga "https://")').min(1, 'La URL el obligatoria'),
   issuingBusiness: z.string().min(1, 'El nombre de la empresa el obligatorio')
 })
 

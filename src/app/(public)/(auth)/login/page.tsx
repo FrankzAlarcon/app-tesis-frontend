@@ -7,8 +7,8 @@ const LoginPage = () => {
   return (
     <section className='w-full h-full flex justify-center items-center relative'>
       <BackArrowButton returnUrl='/' />
-      <div className='flex flex-col w-7/12  '>        
-        <h3 className='font-semibold text-2xl mb-2'>Login</h3>
+      <div className='flex flex-col w-7/12  '>
+        <h3 className='font-semibold text-2xl mb-2'>Iniciar sesión</h3>
         <LoginForm />
       </div>
     </section>
