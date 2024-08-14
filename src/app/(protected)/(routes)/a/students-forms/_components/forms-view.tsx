@@ -66,7 +66,7 @@ function FormsView({ onShowForm }: FormsViewProps) {
       filterValue: debouncedValue,
       status: 'all'
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue])
 
   const handleChangeOrder = (order: 'asc' | 'desc') => {
@@ -103,9 +103,10 @@ function FormsView({ onShowForm }: FormsViewProps) {
   }
 
   const handleDownload = useCallback(async (
-    {id, status, formCode, studentId, studentName }: {
-    id: string, status: StudentFormStatus, formCode: string
-    studentName: string, studentId: string}
+    { id, status, formCode, studentId, studentName }: {
+      id: string, status: StudentFormStatus, formCode: string
+      studentName: string, studentId: string
+    }
   ) => {
     await executeDownloadForm({
       studentFormId: id,

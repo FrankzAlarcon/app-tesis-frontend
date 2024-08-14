@@ -12,7 +12,7 @@ const AdminContainer = ({
   children
 }: AdminContainerProps) => {
   const pathname = usePathname()
-  if (pathname.includes('/a/profile/b/') || pathname.includes('/a/profile/e/')){
+  if (pathname.includes('/a/profile/b/') || pathname.includes('/a/profile/e/')) {
     return (
       <>
         <div className="dashboard-screen flex justify-center items-center">
@@ -24,11 +24,11 @@ const AdminContainer = ({
   return (
     <>
       <aside className="h-full border-r-2" >
-          <SideNav />
-        </aside>
-        <div className="dashboard-screen flex justify-center items-center">
-          {children}
-        </div>
+        <SideNav />
+      </aside>
+      <div className="h-full w-full flex justify-center items-center overflow-y-auto">
+        {children}
+      </div>
     </>
   )
 }

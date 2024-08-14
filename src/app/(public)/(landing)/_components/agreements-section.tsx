@@ -29,7 +29,7 @@ function AgreementSection({ title, imgs }: AgreementSectionProps) {
   // }, []);
 
   return (
-    <section className='h-[240px] w-full bg-secondary py-2'>
+    <section className='h-[150px] w-full bg-secondary py-2'>
       <p className='text-tertiary font-bold text-base text-center mb-3'>{title}</p>
       <div className=''>
         <article className='flex flex-col gap-4 w-full'>
@@ -72,9 +72,9 @@ function AgreementSection({ title, imgs }: AgreementSectionProps) {
               ))}
             </div>
           </div>
-          <div className='lg:h-[75px] carousel overflow-hidden bg-white py-2 '>
+          {/* <div className='lg:h-[75px] carousel overflow-hidden bg-white py-2 '>
             <p className='text-center'>mas logos de empresas pero animacion a la izquierda </p>
-          </div>
+          </div> */}
         </article>
       </div>
 

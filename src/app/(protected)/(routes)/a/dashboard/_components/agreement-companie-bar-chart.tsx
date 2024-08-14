@@ -1,10 +1,8 @@
 'use client'
-import { Bar } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -14,16 +12,17 @@ import getTypesAgreementCompanyChartInfo from "@/actions/business/get-chart-agre
 
 import { useEffect, useState } from "react";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+// Registrar los elementos necesarios para un gráfico de dona
+ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
-
-const AgreementCompanyBarChart = () => {
+const AgreementCompanyDoughnutChart = () => {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getTypesAgreementCompanyChartInfo()
       .then((chartData) => {
+        console.log("chartData", chartData);
         setData(chartData);
         setLoading(false);
       })
@@ -34,22 +33,29 @@ const AgreementCompanyBarChart = () => {
   }, []);
 
   const options = {
-
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Tipos de instituciones receptoras',
+      },
+    },
   };
 
   return (
-    <div className=" shadow-md rounded-lg w-2/3 p-2 border ">
+    <div className="shadow-md rounded-lg w-2/3 p-2 border">
       <p className="mb-2 text-base text-center font-bold">
-        Cantidad de convenios por empresa
+        Tipos de instituciones receptoras
       </p>
       {loading && <p className="text-center">Cargando...</p>}
       {data && !loading &&
-        <Bar data={data} options={options} />
+        <Doughnut data={data} options={options} />
       }
     </div>
   );
 }
 
-export default AgreementCompanyBarChart;
-
-
+export default AgreementCompanyDoughnutChart;

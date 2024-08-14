@@ -53,7 +53,7 @@ function CompaniesView() {
       filterField: 'name',
       filterValue: debouncedValue,
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue])
 
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
@@ -177,7 +177,7 @@ function CompaniesView() {
       }
     })
   }, [business])
-  console.log({companies})
+  // console.log({companies})
   return (
     <section>
       <div className='flex flex-row justify-between items-center w-full mb-2'>
@@ -268,13 +268,13 @@ function CompaniesView() {
               <Loader />
             </div>
           )
-          : <CompaniesTable
+            : <CompaniesTable
               handleNextPage={handleNextPage}
               handlePreviousPage={handlePreviousPage}
               data={companies}
             />
         }
-        
+
       </div>
     </section >
   )

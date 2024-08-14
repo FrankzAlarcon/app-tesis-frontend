@@ -1,57 +1,72 @@
+"use server"
 
-interface AgreementTypeWithCompany {
-  type: string;
-  value: number;
+import { BACKEND_API_URL } from "@/config/config"
+import { currentUser } from "@/lib/auth"
+import axios from "axios"
+
+interface ChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+    borderColor: string[];
+    borderWidth: number;
+  }[];
 }
 
-// simular la respuesta de la api
+const getTypesAgreementCompanyChartInfo = async (): Promise<ChartData | null> => {
+  const user = await currentUser()
 
-const typesAgreement: AgreementTypeWithCompany[] = [
-  {
-    type: 'Laboral Publico',
-    value: 5,
-  },
-  {
-    type: 'Laboral Privado',
-    value: 12,
-  },
-  {
-    type: 'Vinculación',
-    value: 3,
-  },
-];
+  if (!user?.accessToken) {
+    return null;
+  }
 
+  try {
+    const response = await axios.get(`${BACKEND_API_URL}/charts/dashboard`, {
+      headers: {
+        Authorization: `Bearer ${user.accessToken}`
+      }
+    });
 
-const getTypesAgreementCompanyChartInfo = async (): Promise<any> => {
-  const info = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(typesAgreement);
-    }, 1000);
-  });
+    const data = response.data;
 
-  const response = await info as AgreementTypeWithCompany[];
+    // Procesa los datos de tipoInstitucionReceptora
+    const institutionTypes = data.tipoInstitucionReceptora;
 
-  const labels = response.map((item: AgreementTypeWithCompany) => item.type);
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Convenios por tipo',
-      data: response.map((item: AgreementTypeWithCompany) => item.value),
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(255, 205, 86, 0.2)',
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
-      ],
-      borderWidth: 1
-    }]
-  };
+    const labels = Object.values(institutionTypes).map((item: any) => item.type);
+    const values = Object.values(institutionTypes).map((item: any) => item.value);
 
-  return data;
+    // Estructura para Chart.js
+    const chartData: ChartData = {
+      labels: labels,
+      datasets: [{
+        label: 'Instituciones Receptoras',
+        data: values,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)'
+        ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 206, 86)',
+          'rgb(75, 192, 192)',
+          'rgb(153, 102, 255)'
+        ],
+        borderWidth: 1
+      }]
+    };
+
+    return chartData;
+
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 }
 
 export default getTypesAgreementCompanyChartInfo;
