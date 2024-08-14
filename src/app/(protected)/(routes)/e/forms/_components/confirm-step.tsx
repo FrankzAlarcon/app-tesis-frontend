@@ -34,7 +34,7 @@ const ConfirmStep = () => {
       document.body.removeChild(link)
       informButton.current?.click()
     }
-  
+
   })
   if (!data || data === '') {
     return (
@@ -71,7 +71,7 @@ const ConfirmStep = () => {
           <ChevronsLeft className='w-4 h-4 mr-2' />
           Regresar al formulario
         </Button>
-        <Button className={buttonVariants({ variant: 'default', className: 'sm:w-[192px]'})}
+        <Button className={buttonVariants({ variant: 'default', className: 'sm:w-[192px]' })}
           onClick={handleSave}
           disabled={isLoading}
         >
@@ -88,7 +88,7 @@ const ConfirmStep = () => {
         </Button>
       </div>
       <div>
-        <object  className='w-full h-[70vh]' data={`data:application/pdf;base64,${data}`} type='application/pdf'></object>
+        <object className='w-full h-[70vh]' data={`data:application/pdf;base64,${data}`} type='application/pdf'></object>
       </div>
       <InformDialog
         asChild
