@@ -15,7 +15,6 @@ const action = async (data: InputType): Promise<ReturnType> => {
   }
 
   try {
-    console.log(data)
     const response = await axios.get(`${BACKEND_API_URL}/student-form/download/${data.studentFormId}/${data.status}`, {
       headers: {
         Authorization: `Bearer ${user.accessToken}`,

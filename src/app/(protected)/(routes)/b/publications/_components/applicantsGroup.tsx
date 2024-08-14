@@ -1,11 +1,15 @@
-import React from 'react'
+"use client"
+
 import { Postulation, ShortStudent } from '@/types/business'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { formatDistanceEs } from '@/lib/date-fns/format-distance-es'
 import { FileText, SquareUserRound } from 'lucide-react'
 import Link from 'next/link'
 import Tooltip from '@/components/tooltip'
 import AvatarComponent from '@/components/avatar'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { useAction } from '@/hooks/use-action'
+import { downloadStudentCv } from '@/actions/business/download-student-cv'
+import { useToast } from '@/components/ui/use-toast'
 
 interface ApplicantCardProps {
   id: string
@@ -23,6 +27,34 @@ const ApplicantCard = ({
   applicant,
   applicantDate,
 }: ApplicantCardProps) => {
+  const { toast } = useToast()
+  const { execute } = useAction(downloadStudentCv, {
+    onError: () => {
+      toast({
+        title: 'Ha ocurrido un error al descargar el formulario',
+        description: 'Recarga la página e intenta nuevamen',
+        variant: 'destructive'
+      })
+    },
+    onSuccess: (data) => {
+      const pdfData = Uint8Array.from(data.file.data)
+      const url = window.URL.createObjectURL(new Blob([pdfData.buffer], { type: "application/pdf" }))
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      link.setAttribute('download', `${applicant.name}-cv.pdf`)
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(url)
+    }
+  })
+
+  const handleDownloadCV = () => {
+    execute({
+      postulationId: id
+    })
+  }
   return (
     <div className="flex flex-col border-b border-b-black   ">
       <div className='flex flex-col md:flex-row gap-2 md:items-center  '>
@@ -45,19 +77,20 @@ const ApplicantCard = ({
           </div>
           <div className='flex flex-row gap-2'>
             <Tooltip tooltipContent='Ver currículum'>
-              <Link
-                href={urlCV}
-                target="_blank"
+              <Button
+                variant='ghost'
                 className="text-sm font-bold"
+                onClick={handleDownloadCV}
               >
                 <FileText size={24}
                   className="text-muted-foreground"
                 />
-              </Link>
+              </Button>
             </Tooltip>
             <Tooltip tooltipContent='Ver perfil'>
               <Link
-                href={`/e/profile/${applicant.id}`}
+                href={`/b/profile/e/${applicant.id}`}
+                className={buttonVariants({ variant: 'ghost' })}
               >
                 <SquareUserRound size={24}
                   className="text-muted-foreground"
