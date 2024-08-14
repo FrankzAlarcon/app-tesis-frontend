@@ -38,7 +38,7 @@ const AgreementPieChart = () => {
   return (
     <div className=' shadow-md rounded-lg max-w-80 h-auto border p-2'>
       <p className='mb-2 text-base text-center font-bold'>
-        Tipología de convenios de Prácticas Profesionales
+        Actividades reazlizadas en la plataforma
       </p>
       {loading && <p className='text-center'>Cargando...</p>}
       {data && !loading && <Pie data={data} options={options} />}

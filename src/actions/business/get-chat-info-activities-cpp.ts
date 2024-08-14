@@ -6,28 +6,20 @@ interface InfoActivity {
 
 const infoActivities: InfoActivity[] = [
   {
-    name: 'LABORAL',
-    value: 74,
+    name: 'Innovatech Solutions',
+    value: 21,
   },
   {
-    name: 'CONVALIDACION LABORAL',
-    value: 3,
+    name: 'Ecuatransport S.A',
+    value: 16,
   },
   {
-    name: 'CONVENIOS',
-    value: 20,
-  },
-  {
-    name: 'VINCULACION',
-    value: 115,
-  },
-  {
-    name: 'CONVALIDACION VINCILACION',
+    name: 'FLAC S.A',
     value: 10,
   },
   {
-    name: 'PUBLICACIONES EN BOLSA DE TRABAJO',
-    value: 14,
+    name: 'PagoFácil S.A',
+    value: 8,
   },
 ]
 
@@ -51,8 +43,6 @@ const getChatInfoActivities = async (): Promise<any> => {
         'rgb(54, 162, 235)',
         'rgb(255, 205, 86)',
         'rgb(75, 192, 192)',
-        'rgb(153, 102, 255)',
-        'rgb(255, 159, 64)'
       ],
       hoverOffset: 4
     }]

@@ -39,13 +39,13 @@ const ActivitiesPieChart = () => {
   return (
     <div className=' shadow-md rounded-lg w-full h-[350px] border p-2 relative overflow-hidden' >
       <p className='mb-2 text-base text-center font-bold'>
-        Actividades de Comisión de Prácticas Profesionales
+        Postulaciones de estudiantes por empresa
       </p>
       {loading && <p className='text-center'>Cargando...</p>
       }
       {
         data && !loading &&
-        <div className='w-full h-[600px] flex justify-center absolute -top-28'>
+        <div className='w-full h-[470px] flex justify-center absolute -translate-y-20'>
           <Pie data={data} options={options} />
         </div>
       }

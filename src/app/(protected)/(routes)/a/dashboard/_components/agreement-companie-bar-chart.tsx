@@ -38,7 +38,7 @@ const AgreementCompanyBarChart = () => {
   };
 
   return (
-    <div className=" shadow-md rounded-lg w-2/3 p-2 border">
+    <div className=" shadow-md rounded-lg w-2/3 p-2 border ">
       <p className="mb-2 text-base text-center font-bold">
         Cantidad de convenios por empresa
       </p>

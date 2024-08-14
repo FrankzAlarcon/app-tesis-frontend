@@ -7,17 +7,18 @@ interface AgreementType {
 // simular la respuesta de la api
 
 const typesAgreement: AgreementType[] = [
+
   {
-    type: 'Laboral',
-    value: 75,
+    type: 'LABORAL',
+    value: 74,
   },
   {
-    type: 'Vinculación',
-    value: 120,
+    type: 'CONVENIOS',
+    value: 20,
   },
   {
-    type: 'Convalidación',
-    value: 10,
+    type: 'PUBLICACIONES EN BOLSA DE TRABAJO',
+    value: 14,
   },
 ];
 
