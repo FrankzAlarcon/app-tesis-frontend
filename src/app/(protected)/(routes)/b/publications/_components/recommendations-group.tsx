@@ -28,7 +28,7 @@ const RecommendationCard = ({
       </div>
       <div>
         <Link
-          href={`/profile/e/${recommendation.id}`}
+          href={`/b/profile/e/${recommendation.id}`}
           className={buttonVariants({ variant: 'outline', size: 'sm' })}
         >
           Visitar perfil
